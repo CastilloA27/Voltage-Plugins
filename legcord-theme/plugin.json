@@ -1,20 +1,69 @@
 {
   "id": "legcord-theme",
   "name": "Legcord live theme",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Voltage",
-  "description": "Discord in Legcord takes on the colours of the song you're playing in Voltage, and fades with every change.",
+  "description": "Discord in Legcord takes on Voltage's look and the colours of the song you're playing, and fades with every change.",
   "main": "main.js",
   "permissions": {
-    "files": ["%APPDATA%/legcord/quickCss.css"]
+    "files": [
+      "%APPDATA%/legcord/quickCss.css"
+    ]
   },
   "settings": [
-    { "key": "style", "type": "choice", "label": "Style", "default": "accent",
-      "help": "Accent colours sit on top of any theme you use. Background tint also washes Discord in the album's colours.",
-      "options": [["accent", "Accent colours"], ["gradient", "Accent + background tint"]] },
-    { "key": "strength", "type": "slider", "label": "Background tint", "min": 5, "max": 70, "step": 5, "default": 30, "unit": "%",
-      "when": { "key": "style", "is": "gradient" } },
-    { "key": "idle", "type": "choice", "label": "When nothing is playing", "default": "purple",
-      "options": [["purple", "Voltage purple"], ["discord", "Discord's own colours"]] }
+    {
+      "key": "style",
+      "type": "choice",
+      "label": "Style",
+      "default": "voltage",
+      "help": "Voltage look: Discord dressed like Voltage (black, the album gradient behind dark glass, accent borders, neon glow). Accent colours: only Discord's accent colour changes, on top of any theme you use. Tint: accent plus a light colour wash.",
+      "options": [
+        [
+          "voltage",
+          "Voltage look"
+        ],
+        [
+          "accent",
+          "Accent colours only"
+        ],
+        [
+          "gradient",
+          "Accent + tint"
+        ]
+      ]
+    },
+    {
+      "key": "strength",
+      "type": "slider",
+      "label": "Colour strength",
+      "min": 5,
+      "max": 70,
+      "step": 5,
+      "default": 30,
+      "unit": "%",
+      "when": {
+        "key": "style",
+        "in": [
+          "voltage",
+          "gradient"
+        ]
+      }
+    },
+    {
+      "key": "idle",
+      "type": "choice",
+      "label": "When nothing is playing",
+      "default": "purple",
+      "options": [
+        [
+          "purple",
+          "Voltage purple"
+        ],
+        [
+          "discord",
+          "Discord's own colours"
+        ]
+      ]
+    }
   ]
 }

@@ -5,7 +5,7 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 
 | Plugin | What it does | Needs |
 |---|---|---|
-| [Legcord live theme](legcord-theme) | Discord in [Legcord](https://legcord.app) takes on the colours of the song you're playing, and fades with every change. Accent colours only, or accent plus a background tint. | Legcord. Reads and changes `%APPDATA%\legcord\quickCss.css` (only its own marked block; your Quick CSS stays as it is, and turning the plugin off gives the file back unchanged) |
+| [Legcord live theme](legcord-theme) | Discord in [Legcord](https://legcord.app) takes on Voltage's look: black, the album gradient behind dark glass, accent borders and neon glow, all in the colours of the song you're playing, fading with every change. Or just the accent colour on top of your own theme. | Legcord. Reads and changes `%APPDATA%\legcord\quickCss.css` (only its own marked block; your Quick CSS stays as it is, and turning the plugin off gives the file back unchanged) |
 
 ## How plugins work
 

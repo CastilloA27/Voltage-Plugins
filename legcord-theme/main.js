@@ -6,7 +6,7 @@ const START = '{} /* >>> Voltage live colours';
 const END = '/* <<< Voltage live colours */';
 const PURPLE = { accent: '#a020f0', c1: '#2a0a4a', c2: '#12051f' };
 
-let settings = { style: 'accent', strength: 30, idle: 'purple' };
+let settings = { style: 'voltage', strength: 30, idle: 'purple' };
 let colours = null; // null = nothing playing
 let timer = null;
 let warned = false;
@@ -42,7 +42,9 @@ function block(c) {
     '--polls-voted-fill': alpha(20), '--datepicker-range-background-default': alpha(40), '--background-code': alpha(8),
   };
   for (const p of [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]) vars[`--brand-${String(p).padStart(2, '0')}a`] = alpha(p);
+  if (settings.style === 'voltage') Object.assign(vars, voltageSurfaces());
   const decl = Object.entries(vars).map(([k, v]) => `  ${k}: ${v};`).join('\n');
+  const look = settings.style === 'voltage' ? voltageLook() : '';
   const tint = settings.style === 'gradient' ? `
 #app-mount::after {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 10000; mix-blend-mode: screen;
@@ -61,8 +63,59 @@ function block(c) {
 }
 :root:root, .visual-refresh.visual-refresh, .theme-dark.theme-dark, .theme-darker.theme-darker, .theme-midnight.theme-midnight, .theme-light.theme-light {
 ${decl}
-}${tint}
+}${tint}${look}
 ${END}`;
+}
+
+// ── "Voltage look": Discord dressed like Voltage while it plays: pitch black, the album gradient glowing through
+// dark glass surfaces, accent borders and Voltage's neon glow on the brand controls. ──
+const glass = (a) => `rgba(0, 0, 0, ${a})`;
+const tinted = (pct, a) => `color-mix(in srgb, color-mix(in oklab, var(--voltage-c1) ${pct}%, #07060a) ${a}%, transparent)`;
+function voltageSurfaces() {
+  const A = 'var(--voltage-accent)';
+  const edge = (pct) => `color-mix(in srgb, ${A} ${pct}%, transparent)`;
+  return {
+    // the window's layers: see-through so the gradient behind them shows (like Voltage's glass panels)
+    // the outermost layer is clear: stacked translucent layers would add up to near-black (3 x 0.5 = 87%)
+    // (0.42 = Voltage's own .glass panels)
+    '--app-frame-background': glass(0.3), '--background-base-lowest': 'transparent', '--background-base-lower': glass(0.42),
+    '--background-base-low': glass(0.3), '--chat-background': glass(0.08), '--chat-background-default': glass(0.08),
+    '--home-background': glass(0.2), '--panel-bg': glass(0.3), '--bg-surface-raised': tinted(14, 92),
+    '--guild-profile-banner-background-default': glass(0.4),
+    // things that float over content stay nearly solid, so text on them reads well
+    '--background-surface-high': tinted(16, 94), '--background-surface-higher': tinted(18, 95), '--background-surface-highest': tinted(20, 96),
+    '--modal-background': tinted(14, 96), '--modal-footer-background': tinted(10, 96), '--card-background-default': tinted(12, 70),
+    '--background-secondary-alt': tinted(12, 80), '--background-accent': edge(30),
+    '--input-background-default': 'rgba(255, 255, 255, .05)',
+    // hover / selected states and borders in the accent
+    '--background-mod-subtle': edge(10), '--background-mod-normal': edge(16), '--background-mod-strong': edge(22), '--background-mod-muted': edge(7),
+    '--border-subtle': edge(16), '--border-muted': edge(12), '--border-normal': edge(26), '--border-strong': edge(40), '--border-focus': A,
+    '--card-border-default': edge(20), '--chat-border': edge(18), '--app-frame-border': edge(22),
+    '--scrollbar-auto-thumb': edge(45), '--scrollbar-thin-thumb': edge(45), '--scrollbar-auto-scrollbar-color-thumb': edge(45),
+    '--interactive-text-active': '#ffffff',
+  };
+}
+function voltageLook() {
+  const k = Math.max(0, Math.min(100, Number(settings.strength) || 30)) / 30; // 30% = Voltage's own look
+  const p = (n) => Math.round(Math.min(100, n * k));
+  // the same gradient Voltage paints behind its panels (styles.css .bg: c1 top-left, c2 bottom-right, at 60%)
+  return `
+html, body, #app-mount {
+  background:
+    radial-gradient(120% 90% at 15% 0%, color-mix(in oklab, var(--voltage-c1) ${p(60)}%, transparent), transparent 62%),
+    radial-gradient(100% 100% at 100% 100%, color-mix(in oklab, var(--voltage-c2) ${p(60)}%, transparent), transparent 58%),
+    #000 !important;
+}
+/* Voltage's neon glow: filled brand buttons, the selected server, focus rings */
+[class*="colorBrand"], [class*="lookFilled"][class*="colorBrand"], [class*="brand_"][class*="button"] {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--voltage-accent) 45%, transparent) !important;
+}
+[class*="selected"] > [class*="wrapper"] [class*="blobContainer"], [class*="listItem"] [class*="selected"] [class*="childWrapper"] {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--voltage-accent) 40%, transparent);
+}
+[class*="pill"] [class*="item"] { background: var(--voltage-accent) !important; box-shadow: 0 0 10px var(--voltage-accent); }
+:focus-visible { outline-color: var(--voltage-accent) !important; }
+::selection { background: color-mix(in srgb, var(--voltage-accent) 45%, transparent); }`;
 }
 
 // Removes our block and exactly the separator we added, so turning the plugin off gives back the file byte for byte.

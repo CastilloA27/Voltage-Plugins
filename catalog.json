@@ -4,18 +4,18 @@
     {
       "id": "legcord-theme",
       "name": "Legcord live theme",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": "Voltage",
-      "description": "Discord in Legcord takes on the colours of the song you're playing in Voltage, and fades with every change.",
+      "description": "Discord in Legcord takes on Voltage's look and the colours of the song you're playing, and fades with every change.",
       "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
-          "sha256": "8251cb61b33aaaf9529685a34be4ebb5bbc2072e4dbb34c111a6cbc1d132713a"
+          "sha256": "929728cf864c3f06681297ed3c7edd5341441b6bc833e670fc13c37761eb5274"
         },
         {
           "name": "main.js",
-          "sha256": "0a5b239e62195e8032c7a6db9282bbedd247e6654401d593bccf7473b6ddb835"
+          "sha256": "f5def7a655e763f0c79ab65e0feb6528fd346dedaf020eac0b32a522a95bf035"
         }
       ]
     }
