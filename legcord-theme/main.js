@@ -8,7 +8,10 @@ const PURPLE = { accent: '#a020f0', c1: '#2a0a4a', c2: '#12051f' };
 
 let settings = { style: 'voltage', strength: 30, idle: 'purple' };
 let colours = null; // null = nothing playing
+let bg = { style: 'gradient', image: null }; // Voltage's background (Settings > Appearance) and its baked cover
 let timer = null;
+let seq = 0; // drift animation name counter
+let fadeFrom = null, fadeTimer = null; // previous cover, during a song change
 let warned = false;
 
 const safe = (c) => (/^[#a-zA-Z0-9(),.%\s-]{3,60}$/.test(c || '') ? c : null);
@@ -77,13 +80,13 @@ function voltageSurfaces() {
   return {
     // the window's layers: see-through so the gradient behind them shows (like Voltage's glass panels)
     // the outermost layer is clear: stacked translucent layers would add up to near-black (3 x 0.5 = 87%)
-    // (0.42 = Voltage's own .glass panels)
-    '--app-frame-background': glass(0.3), '--background-base-lowest': 'transparent', '--background-base-lower': glass(0.42),
-    '--background-base-low': glass(0.3), '--chat-background': glass(0.08), '--chat-background-default': glass(0.08),
-    '--home-background': glass(0.2), '--panel-bg': glass(0.3), '--bg-surface-raised': tinted(14, 92),
+    // Voltage's .glass is 0.42 black plus backdrop saturate(1.4); lighter values here look the same without the backdrop cost
+    '--app-frame-background': glass(0.3), '--background-base-lowest': 'transparent', '--background-base-lower': glass(0.34),
+    '--background-base-low': glass(0.3), '--chat-background': 'transparent', '--chat-background-default': 'transparent',
+    '--home-background': 'transparent', '--panel-bg': glass(0.3), '--bg-surface-raised': tinted(14, 92),
     '--guild-profile-banner-background-default': glass(0.4),
     // things that float over content stay nearly solid, so text on them reads well
-    '--background-surface-high': tinted(16, 94), '--background-surface-higher': tinted(18, 95), '--background-surface-highest': tinted(20, 96),
+    '--background-surface-high': glass(0.38), '--background-surface-higher': tinted(18, 95), '--background-surface-highest': tinted(20, 96),
     '--modal-background': tinted(14, 96), '--modal-footer-background': tinted(10, 96), '--card-background-default': tinted(12, 70),
     '--background-secondary-alt': tinted(12, 80), '--background-accent': edge(30),
     '--input-background-default': 'rgba(255, 255, 255, .05)',
@@ -98,14 +101,48 @@ function voltageSurfaces() {
 function voltageLook() {
   const k = Math.max(0, Math.min(100, Number(settings.strength) || 30)) / 30; // 30% = Voltage's own look
   const p = (n) => Math.round(Math.min(100, n * k));
-  // the same gradient Voltage paints behind its panels (styles.css .bg: c1 top-left, c2 bottom-right, at 60%)
+  // Voltage's own background layers (styles.css): .bg gradient (c1 top-left, c2 bottom-right; 60% for the gradient style,
+  // 25% under a cover), .bg-cover = the same baked blurred cover Voltage shows, 12% oversized and drifting at 20 updates/s,
+  // .bg-cover-shade = vignette + grain. Black = no gradient at all.
+  const style = bg.style || 'gradient';
+  const g = style === 'black' ? 0 : style === 'cover' && bg.image ? 25 : 60;
+  const image = style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
+  // drift in step with Voltage: both use phase = wall clock mod 80 s. A new animation name per write restarts it at that
+  // phase (Legcord applies the file ~0.7 s after we write it).
+  seq += 1;
+  const phase = (((Date.now() + 700) / 1000) % 80).toFixed(2);
+  // song change: the previous cover stays underneath (html::before) while the new one fades in over it, like Voltage's
+  // cross-fade. Swapping the image in place showed as a one-frame flash of the whole window.
+  const prev = fadeFrom && fadeFrom !== image ? fadeFrom : null;
+  // Drift by moving the image inside a fixed layer (a repaint), 4 times a second. Measured in the user's Legcord
+  // 2026-10-15: moving a transformed full-window layer made Discord drop content tiles for a frame (~1 flash every 2 s);
+  // repainting at Voltage's 20/s cost +50-70% of a core (Discord's page is heavy); 4/s costs ~1% and the drift is
+  // so slow (~5 px/s) that it still reads as smooth. Same wall-clock phase as Voltage, so both drift together.
+  const drift = `voltage-drift-${seq} 40s steps(160) -${phase}s infinite alternate`;
+  const cover = image ? `${prev ? `
+html::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: url("${prev}") 50% 50% / 134% 134% no-repeat; animation: ${drift};
+}` : ''}
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: url("${image}") 50% 50% / 134% 134% no-repeat;
+  animation: ${drift}${prev ? `, voltage-in-${seq} 1.2s ease both` : ''};
+}
+@keyframes voltage-in-${seq} { from { opacity: 0; } to { opacity: 1; } }
+@keyframes voltage-drift-${seq} { from { background-size: 134% 134%; background-position: 42% 45%; } to { background-size: 154% 154%; background-position: 58% 56%; } }
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 85% 75% at 58% 42%, rgba(0, 0, 0, .18), rgba(0, 0, 0, .62) 100%); /* no grain here: ~8% CPU in Discord */
+}` : '';
   return `
-html, body, #app-mount {
+html, body {
   background:
-    radial-gradient(120% 90% at 15% 0%, color-mix(in oklab, var(--voltage-c1) ${p(60)}%, transparent), transparent 62%),
-    radial-gradient(100% 100% at 100% 100%, color-mix(in oklab, var(--voltage-c2) ${p(60)}%, transparent), transparent 58%),
+    radial-gradient(120% 90% at 15% 0%, color-mix(in oklab, var(--voltage-c1) ${p(g)}%, transparent), transparent 62%),
+    radial-gradient(100% 100% at 100% 100%, color-mix(in oklab, var(--voltage-c2) ${p(g)}%, transparent), transparent 58%),
     #000 !important;
 }
+#app-mount { position: relative; z-index: 1; background: transparent !important; }${cover}
 /* Voltage's neon glow: filled brand buttons, the selected server, focus rings */
 [class*="colorBrand"], [class*="lookFilled"][class*="colorBrand"], [class*="brand_"][class*="button"] {
   box-shadow: 0 0 12px color-mix(in srgb, var(--voltage-accent) 45%, transparent) !important;
@@ -154,6 +191,17 @@ function schedule() {
 }
 
 voltage.on('settings', (s) => { settings = { ...settings, ...s }; schedule(); });
+voltage.on('background', (b) => {
+  // a song change first reports the cover still loading (no image yet): keep showing the old one until the new arrives
+  if (b?.style === 'cover' && !b.image && bg.image && bg.style === 'cover') return;
+  if (b?.image && bg.image && b.image !== bg.image) {
+    fadeFrom = bg.image; // cross-fade from the old cover in the next write...
+    clearTimeout(fadeTimer);
+    fadeTimer = setTimeout(() => { fadeFrom = null; }, 3000); // ...but not in later writes (a settings change)
+  }
+  bg = b || bg;
+  schedule();
+});
 voltage.on('palette', (p) => {
   colours = p.idle ? null : { accent: safe(p.accent) ?? PURPLE.accent, c1: safe(p.c1) ?? PURPLE.c1, c2: safe(p.c2) ?? PURPLE.c2 };
   schedule();

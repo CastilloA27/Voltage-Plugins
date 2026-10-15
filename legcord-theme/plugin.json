@@ -1,7 +1,7 @@
 {
   "id": "legcord-theme",
   "name": "Legcord live theme",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Voltage",
   "description": "Discord in Legcord takes on Voltage's look and the colours of the song you're playing, and fades with every change.",
   "main": "main.js",
