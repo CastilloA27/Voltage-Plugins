@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 const RAW = 'https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main';
@@ -20,5 +21,11 @@ for (const dir of fs.readdirSync(root, { withFileTypes: true })) {
   }));
   plugins.push({ id: m.id, name: m.name, version: m.version, author: m.author, description: m.description, base: `${RAW}/${m.id}`, files });
 }
-fs.writeFileSync(path.join(root, 'catalog.json'), `${JSON.stringify({ version: 1, plugins }, null, 2)}\n`);
+const body = `${JSON.stringify({ version: 1, plugins }, null, 2)}\n`;
+fs.writeFileSync(path.join(root, 'catalog.json'), body);
+// Ed25519 signature over the exact bytes, with the maintainer's offline key (never in this repo). Voltage has the public
+// key built in and refuses an official catalog whose signature doesn't verify, so a GitHub account alone can't ship updates.
+const keyFile = process.env.VOLTAGE_SIGNING_KEY ?? path.join(os.homedir(), '.voltage-signing', 'catalog-ed25519.pem');
+const sig = crypto.sign(null, Buffer.from(body), crypto.createPrivateKey(fs.readFileSync(keyFile)));
+fs.writeFileSync(path.join(root, 'catalog.json.sig'), `${sig.toString('base64')}\n`);
 console.log(`catalog.json: ${plugins.map((p) => `${p.id} ${p.version}`).join(', ')}`);

@@ -8,6 +8,7 @@ const PURPLE = { accent: '#a020f0', c1: '#2a0a4a', c2: '#12051f' };
 
 let settings = { style: 'voltage', strength: 30, idle: 'purple' };
 let colours = null; // null = nothing playing
+let gaming = false; // Voltage's game mode: no cover layer, no drift (Discord is heavy enough during a match)
 let bg = { style: 'gradient', image: null }; // Voltage's background (Settings > Appearance) and its baked cover
 let timer = null;
 let seq = 0; // drift animation name counter
@@ -105,8 +106,8 @@ function voltageLook() {
   // 25% under a cover), .bg-cover = the same baked blurred cover Voltage shows, 12% oversized and drifting at 20 updates/s,
   // .bg-cover-shade = vignette + grain. Black = no gradient at all.
   const style = bg.style || 'gradient';
-  const g = style === 'black' ? 0 : style === 'cover' && bg.image ? 25 : 60;
-  const image = style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
+  const g = style === 'black' ? 0 : style === 'cover' && bg.image && !gaming ? 25 : 60; // in a game: the plain gradient
+  const image = !gaming && style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
   // drift in step with Voltage: both use phase = wall clock mod 80 s. A new animation name per write restarts it at that
   // phase (Legcord applies the file ~0.7 s after we write it).
   seq += 1;
@@ -191,6 +192,7 @@ function schedule() {
 }
 
 voltage.on('settings', (s) => { settings = { ...settings, ...s }; schedule(); });
+voltage.on('gaming', (on) => { if (gaming !== !!on) { gaming = !!on; schedule(); } });
 voltage.on('background', (b) => {
   // a song change first reports the cover still loading (no image yet): keep showing the old one until the new arrives
   if (b?.style === 'cover' && !b.image && bg.image && bg.style === 'cover') return;

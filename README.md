@@ -34,3 +34,10 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 2. In Voltage: Settings › Plugins › **Install from a folder**, then turn it on. Logs go to Voltage's log
    (Settings › About › Open logs).
 3. For an official plugin, add the folder here and run `node build-catalog.mjs`.
+
+## Catalog signature
+
+`catalog.json` is signed with an Ed25519 key that never leaves the maintainer's PC (`catalog.json.sig`). Voltage has the
+public key built in and refuses the official catalog when the signature doesn't verify, so a compromised GitHub account
+alone can't ship plugin updates. `node build-catalog.mjs` signs automatically (key: `%USERPROFILE%\.voltage-signing\catalog-ed25519.pem`,
+or `VOLTAGE_SIGNING_KEY`).
