@@ -1,7 +1,7 @@
 {
   "id": "legcord-theme",
   "name": "Legcord live theme",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Voltage",
   "description": "Discord in Legcord takes on the colours of the song you're playing in Voltage, and fades with every change.",
   "main": "main.js",
@@ -12,7 +12,8 @@
     { "key": "style", "type": "choice", "label": "Style", "default": "accent",
       "help": "Accent colours sit on top of any theme you use. Background tint also washes Discord in the album's colours.",
       "options": [["accent", "Accent colours"], ["gradient", "Accent + background tint"]] },
-    { "key": "strength", "type": "slider", "label": "Background tint", "min": 5, "max": 70, "step": 5, "default": 30, "unit": "%" },
+    { "key": "strength", "type": "slider", "label": "Background tint", "min": 5, "max": 70, "step": 5, "default": 30, "unit": "%",
+      "when": { "key": "style", "is": "gradient" } },
     { "key": "idle", "type": "choice", "label": "When nothing is playing", "default": "purple",
       "options": [["purple", "Voltage purple"], ["discord", "Discord's own colours"]] }
   ]
