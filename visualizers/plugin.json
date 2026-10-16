@@ -1,0 +1,18 @@
+{
+  "id": "visualizers",
+  "name": "Visualizer pack",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Three more progress-bar animations in the song's colours: Particles, Ribbon and Pixel blocks. Pick one in Settings > Appearance > Progress animation.",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["ui.canvas"]
+  },
+  "provides": {
+    "waveStyles": [
+      { "id": "particles", "label": "Particles", "help": "Sparks drift off the playhead and fade along the played part." },
+      { "id": "ribbon", "label": "Ribbon", "help": "Three soft, overlapping colour ribbons flowing up to the playhead." },
+      { "id": "blocks", "label": "Pixel blocks", "help": "A retro, stepped block meter in the song's colour." }
+    ]
+  }
+}
