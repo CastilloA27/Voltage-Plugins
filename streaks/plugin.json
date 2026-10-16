@@ -1,0 +1,32 @@
+{
+  "id": "streaks",
+  "name": "Streaks & achievements",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Listening streaks and badges (night owl, on repeat, explorer, marathon…), with a notification when you earn one. Open it from Settings > Plugins or Ctrl+K.",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["ui.panel"]
+  },
+  "provides": {
+    "panel": { "title": "Streaks & achievements" }
+  },
+  "settings": [
+    {
+      "key": "notify",
+      "type": "switch",
+      "label": "Tell me when I earn a badge",
+      "default": true
+    },
+    {
+      "key": "streakMinutes",
+      "type": "slider",
+      "label": "Minutes a day for the streak",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "default": 10,
+      "unit": " min"
+    }
+  ]
+}

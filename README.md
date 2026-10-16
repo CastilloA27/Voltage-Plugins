@@ -7,6 +7,8 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 |---|---|---|
 | [Legcord live theme](legcord-theme) | Discord in [Legcord](https://legcord.app) takes on Voltage's look: black, the album gradient behind dark glass, accent borders and neon glow, all in the colours of the song you're playing, fading with every change. Or just the accent colour on top of your own theme. | Legcord. Reads and changes `%APPDATA%\legcord\quickCss.css` (only its own marked block; your Quick CSS stays as it is, and turning the plugin off gives the file back unchanged) |
 | [Voice chat ducking](voice-duck) | Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop. Level and sensitivity adjustable. | Voltage 1.4+. Sees how loud those apps are (never what they play); lowers the PC player only |
+| [Visualizer pack](visualizers) | Three more progress-bar animations in the song's colours: Particles, Ribbon, Pixel blocks (Settings › Appearance › Progress animation). | Voltage 1.4+. Draws in the player |
+| [Streaks & achievements](streaks) | Listening streaks and badges (night owl, on repeat, explorer, marathon…) in its own window, with a notification when you earn one. Counts from when it's installed; nothing leaves your PC. | Voltage 1.4+. Its own window |
 
 ## How plugins work
 
@@ -24,6 +26,13 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
     - `stop` (`'disable'` or `'quit'`; you get about 1.5 s to clean up)
   - `voltage.storage.get/set/all`: a small key/value store of your own (256 KB)
   - `voltage.playback.pause/resume/next/prev/duck(db, ms)` (capability `playback.control`)
+  - `voltage.panel.render(html, css)` (capability `ui.panel` + `"provides": {"panel": {"title": "…"}}`): your window, opened
+    from Settings › Plugins or Ctrl+K. Plain content only: Voltage keeps an allowlist of tags/attributes (no scripts, no
+    `style` attributes, no `url()`, images only as `data:`; links don't open). Logic stays in your worker: clicks on
+    `data-action` elements arrive as `panel-action` `{action, value, form}`; `panel` `{open}` says when it's shown.
+  - Progress-bar styles (capability `ui.canvas` + `"provides": {"waveStyles": [{"id", "label", "help"}]}`): you get
+    `canvas` `{id, canvas, style, width, height, dpr}` (an OffscreenCanvas; set its size yourself), `canvas-resize`,
+    `canvas-gone`; draw from `position`/`playing`/`palette`, and stop while `visible` is false or `gaming` is true.
   - `voltage.call(capability, args)`, `voltage.notify(text)`, `voltage.log(...)`
 - Permissions come in three tiers. Voltage checks every call against what you approved; if an update changes
   `plugin.json`'s permissions, it has to be approved again.
@@ -31,7 +40,7 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
   | Tier | What | Approval |
   |---|---|---|
   | 1 | events, `storage`, `notify` | none |
-  | 2 | `"permissions": {"capabilities": ["playback.control", "audio.sessions"]}` | listed when you turn the plugin on |
+  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `ui.canvas`, `ui.panel` | listed when you turn the plugin on |
   | 3 | files (`"permissions": {"files": ["%APPDATA%/app/file.css"]}`: `file.read`, `file.exists`, `file.write` on exactly those existing text files), later network | shown in red, and **only for plugins from this signed catalog** (or with Settings › Plugins › Developer mode on) |
 
   Allowed file roots: `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`; Voltage's own data, auto-run places, credential
