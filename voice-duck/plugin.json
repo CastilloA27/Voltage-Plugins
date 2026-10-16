@@ -1,0 +1,38 @@
+{
+  "id": "voice-duck",
+  "name": "Voice chat ducking",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop.",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["audio.sessions", "playback.control"]
+  },
+  "settings": [
+    {
+      "key": "level",
+      "type": "slider",
+      "label": "Music while they talk",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "default": 30,
+      "unit": "%"
+    },
+    {
+      "key": "sensitivity",
+      "type": "choice",
+      "label": "Starts at",
+      "default": "medium",
+      "help": "How loud a voice must be to lower the music. Sensitive also reacts to quiet speakers; Loud voices only ignores background noise and soft notification sounds.",
+      "options": [["high", "Sensitive"], ["medium", "Normal"], ["low", "Loud voices only"]]
+    },
+    {
+      "key": "apps",
+      "type": "choice",
+      "label": "Listen to",
+      "default": "discord",
+      "options": [["discord", "Discord and Legcord"], ["all", "All voice apps (also TeamSpeak, Mumble, Guilded)"]]
+    }
+  ]
+}
