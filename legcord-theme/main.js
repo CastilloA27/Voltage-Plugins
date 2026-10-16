@@ -8,7 +8,7 @@ const PURPLE = { accent: '#a020f0', c1: '#2a0a4a', c2: '#12051f' };
 
 let settings = { style: 'voltage', strength: 30, idle: 'purple' };
 let colours = null; // null = nothing playing
-let gaming = false; // Voltage's game mode: no cover layer, no drift (Discord is heavy enough during a match)
+let gaming = false; // Voltage's game mode: the cover stays, but nothing moves (no drift, no fade) while a game is in front
 let bg = { style: 'gradient', image: null }; // Voltage's background (Settings > Appearance) and its baked cover
 let timer = null;
 let seq = 0; // drift animation name counter
@@ -106,20 +106,20 @@ function voltageLook() {
   // 25% under a cover), .bg-cover = the same baked blurred cover Voltage shows, 12% oversized and drifting at 20 updates/s,
   // .bg-cover-shade = vignette + grain. Black = no gradient at all.
   const style = bg.style || 'gradient';
-  const g = style === 'black' ? 0 : style === 'cover' && bg.image && !gaming ? 25 : 60; // in a game: the plain gradient
-  const image = !gaming && style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
+  const g = style === 'black' ? 0 : style === 'cover' && bg.image ? 25 : 60;
+  const image = style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
   // drift in step with Voltage: both use phase = wall clock mod 80 s. A new animation name per write restarts it at that
   // phase (Legcord applies the file ~0.7 s after we write it).
   seq += 1;
   const phase = (((Date.now() + 700) / 1000) % 80).toFixed(2);
   // song change: the previous cover stays underneath (html::before) while the new one fades in over it, like Voltage's
   // cross-fade. Swapping the image in place showed as a one-frame flash of the whole window.
-  const prev = fadeFrom && fadeFrom !== image ? fadeFrom : null;
+  const prev = !gaming && fadeFrom && fadeFrom !== image ? fadeFrom : null;
   // Drift by moving the image inside a fixed layer (a repaint), 4 times a second. Measured in the user's Legcord
   // 2026-10-15: moving a transformed full-window layer made Discord drop content tiles for a frame (~1 flash every 2 s);
   // repainting at Voltage's 20/s cost +50-70% of a core (Discord's page is heavy); 4/s costs ~1% and the drift is
   // so slow (~5 px/s) that it still reads as smooth. Same wall-clock phase as Voltage, so both drift together.
-  const drift = `voltage-drift-${seq} 40s steps(160) -${phase}s infinite alternate`;
+  const drift = gaming ? 'none' : `voltage-drift-${seq} 40s steps(160) -${phase}s infinite alternate`;
   const cover = image ? `${prev ? `
 html::before {
   content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
