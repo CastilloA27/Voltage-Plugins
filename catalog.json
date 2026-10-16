@@ -18,6 +18,60 @@
           "sha256": "df79c57de0b47640ad0d93bb6976dadcacfc8a71173fd5e80c289110cf3cbc4b"
         }
       ]
+    },
+    {
+      "id": "streaks",
+      "name": "Streaks & achievements",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Listening streaks and badges (night owl, on repeat, explorer, marathon…), with a notification when you earn one. Open it from Settings > Plugins or Ctrl+K.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/streaks",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "f19a100de7d6548098437059f8cc4bf3b6b9918da70a38bab3ee3ef922466fe8"
+        },
+        {
+          "name": "main.js",
+          "sha256": "32a2764542c515a73d303778096cced2198f763092b87362ce3d573a094a8eb9"
+        }
+      ]
+    },
+    {
+      "id": "visualizers",
+      "name": "Visualizer pack",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Three more progress-bar animations in the song's colours: Particles, Ribbon and Pixel blocks. Pick one in Settings > Appearance > Progress animation.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/visualizers",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "646d0b28fc5d851879d6d5f0902f626f02cc411b9943099e3caff99fea9826dc"
+        },
+        {
+          "name": "main.js",
+          "sha256": "3133f9f4b2f1ab0edbcb1e10a54a1225f17b2574c6f7cdda4d8ad4484b08c804"
+        }
+      ]
+    },
+    {
+      "id": "voice-duck",
+      "name": "Voice chat ducking",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/voice-duck",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "e3dcc50eb97b2cdb97b9f86e977c2d9f36c236ead4ecc7ed33234179de8e47fb"
+        },
+        {
+          "name": "main.js",
+          "sha256": "f9335cbbc8678a462b4235f61be4d2e20a88bf6220f515e327734ebbd266b4ac"
+        }
+      ]
     }
   ]
 }
