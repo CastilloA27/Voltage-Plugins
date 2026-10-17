@@ -2,6 +2,42 @@
   "version": 1,
   "plugins": [
     {
+      "id": "autoeq",
+      "name": "Headphone correction (AutoEQ)",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Makes your headphones sound neutral: pick your model from AutoEQ's ~8,800 measured profiles and its correction EQ is applied on top of your own EQ. Open it from Settings > Plugins or Ctrl+K.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/autoeq",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "583d45a10ccc318fcf7cb046619e9205e96f1c32746c55c07dd31669a2333971"
+        },
+        {
+          "name": "main.js",
+          "sha256": "ae13f470eb9b8a67c626dc61ef2a2caf611d0934a8429f7b2d4f2af6ede895cf"
+        }
+      ]
+    },
+    {
+      "id": "league",
+      "name": "League of Legends",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Pauses (or lowers) your music while you're in a League match, and brings it back when you're dead or the game ends. Uses Riot's official Live Client Data API on your PC, nothing else.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/league",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "efe835e4e16287ca5b3962cc404de56a6535b2f2685d20941891f423c4818f9b"
+        },
+        {
+          "name": "main.js",
+          "sha256": "2e3edc241573b09237b1dc0ddc385028359a36b6b0fab3a1ee2af709943426f7"
+        }
+      ]
+    },
+    {
       "id": "legcord-theme",
       "name": "Legcord live theme",
       "version": "1.4.0",
@@ -16,6 +52,42 @@
         {
           "name": "main.js",
           "sha256": "865ec2b8f9db06ed57ee791428d3c0f6a026f4420073776265631a89f98d49c2"
+        }
+      ]
+    },
+    {
+      "id": "minecraft",
+      "name": "Minecraft (Java)",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Pauses (or lowers) your music while you're in a world or on a server, and brings it back in the menus and briefly when you die. Reads Minecraft's own latest.log, nothing else.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/minecraft",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "feaf8ffd0d454b4a390e4988e56d6d2e4a1f7cefcd258e99c075a7b8d39092f9"
+        },
+        {
+          "name": "main.js",
+          "sha256": "abea69c7edc2b94c362d0cccb0d737e50873283c7f90a678deb1519cd92a4d51"
+        }
+      ]
+    },
+    {
+      "id": "more-lyrics",
+      "name": "More lyrics sources",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs (and plenty of others). It shows up in the lyrics view's source menu and Voltage picks it automatically when it's the best one.",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/more-lyrics",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "e1bc4fde4e1d27aaecb09b9c011260d78650306ddc2d8d7dbc8b2b6dd72b4b29"
+        },
+        {
+          "name": "main.js",
+          "sha256": "d7baaf68cb8fd561c47bafe6229cdeee64e0fd485e28effceb8ca3545ea2e2e8"
         }
       ]
     },

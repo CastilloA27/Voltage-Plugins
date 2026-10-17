@@ -8,6 +8,10 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 | [Legcord live theme](legcord-theme) | Discord in [Legcord](https://legcord.app) takes on Voltage's look: black, the album gradient behind dark glass, accent borders and neon glow, all in the colours of the song you're playing, fading with every change. Or just the accent colour on top of your own theme. | Legcord. Reads and changes `%APPDATA%\legcord\quickCss.css` (only its own marked block; your Quick CSS stays as it is, and turning the plugin off gives the file back unchanged) |
 | [Voice chat ducking](voice-duck) | Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop. Level and sensitivity adjustable. | Voltage 1.4+. Sees how loud those apps are (never what they play); lowers the PC player only |
 | [Visualizer pack](visualizers) | Three more progress-bar animations in the song's colours: Particles, Ribbon, Pixel blocks (Settings › Appearance › Progress animation). | Voltage 1.4+. Draws in the player |
+| [Headphone correction (AutoEQ)](autoeq) | Pick your headphones from ~8,850 measured profiles (AutoEQ project) and their correction EQ is applied on top of your own EQ. | Voltage 1.4.5+. Downloads profiles from the AutoEq repository on GitHub only |
+| [More lyrics sources](more-lyrics) | Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs; shows up in the lyrics view's source menu. | Voltage 1.4.5+. Talks to Kugou's lyrics search only |
+| [League of Legends](league) | Game pack: pauses or lowers the music in a match, back when you're dead or the game ends. **Not yet tested in a real match.** | Voltage 1.4.5+. Riot's Live Client Data API on 127.0.0.1:2999, only while the game runs |
+| [Minecraft (Java)](minecraft) | Game pack: pauses or lowers the music in a world / on a server, back in menus and briefly when you die. **Not yet tested in a real game.** | Voltage 1.4.5+. Reads `%APPDATA%\.minecraft\logs\latest.log` (new lines only) while Minecraft runs |
 | [Streaks & achievements](streaks) | Listening streaks and badges (night owl, on repeat, explorer, marathon…) in its own window, with a notification when you earn one. Counts from when it's installed; nothing leaves your PC. | Voltage 1.4+. Its own window |
 
 ## How plugins work
@@ -30,19 +34,19 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
     from Settings › Plugins or Ctrl+K. Plain content only: Voltage keeps an allowlist of tags/attributes (no scripts, no
     `style` attributes, no `url()`, images only as `data:`; links don't open). Logic stays in your worker: clicks on
     `data-action` elements arrive as `panel-action` `{action, value, form}`; `panel` `{open}` says when it's shown.
-  - Themes (capability `ui.theme`, Voltage 1.5+): `"provides": {"themes": [{"id", "name", "tokens", "css"}]}` adds themes to
+  - Themes (capability `ui.theme`, Voltage 1.4.5+): `"provides": {"themes": [{"id", "name", "tokens", "css"}]}` adds themes to
     Settings › Appearance › Theme while the plugin runs (same tokens and CSS rules as Voltage's theme editor: no `url()` except
     inline images, CSS is scoped to the theme); `voltage.theme.set({glowSize: 30, ...})` adjusts the active theme live (theme
     logic), `voltage.theme.clear()` undoes it. The `theme` event says which theme is active and its tokens.
-  - Lyrics (capability `lyrics.provider`, Voltage 1.5+): answer `lyrics-request` `{rid, id, title, artist, album, dur}` with
+  - Lyrics (capability `lyrics.provider`, Voltage 1.4.5+): answer `lyrics-request` `{rid, id, title, artist, album, dur}` with
     `voltage.lyrics.provide(rid, {source, synced, wordSynced, lines: [{t, text, words: [{t, w}]}]})` (or `null`); your source joins
     the lyrics view's source menu and Voltage's ranking (romaji/furigana are added for you).
-  - Internet (capability `net.fetch` + `"permissions": {"hosts": ["https://api.example.com/v1"]}`, tier 3, Voltage 1.5+):
+  - Internet (capability `net.fetch` + `"permissions": {"hosts": ["https://api.example.com/v1"]}`, tier 3, Voltage 1.4.5+):
     `voltage.net.fetch(url, {method, headers, body})` -> `{status, contentType, location, json, text}`, only under the declared
     addresses; no cookies, redirects aren't followed for you, 60 requests a minute.
-  - Equalizer (capability `audio.eq`, Voltage 1.5+): `voltage.audio.eq([{type: 'peak'|'lowshelf'|'highshelf', f, gain, q}], preamp)`
+  - Equalizer (capability `audio.eq`, Voltage 1.4.5+): `voltage.audio.eq([{type: 'peak'|'lowshelf'|'highshelf', f, gain, q}], preamp)`
     adds bands after the user's EQ; `voltage.audio.eq(null)` removes them (also when the plugin stops).
-  - Game packs (Voltage 1.5+): `"game": {"name", "exes": ["x.exe"], "log": "%APPDATA%/...", "http": "https://127.0.0.1:2999"}` plus
+  - Game packs (Voltage 1.4.5+): `"game": {"name", "exes": ["x.exe"], "log": "%APPDATA%/...", "http": "https://127.0.0.1:2999"}` plus
     `game.log` and/or `game.local_http` (tier 3: signed catalog only). `voltage.game.running()`, `report(state, label)` (menu,
     loading, in_match, dead, spectating, round_over, match_over), `log()` (new lines of the declared log), `http(path)` (GET on
     the declared local API). Everything works only while the game's exe runs; a pack only reports, Voltage decides what the
