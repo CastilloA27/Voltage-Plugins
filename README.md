@@ -30,6 +30,10 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
     from Settings › Plugins or Ctrl+K. Plain content only: Voltage keeps an allowlist of tags/attributes (no scripts, no
     `style` attributes, no `url()`, images only as `data:`; links don't open). Logic stays in your worker: clicks on
     `data-action` elements arrive as `panel-action` `{action, value, form}`; `panel` `{open}` says when it's shown.
+  - Themes (capability `ui.theme`, Voltage 1.5+): `"provides": {"themes": [{"id", "name", "tokens", "css"}]}` adds themes to
+    Settings › Appearance › Theme while the plugin runs (same tokens and CSS rules as Voltage's theme editor: no `url()` except
+    inline images, CSS is scoped to the theme); `voltage.theme.set({glowSize: 30, ...})` adjusts the active theme live (theme
+    logic), `voltage.theme.clear()` undoes it. The `theme` event says which theme is active and its tokens.
   - Progress-bar styles (capability `ui.canvas` + `"provides": {"waveStyles": [{"id", "label", "help"}]}`): you get
     `canvas` `{id, canvas, style, width, height, dpr}` (an OffscreenCanvas; set its size yourself), `canvas-resize`,
     `canvas-gone`; draw from `position`/`playing`/`palette`, and stop while `visible` is false or `gaming` is true.
@@ -40,7 +44,7 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
   | Tier | What | Approval |
   |---|---|---|
   | 1 | events, `storage`, `notify` | none |
-  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `ui.canvas`, `ui.panel` | listed when you turn the plugin on |
+  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when you turn the plugin on |
   | 3 | files (`"permissions": {"files": ["%APPDATA%/app/file.css"]}`: `file.read`, `file.exists`, `file.write` on exactly those existing text files), later network | shown in red, and **only for plugins from this signed catalog** (or with Settings › Plugins › Developer mode on) |
 
   Allowed file roots: `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`; Voltage's own data, auto-run places, credential
