@@ -14,6 +14,9 @@ let timer = null;
 let seq = 0; // drift animation name counter
 let fadeFrom = null, fadeTimer = null; // previous cover, during a song change
 let warned = false;
+// Voltage's active theme (Settings > Appearance > Theme): Discord follows its background, panel tint and opacity, glow and
+// font. Voltage's own theme = the values below.
+let theme = { bg: [0, 0, 0], panel: [0, 0, 0], panelAlpha: 0.42, glowSize: 12, glowAlpha: 40, font: null };
 
 const safe = (c) => (/^[#a-zA-Z0-9(),.%\s-]{3,60}$/.test(c || '') ? c : null);
 
@@ -73,8 +76,11 @@ ${END}`;
 
 // ── "Voltage look": Discord dressed like Voltage while it plays: pitch black, the album gradient glowing through
 // dark glass surfaces, accent borders and Voltage's neon glow on the brand controls. ──
-const glass = (a) => `rgba(0, 0, 0, ${a})`;
-const tinted = (pct, a) => `color-mix(in srgb, color-mix(in oklab, var(--voltage-c1) ${pct}%, #07060a) ${a}%, transparent)`;
+// panel opacities below are tuned for Voltage's 0.42 glass; another theme scales them by its own opacity
+const glass = (a) => `rgba(${theme.panel.join(', ')}, ${Math.min(0.97, a * (theme.panelAlpha / 0.42)).toFixed(3)})`;
+const bgCss = () => `rgb(${theme.bg.join(' ')})`;
+const glow = (pct) => `0 0 ${theme.glowSize}px color-mix(in srgb, var(--voltage-accent) ${Math.round(pct * theme.glowAlpha / 40)}%, transparent)`;
+const tinted = (pct, a) => `color-mix(in srgb, color-mix(in oklab, var(--voltage-c1) ${pct}%, ${bgCss()}) ${a}%, transparent)`;
 function voltageSurfaces() {
   const A = 'var(--voltage-accent)';
   const edge = (pct) => `color-mix(in srgb, ${A} ${pct}%, transparent)`;
@@ -141,19 +147,20 @@ html, body {
   background:
     radial-gradient(120% 90% at 15% 0%, color-mix(in oklab, var(--voltage-c1) ${p(g)}%, transparent), transparent 62%),
     radial-gradient(100% 100% at 100% 100%, color-mix(in oklab, var(--voltage-c2) ${p(g)}%, transparent), transparent 58%),
-    #000 !important;
+    ${bgCss()} !important;
 }
 #app-mount { position: relative; z-index: 1; background: transparent !important; }${cover}
 /* Voltage's neon glow: filled brand buttons, the selected server, focus rings */
 [class*="colorBrand"], [class*="lookFilled"][class*="colorBrand"], [class*="brand_"][class*="button"] {
-  box-shadow: 0 0 12px color-mix(in srgb, var(--voltage-accent) 45%, transparent) !important;
+  box-shadow: ${glow(45)} !important;
 }
 [class*="selected"] > [class*="wrapper"] [class*="blobContainer"], [class*="listItem"] [class*="selected"] [class*="childWrapper"] {
-  box-shadow: 0 0 12px color-mix(in srgb, var(--voltage-accent) 40%, transparent);
+  box-shadow: ${glow(40)};
 }
 [class*="pill"] [class*="item"] { background: var(--voltage-accent) !important; box-shadow: 0 0 10px var(--voltage-accent); }
 :focus-visible { outline-color: var(--voltage-accent) !important; }
-::selection { background: color-mix(in srgb, var(--voltage-accent) 45%, transparent); }`;
+::selection { background: color-mix(in srgb, var(--voltage-accent) 45%, transparent); }${theme.font ? `
+:root:root { --font-primary: ${theme.font}; --font-display: ${theme.font}; --font-headline: ${theme.font}; }` : ''}`;
 }
 
 // Removes our block and exactly the separator we added, so turning the plugin off gives back the file byte for byte.
@@ -202,6 +209,22 @@ voltage.on('background', (b) => {
     fadeTimer = setTimeout(() => { fadeFrom = null; }, 3000); // ...but not in later writes (a settings change)
   }
   bg = b || bg;
+  schedule();
+});
+// theme tokens are hex colours (#rgb / #rrggbb / #rrggbbaa); anything else keeps Voltage's own value
+const hexParts = (h) => {
+  const m = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.exec(h || '');
+  if (!m) return null;
+  let x = m[1];
+  if (x.length === 3) x = x.split('').map((c) => c + c).join('');
+  return { rgb: [0, 2, 4].map((i) => parseInt(x.slice(i, i + 2), 16)), a: x.length === 8 ? parseInt(x.slice(6), 16) / 255 : 1 };
+};
+voltage.on('theme', (t) => {
+  const tk = t?.tokens ?? {}, bgc = hexParts(tk.bg), pan = hexParts(tk.glassBg);
+  const num = (v, lo, hi, d) => (Number.isFinite(+v) ? Math.min(hi, Math.max(lo, +v)) : d);
+  const font = typeof tk.font === 'string' && /^[\w\s",-]{1,120}$/.test(tk.font) && !/Segoe UI Variable/.test(tk.font) ? tk.font : null;
+  theme = { bg: bgc?.rgb ?? [0, 0, 0], panel: pan?.rgb ?? [0, 0, 0], panelAlpha: pan ? Math.max(0.05, pan.a) : 0.42,
+    glowSize: num(tk.glowSize, 0, 40, 12), glowAlpha: num(tk.glowAlpha, 0, 100, 40), font };
   schedule();
 });
 voltage.on('palette', (p) => {
