@@ -1,0 +1,18 @@
+{
+  "pack": "minecraft",
+  "about": "Vanilla Java 1.21 latest.log lines: launch, singleplayer world, your death (8 s), someone else's death (ignored), leaving, then a server.",
+  "steps": [
+    { "running": true, "log": ["[18:01:02] [main/INFO]: Setting user: Voryn", "[18:01:05] [Render thread/INFO]: Backend library: LWJGL version 3.3.3"] },
+    { "log": ["[18:02:10] [Server thread/INFO]: Starting integrated minecraft server version 1.21.1",
+              "[18:02:11] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld"] },
+    { "log": ["[18:02:14] [Render thread/INFO]: Loaded 1290 advancements", "[18:02:14] [Server thread/INFO]: Voryn joined the game"] },
+    { "log": ["[18:10:40] [Render thread/INFO]: [System] [CHAT] Voryn was slain by Zombie"] },
+    { "wait": 9000 },
+    { "log": ["[18:11:30] [Render thread/INFO]: [System] [CHAT] Alex fell from a high place"] },
+    { "log": ["[18:20:00] [Server thread/INFO]: Stopping singleplayer server as player logged out"] },
+    { "log": ["[18:25:00] [Render thread/INFO]: Connecting to mc.hypixel.net, 25565"] },
+    { "log": ["[18:25:03] [Render thread/INFO]: Loaded 1290 advancements"] },
+    { "log": ["[18:40:00] [Render thread/INFO]: Disconnected from server"] }
+  ],
+  "expect": ["menu", "loading", "in_match", "dead", "in_match", "menu", "loading", "in_match", "menu"]
+}

@@ -34,6 +34,11 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
     Settings › Appearance › Theme while the plugin runs (same tokens and CSS rules as Voltage's theme editor: no `url()` except
     inline images, CSS is scoped to the theme); `voltage.theme.set({glowSize: 30, ...})` adjusts the active theme live (theme
     logic), `voltage.theme.clear()` undoes it. The `theme` event says which theme is active and its tokens.
+  - Game packs (Voltage 1.5+): `"game": {"name", "exes": ["x.exe"], "log": "%APPDATA%/...", "http": "https://127.0.0.1:2999"}` plus
+    `game.log` and/or `game.local_http` (tier 3: signed catalog only). `voltage.game.running()`, `report(state, label)` (menu,
+    loading, in_match, dead, spectating, round_over, match_over), `log()` (new lines of the declared log), `http(path)` (GET on
+    the declared local API). Everything works only while the game's exe runs; a pack only reports, Voltage decides what the
+    music does (the user's pause / lower-the-volume settings). Test with `node tools/gamesim.mjs` (fixtures in `tests/`).
   - Progress-bar styles (capability `ui.canvas` + `"provides": {"waveStyles": [{"id", "label", "help"}]}`): you get
     `canvas` `{id, canvas, style, width, height, dpr}` (an OffscreenCanvas; set its size yourself), `canvas-resize`,
     `canvas-gone`; draw from `position`/`playing`/`palette`, and stop while `visible` is false or `gaming` is true.

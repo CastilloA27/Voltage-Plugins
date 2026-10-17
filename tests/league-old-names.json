@@ -1,0 +1,15 @@
+{
+  "pack": "league",
+  "about": "Older API answers without riotId (summonerName only): the player is still found; another player's death doesn't count.",
+  "steps": [
+    { "running": true, "http": { "status": 200, "json": {
+      "activePlayer": { "summonerName": "Voryn" },
+      "allPlayers": [ { "summonerName": "Voryn", "isDead": false }, { "summonerName": "Other", "isDead": true } ],
+      "events": { "Events": [ { "EventName": "GameStart" } ] }, "gameData": { "gameTime": 300 } } } },
+    { "http": { "status": 200, "json": {
+      "activePlayer": { "summonerName": "Voryn" },
+      "allPlayers": [ { "summonerName": "Voryn", "isDead": true }, { "summonerName": "Other", "isDead": false } ],
+      "events": { "Events": [ { "EventName": "GameStart" } ] }, "gameData": { "gameTime": 320 } } } }
+  ],
+  "expect": ["in_match", "dead"]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "minecraft",
+  "name": "Minecraft (Java)",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Pauses (or lowers) your music while you're in a world or on a server, and brings it back in the menus and briefly when you die. Reads Minecraft's own latest.log, nothing else.",
+  "untested": true,
+  "main": "main.js",
+  "game": {
+    "name": "Minecraft",
+    "exes": ["javaw.exe", "minecraft.exe"],
+    "log": "%APPDATA%/.minecraft/logs/latest.log"
+  },
+  "permissions": {
+    "capabilities": ["game.log"]
+  }
+}

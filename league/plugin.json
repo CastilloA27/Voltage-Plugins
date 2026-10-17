@@ -1,0 +1,17 @@
+{
+  "id": "league",
+  "name": "League of Legends",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Pauses (or lowers) your music while you're in a League match, and brings it back when you're dead or the game ends. Uses Riot's official Live Client Data API on your PC, nothing else.",
+  "untested": true,
+  "main": "main.js",
+  "game": {
+    "name": "League of Legends",
+    "exes": ["league of legends.exe"],
+    "http": "https://127.0.0.1:2999"
+  },
+  "permissions": {
+    "capabilities": ["game.local_http"]
+  }
+}

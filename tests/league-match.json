@@ -1,0 +1,35 @@
+{
+  "pack": "league",
+  "about": "Riot Live Client Data API /liveclientdata/allgamedata (shapes from Riot's developer docs). Loading screen: the API refuses, then 404; GameStart; the player dies and respawns; GameEnd; the game process exits.",
+  "steps": [
+    { "running": true, "http": "down" },
+    { "http": { "status": 404, "json": { "errorCode": "RESOURCE_NOT_FOUND", "httpStatus": 404 } } },
+    { "http": { "status": 200, "json": {
+      "activePlayer": { "riotId": "Voryn#NA1", "summonerName": "Voryn", "level": 1 },
+      "allPlayers": [ { "riotId": "Voryn#NA1", "summonerName": "Voryn", "isDead": false, "respawnTimer": 0, "team": "ORDER" },
+                      { "riotId": "Enemy#EUW", "summonerName": "Enemy", "isDead": false, "respawnTimer": 0, "team": "CHAOS" } ],
+      "events": { "Events": [ { "EventID": 0, "EventName": "GameStart", "EventTime": 0.04 } ] },
+      "gameData": { "gameMode": "CLASSIC", "gameTime": 65.2 } } } },
+    { "poll": 3 },
+    { "http": { "status": 200, "json": {
+      "activePlayer": { "riotId": "Voryn#NA1", "summonerName": "Voryn", "level": 9 },
+      "allPlayers": [ { "riotId": "Voryn#NA1", "summonerName": "Voryn", "isDead": true, "respawnTimer": 21.5, "team": "ORDER" },
+                      { "riotId": "Enemy#EUW", "summonerName": "Enemy", "isDead": false, "respawnTimer": 0, "team": "CHAOS" } ],
+      "events": { "Events": [ { "EventID": 0, "EventName": "GameStart", "EventTime": 0.04 },
+                              { "EventID": 7, "EventName": "ChampionKill", "EventTime": 812.3, "KillerName": "Enemy", "VictimName": "Voryn" } ] },
+      "gameData": { "gameMode": "CLASSIC", "gameTime": 812.9 } } } },
+    { "http": { "status": 200, "json": {
+      "activePlayer": { "riotId": "Voryn#NA1", "summonerName": "Voryn", "level": 9 },
+      "allPlayers": [ { "riotId": "Voryn#NA1", "summonerName": "Voryn", "isDead": false, "respawnTimer": 0, "team": "ORDER" } ],
+      "events": { "Events": [ { "EventID": 0, "EventName": "GameStart", "EventTime": 0.04 } ] },
+      "gameData": { "gameMode": "CLASSIC", "gameTime": 835.0 } } } },
+    { "http": { "status": 200, "json": {
+      "activePlayer": { "riotId": "Voryn#NA1", "summonerName": "Voryn", "level": 16 },
+      "allPlayers": [ { "riotId": "Voryn#NA1", "summonerName": "Voryn", "isDead": false, "respawnTimer": 0, "team": "ORDER" } ],
+      "events": { "Events": [ { "EventID": 0, "EventName": "GameStart", "EventTime": 0.04 },
+                              { "EventID": 61, "EventName": "GameEnd", "EventTime": 1690.1, "Result": "Win" } ] },
+      "gameData": { "gameMode": "CLASSIC", "gameTime": 1690.4 } } } },
+    { "running": false }
+  ],
+  "expect": ["loading", "in_match", "dead", "in_match", "match_over"]
+}
