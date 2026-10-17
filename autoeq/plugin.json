@@ -1,0 +1,18 @@
+{
+  "id": "autoeq",
+  "name": "Headphone correction (AutoEQ)",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Makes your headphones sound neutral: pick your model from AutoEQ's ~8,800 measured profiles and its correction EQ is applied on top of your own EQ. Open it from Settings > Plugins or Ctrl+K.",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["audio.eq", "net.fetch", "ui.panel"],
+    "hosts": ["https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"]
+  },
+  "provides": {
+    "panel": { "title": "Headphone correction" }
+  },
+  "settings": [
+    { "key": "on", "type": "switch", "label": "Correction on", "default": true }
+  ]
+}

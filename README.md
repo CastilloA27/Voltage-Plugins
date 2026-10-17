@@ -34,6 +34,11 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
     Settings › Appearance › Theme while the plugin runs (same tokens and CSS rules as Voltage's theme editor: no `url()` except
     inline images, CSS is scoped to the theme); `voltage.theme.set({glowSize: 30, ...})` adjusts the active theme live (theme
     logic), `voltage.theme.clear()` undoes it. The `theme` event says which theme is active and its tokens.
+  - Internet (capability `net.fetch` + `"permissions": {"hosts": ["https://api.example.com/v1"]}`, tier 3, Voltage 1.5+):
+    `voltage.net.fetch(url, {method, headers, body})` -> `{status, contentType, location, json, text}`, only under the declared
+    addresses; no cookies, redirects aren't followed for you, 60 requests a minute.
+  - Equalizer (capability `audio.eq`, Voltage 1.5+): `voltage.audio.eq([{type: 'peak'|'lowshelf'|'highshelf', f, gain, q}], preamp)`
+    adds bands after the user's EQ; `voltage.audio.eq(null)` removes them (also when the plugin stops).
   - Game packs (Voltage 1.5+): `"game": {"name", "exes": ["x.exe"], "log": "%APPDATA%/...", "http": "https://127.0.0.1:2999"}` plus
     `game.log` and/or `game.local_http` (tier 3: signed catalog only). `voltage.game.running()`, `report(state, label)` (menu,
     loading, in_match, dead, spectating, round_over, match_over), `log()` (new lines of the declared log), `http(path)` (GET on
@@ -49,7 +54,7 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
   | Tier | What | Approval |
   |---|---|---|
   | 1 | events, `storage`, `notify` | none |
-  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when you turn the plugin on |
+  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `audio.eq`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when you turn the plugin on |
   | 3 | files (`"permissions": {"files": ["%APPDATA%/app/file.css"]}`: `file.read`, `file.exists`, `file.write` on exactly those existing text files), later network | shown in red, and **only for plugins from this signed catalog** (or with Settings › Plugins › Developer mode on) |
 
   Allowed file roots: `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`; Voltage's own data, auto-run places, credential
