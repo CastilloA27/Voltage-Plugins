@@ -34,6 +34,9 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
     Settings › Appearance › Theme while the plugin runs (same tokens and CSS rules as Voltage's theme editor: no `url()` except
     inline images, CSS is scoped to the theme); `voltage.theme.set({glowSize: 30, ...})` adjusts the active theme live (theme
     logic), `voltage.theme.clear()` undoes it. The `theme` event says which theme is active and its tokens.
+  - Lyrics (capability `lyrics.provider`, Voltage 1.5+): answer `lyrics-request` `{rid, id, title, artist, album, dur}` with
+    `voltage.lyrics.provide(rid, {source, synced, wordSynced, lines: [{t, text, words: [{t, w}]}]})` (or `null`); your source joins
+    the lyrics view's source menu and Voltage's ranking (romaji/furigana are added for you).
   - Internet (capability `net.fetch` + `"permissions": {"hosts": ["https://api.example.com/v1"]}`, tier 3, Voltage 1.5+):
     `voltage.net.fetch(url, {method, headers, body})` -> `{status, contentType, location, json, text}`, only under the declared
     addresses; no cookies, redirects aren't followed for you, 60 requests a minute.
@@ -54,7 +57,7 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
   | Tier | What | Approval |
   |---|---|---|
   | 1 | events, `storage`, `notify` | none |
-  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `audio.eq`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when you turn the plugin on |
+  | 2 | `"permissions": {"capabilities": [...]}`: `playback.control`, `audio.sessions`, `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when you turn the plugin on |
   | 3 | files (`"permissions": {"files": ["%APPDATA%/app/file.css"]}`: `file.read`, `file.exists`, `file.write` on exactly those existing text files), later network | shown in red, and **only for plugins from this signed catalog** (or with Settings › Plugins › Developer mode on) |
 
   Allowed file roots: `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`; Voltage's own data, auto-run places, credential

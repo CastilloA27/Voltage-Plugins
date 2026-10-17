@@ -1,0 +1,12 @@
+{
+  "id": "more-lyrics",
+  "name": "More lyrics sources",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs (and plenty of others). It shows up in the lyrics view's source menu and Voltage picks it automatically when it's the best one.",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["lyrics.provider", "net.fetch"],
+    "hosts": ["https://mobiles.kugou.com/api/v3/search", "https://krcs.kugou.com/search", "https://lyrics.kugou.com/download"]
+  }
+}
