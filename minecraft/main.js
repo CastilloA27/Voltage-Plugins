@@ -11,8 +11,14 @@ const DEATH = / (was (slain|shot|killed|blown|fireballed|pummeled|squashed|struc
 
 /** One log line -> the next state. `me` = the signed-in player (from "Setting user: <name>"). Pure, for the simulator. */
 function mcStep(s, line, me) {
+  // Chat: only your own death message counts. Other players leaving or joining a server ("[CHAT] Steve left the game")
+  // and anything anyone types never change the state (1.0.1).
+  const chat = line.indexOf('[CHAT] ');
+  if (chat >= 0) {
+    const msg = line.slice(chat + 7);
+    return me && msg.startsWith(`${me} `) && DEATH.test(msg.slice(me.length)) ? 'dead' : s;
+  }
   if (LEAVE.test(line)) return 'menu';
-  if (me && line.includes('[CHAT]') && line.includes(` ${me} `) && DEATH.test(line.slice(line.indexOf(me) + me.length))) return 'dead';
   if (JOIN.test(line)) return 'in_match';
   if (LOAD.test(line)) return 'loading';
   return s;

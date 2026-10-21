@@ -1,6 +1,6 @@
 # Voltage plugins
 
-Official plugins for [Voltage](https://github.com/CastilloA27/Voltage), the YouTube Music desktop client for Windows.
+Official plugins for [Voltage](https://github.com/CastilloA27/Voltage-Releases), the YouTube Music desktop client for Windows.
 Install them from inside Voltage: **Settings › Plugins › Official plugins › Browse**.
 
 | Plugin | What it does | Needs |
@@ -70,6 +70,10 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 - Every file in `catalog.json` carries a sha256. Voltage refuses a download that doesn't match.
 
 ## Making one
+
+The full guide (manifest, tiers, lifecycle, budgets, packaging, testing, the API promise) is **[GUIDE.md](GUIDE.md)**; types
+for your editor are in [`sdk/voltage.d.ts`](sdk/voltage.d.ts), and [`sdk/mock-host.mjs`](sdk/mock-host.mjs) runs a plugin in
+Node for unit tests.
 
 1. Copy `voice-duck` (capabilities) or `legcord-theme` (files) as a starting point and change `id` (lowercase, digits, `-`;
    same as the folder name).

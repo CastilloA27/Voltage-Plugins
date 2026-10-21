@@ -1,0 +1,14 @@
+{
+  "lobby": ["LoadMap: /Game/Maps/Frontend", "FortPC::ReturnToMainMenu()"],
+  "loadmap": "LoadMap: ",
+  "phase": "NewPhase = EAthenaGamePhase::",
+  "warmup": "Warmup",
+  "aircraft": "Aircraft",
+  "safezones": "SafeZones",
+  "endgame": "EndGame",
+  "none": "None",
+  "jump": "TSkydivingCVarSwitch: Adjusting s.AsyncLoadingPrecachePriority to 2",
+  "death": "(Show Death Spectator Menu)",
+  "respawn": ["FadeOutCameraForRespawn", "Show RespawnLoading"],
+  "eliminated": "[FortEliminationScreen"
+}

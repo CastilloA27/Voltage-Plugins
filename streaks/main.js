@@ -6,7 +6,7 @@ const PLAY_SECS = 30; // a play counts after 30 s, like Voltage's own stats
 
 let settings = { notify: true, streakMinutes: 10 };
 let data = { days: {}, plays: {}, artists: {}, hours: {}, badges: {}, total: 0 };
-let loaded = false, dirty = false, open = false;
+let loaded = false, dirty = false, open = false, saveFailed = false;
 let cur = null, curSecs = 0, counted = false, playing = false, lastPos = null;
 
 const dayKey = (t = Date.now()) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
@@ -34,6 +34,30 @@ function streak() {
 }
 
 const monthArtists = () => { const m = dayKey().slice(0, 7); return Object.values(data.artists).filter((d) => d.startsWith(m)).length; };
+// Artists first heard before last month are only needed to know they aren't new: kept as a short hash (32-bit FNV-1a,
+// base 36) in one string, so months of listening stay far under the plugin storage cap (256 KB). 1.0.1
+const hash = (s) => { let h = 0x811c9dc5; for (const c of s) { h ^= c.codePointAt(0); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); };
+const knownArtist = (a) => !!data.artists[a] || (data.seen ?? '').split(',').includes(hash(a));
+
+/** Keeps the stored data small (pure, for tests): the 1500 most played songs, titles for the top 50 (the panel shows 5),
+ *  the last 400 days, dated artists for this and last month only. */
+function compact(d, today = dayKey()) {
+  const ids = Object.keys(d.plays);
+  if (ids.length > 1500) {
+    const keep = new Set(ids.sort((a, b) => d.plays[b] - d.plays[a]).slice(0, 1500));
+    for (const id of ids) if (!keep.has(id)) delete d.plays[id];
+  }
+  const top = new Set(Object.keys(d.plays).sort((a, b) => d.plays[b] - d.plays[a]).slice(0, 50));
+  for (const id of Object.keys(d.titles ?? {})) if (!top.has(id)) delete d.titles[id];
+  const days = Object.keys(d.days).sort();
+  for (const k of days.slice(0, Math.max(0, days.length - 400))) delete d.days[k];
+  const [y, m] = today.split('-').map(Number);
+  const lastMonth = m === 1 ? `${y - 1}-12` : `${y}-${String(m - 1).padStart(2, '0')}`;
+  const seen = new Set((d.seen ?? '').split(',').filter(Boolean));
+  for (const [a, when] of Object.entries(d.artists)) if (when.slice(0, 7) < lastMonth) { seen.add(hash(a)); delete d.artists[a]; }
+  d.seen = [...seen].join(',');
+  return d;
+}
 const topPlays = () => Math.max(0, ...Object.values(data.plays));
 const hourPlays = (from, to) => Object.entries(data.hours).filter(([h]) => (from < to ? h >= from && h < to : h >= from || h < to)).reduce((s, [, n]) => s + n, 0);
 const bestDay = () => Math.max(0, ...Object.values(data.days));
@@ -101,15 +125,15 @@ function render() {
 async function save() {
   if (!dirty || !loaded) return;
   dirty = false;
-  // keep storage small: the 1500 most played songs, the last 400 days
-  const ids = Object.keys(data.plays);
-  if (ids.length > 1500) {
-    const keep = new Set(ids.sort((a, b) => data.plays[b] - data.plays[a]).slice(0, 1500));
-    for (const id of ids) if (!keep.has(id)) { delete data.plays[id]; delete data.titles?.[id]; }
+  compact(data);
+  try {
+    await voltage.storage.set('data', data);
+    saveFailed = false;
+  } catch (e) {
+    voltage.log(`save failed: ${e}`);
+    if (!saveFailed) voltage.notify(`Streaks couldn't save your progress (${e}). It keeps counting and tries again.`);
+    saveFailed = true;
   }
-  const days = Object.keys(data.days).sort();
-  for (const d of days.slice(0, Math.max(0, days.length - 400))) delete data.days[d];
-  try { await voltage.storage.set('data', data); } catch (e) { voltage.log(`save failed: ${e}`); }
 }
 
 function countPlay() {
@@ -118,7 +142,7 @@ function countPlay() {
   data.plays[cur.id] = (data.plays[cur.id] ?? 0) + 1;
   (data.titles ??= {})[cur.id] = `${cur.title} · ${firstArtist(cur.artist)}`.slice(0, 120);
   const a = firstArtist(cur.artist).toLowerCase();
-  if (a && !data.artists[a]) data.artists[a] = dayKey();
+  if (a && !knownArtist(a)) data.artists[a] = dayKey();
   const h = String(new Date().getHours()).padStart(2, '0');
   data.hours[h] = (data.hours[h] ?? 0) + 1;
   dirty = true;
