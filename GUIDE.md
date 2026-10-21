@@ -50,7 +50,7 @@ which isn't planned.
 | Tier | What | Who may use it |
 |---|---|---|
 | 1 | events, `storage`, `notify`, `log` | every plugin, no approval |
-| 2 | `playback.control`, `audio.sessions`, `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when the user turns the plugin on |
+| 2 | `playback.control`, `audio.sessions`, `audio.level` (1.6+), `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when the user turns the plugin on |
 | 3 | `files` (exactly the listed existing text files under `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`), `net.fetch` (only the listed `hosts`), `game.log`, `game.local_http` | shown in red; **only plugins from the signed official catalog**, or with Settings › Plugins › Developer mode on |
 
 The approval covers `id` + `permissions` (+ `game`). An update that changes them has to be approved again; one that only

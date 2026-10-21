@@ -43,6 +43,9 @@ declare namespace Voltage {
     game: { game: string; state: GameState; label: string } | null;
     /** Capability audio.sessions, after voltage.audio.watch(). Levels 0..1 per exe name, ~20 per second. */
     audio: { levels: Record<string, number> };
+    /** Capability audio.level (Voltage 1.6+), on demand: how loud Voltage's own music is (peak 0..1), ~20 per second while
+     *  it plays on this PC; silence is sent once. A level only, never the sound. */
+    level: { level: number };
     /** Capability ui.canvas: your progress-bar style was picked; draw on this OffscreenCanvas. */
     canvas: { id: string; canvas: OffscreenCanvas; style: string; width: number; height: number; dpr: number };
     'canvas-resize': { id: string; width: number; height: number };
