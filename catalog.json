@@ -1,5 +1,30 @@
 {
   "version": 1,
+  "seq": 1,
+  "expires": 1824131467,
+  "commit": "d9a60f01d56187cafc18c2bdc778de7fba3f8971",
+  "data": {
+    "fortnite": {
+      "lobby": [
+        "LoadMap: /Game/Maps/Frontend",
+        "FortPC::ReturnToMainMenu()"
+      ],
+      "loadmap": "LoadMap: ",
+      "phase": "NewPhase = EAthenaGamePhase::",
+      "warmup": "Warmup",
+      "aircraft": "Aircraft",
+      "safezones": "SafeZones",
+      "endgame": "EndGame",
+      "none": "None",
+      "jump": "TSkydivingCVarSwitch: Adjusting s.AsyncLoadingPrecachePriority to 2",
+      "death": "(Show Death Spectator Menu)",
+      "respawn": [
+        "FadeOutCameraForRespawn",
+        "Show RespawnLoading"
+      ],
+      "eliminated": "[FortEliminationScreen"
+    }
+  },
   "plugins": [
     {
       "id": "autoeq",
@@ -7,7 +32,17 @@
       "version": "1.0.0",
       "author": "Voltage",
       "description": "Makes your headphones sound neutral: pick your model from AutoEQ's ~8,800 measured profiles and its correction EQ is applied on top of your own EQ. Open it from Settings > Plugins or Ctrl+K.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/autoeq",
+      "permissions": {
+        "capabilities": [
+          "audio.eq",
+          "net.fetch",
+          "ui.panel"
+        ],
+        "hosts": [
+          "https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/autoeq",
       "files": [
         {
           "name": "plugin.json",
@@ -25,7 +60,19 @@
       "version": "1.0.0",
       "author": "Voltage",
       "description": "Pauses (or lowers) your music while you're in a League match, and brings it back when you're dead or the game ends. Uses Riot's official Live Client Data API on your PC, nothing else.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/league",
+      "permissions": {
+        "capabilities": [
+          "game.local_http"
+        ]
+      },
+      "game": {
+        "name": "League of Legends",
+        "exes": [
+          "league of legends.exe"
+        ],
+        "http": "https://127.0.0.1:2999"
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/league",
       "files": [
         {
           "name": "plugin.json",
@@ -43,7 +90,12 @@
       "version": "1.4.0",
       "author": "Voltage",
       "description": "Discord in Legcord takes on Voltage's look and the colours of the song you're playing, and fades with every change. Follows Voltage's theme too (background, panels, glow, font).",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/legcord-theme",
+      "permissions": {
+        "files": [
+          "%APPDATA%/legcord/quickCss.css"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
@@ -58,18 +110,31 @@
     {
       "id": "minecraft",
       "name": "Minecraft (Java)",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Voltage",
       "description": "Pauses (or lowers) your music while you're in a world or on a server, and brings it back in the menus and briefly when you die. Reads Minecraft's own latest.log, nothing else.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/minecraft",
+      "permissions": {
+        "capabilities": [
+          "game.log"
+        ]
+      },
+      "game": {
+        "name": "Minecraft",
+        "exes": [
+          "javaw.exe",
+          "minecraft.exe"
+        ],
+        "log": "%APPDATA%/.minecraft/logs/latest.log"
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/minecraft",
       "files": [
         {
           "name": "plugin.json",
-          "sha256": "feaf8ffd0d454b4a390e4988e56d6d2e4a1f7cefcd258e99c075a7b8d39092f9"
+          "sha256": "4ab89115514ba995bd17786cb930cbac46575b410449584034cd70d8835a3515"
         },
         {
           "name": "main.js",
-          "sha256": "abea69c7edc2b94c362d0cccb0d737e50873283c7f90a678deb1519cd92a4d51"
+          "sha256": "05b45f71d0f6a75f13477258cc24a4ed476926cdff3d16d3366fd37c4b20c7cc"
         }
       ]
     },
@@ -79,7 +144,18 @@
       "version": "1.0.0",
       "author": "Voltage",
       "description": "Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs (and plenty of others). It shows up in the lyrics view's source menu and Voltage picks it automatically when it's the best one.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/more-lyrics",
+      "permissions": {
+        "capabilities": [
+          "lyrics.provider",
+          "net.fetch"
+        ],
+        "hosts": [
+          "https://mobiles.kugou.com/api/v3/search",
+          "https://krcs.kugou.com/search",
+          "https://lyrics.kugou.com/download"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/more-lyrics",
       "files": [
         {
           "name": "plugin.json",
@@ -94,18 +170,23 @@
     {
       "id": "streaks",
       "name": "Streaks & achievements",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Voltage",
       "description": "Listening streaks and badges (night owl, on repeat, explorer, marathon…), with a notification when you earn one. Open it from Settings > Plugins or Ctrl+K.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/streaks",
+      "permissions": {
+        "capabilities": [
+          "ui.panel"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/streaks",
       "files": [
         {
           "name": "plugin.json",
-          "sha256": "f19a100de7d6548098437059f8cc4bf3b6b9918da70a38bab3ee3ef922466fe8"
+          "sha256": "9e8f8d677bc2ee43a107c27c0ec6d2dfeb100fead5602336b0444876f336dfde"
         },
         {
           "name": "main.js",
-          "sha256": "32a2764542c515a73d303778096cced2198f763092b87362ce3d573a094a8eb9"
+          "sha256": "c4737bb1a626c15596d26c673416835b19efbe76c2930d3e90f3ad1f8ab88190"
         }
       ]
     },
@@ -115,7 +196,12 @@
       "version": "1.0.0",
       "author": "Voltage",
       "description": "Three more progress-bar animations in the song's colours: Particles, Ribbon and Pixel blocks. Pick one in Settings > Appearance > Progress animation.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/visualizers",
+      "permissions": {
+        "capabilities": [
+          "ui.canvas"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/visualizers",
       "files": [
         {
           "name": "plugin.json",
@@ -133,7 +219,13 @@
       "version": "1.0.0",
       "author": "Voltage",
       "description": "Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop.",
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/voice-duck",
+      "permissions": {
+        "capabilities": [
+          "audio.sessions",
+          "playback.control"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/voice-duck",
       "files": [
         {
           "name": "plugin.json",
