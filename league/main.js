@@ -7,15 +7,18 @@ const POLL_MS = 2000;
 
 /** allgamedata payload -> state. Pure, so the simulator can test it. */
 function leagueState(d) {
-  if (!d || !d.activePlayer || !Array.isArray(d.allPlayers)) return 'loading';
+  if (!d || !Array.isArray(d.allPlayers)) return 'loading';
   const events = d.events?.Events ?? [];
   if (events.some((e) => e.EventName === 'GameEnd')) return 'match_over';
   if (!events.some((e) => e.EventName === 'GameStart') && (d.gameData?.gameTime ?? 0) < 1) return 'loading';
-  const me = d.activePlayer.riotId ?? d.activePlayer.summonerName;
+  // spectating / a replay (1.0.1): no active player of your own (missing, or Riot's "Spectator mode doesn't currently
+  // support this feature" error), but the game is running
+  const me = d.activePlayer?.riotId ?? d.activePlayer?.summonerName;
+  if (!me) return 'spectating';
   const self = d.allPlayers.find((p) => (p.riotId ?? p.summonerName) === me);
   return self?.isDead ? 'dead' : 'in_match';
 }
-const LABELS = { loading: 'Loading', in_match: 'In the match', dead: 'Dead', match_over: 'Game over', menu: 'Client' };
+const LABELS = { loading: 'Loading', in_match: 'In the match', dead: 'Dead', spectating: 'Spectating', match_over: 'Game over', menu: 'Client' };
 
 let last = null;
 async function poll() {

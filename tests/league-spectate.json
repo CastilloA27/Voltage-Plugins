@@ -1,0 +1,17 @@
+{
+  "pack": "league",
+  "about": "Spectating a match or watching a replay: the Live Client Data API has no activePlayer (Riot: 'Spectator mode doesn't currently support this feature'), but players and game time are there. Round 10 O2: that's spectating (music on), not loading for the whole game.",
+  "steps": [
+    { "running": true, "http": { "status": 404, "json": { "errorCode": "RESOURCE_NOT_FOUND", "httpStatus": 404 } } },
+    { "http": { "status": 200, "json": {
+      "activePlayer": { "error": "Spectator mode doesn't currently support this feature" },
+      "allPlayers": [ { "riotId": "Pro#KR1", "summonerName": "Pro", "isDead": false, "team": "ORDER" } ],
+      "events": { "Events": [ { "EventID": 0, "EventName": "GameStart", "EventTime": 0.04 } ] },
+      "gameData": { "gameMode": "CLASSIC", "gameTime": 312.5 } } } },
+    { "http": { "status": 200, "json": {
+      "allPlayers": [ { "riotId": "Pro#KR1", "summonerName": "Pro", "isDead": false, "team": "ORDER" } ],
+      "events": { "Events": [ { "EventID": 0, "EventName": "GameStart", "EventTime": 0.04 }, { "EventID": 9, "EventName": "GameEnd", "EventTime": 1700, "Result": "Win" } ] },
+      "gameData": { "gameMode": "CLASSIC", "gameTime": 1700 } } } }
+  ],
+  "expect": ["loading", "spectating", "match_over"]
+}

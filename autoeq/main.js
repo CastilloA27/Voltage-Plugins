@@ -46,6 +46,8 @@ async function loadIndex() {
   status = 'Loading the headphone list…'; render();
   try {
     const r = await voltage.net.fetch(`${BASE}/INDEX.md`);
+    // 1.0.1: the AutoEq project reorganised its repository -> this plugin needs an update, not a retry
+    if (r.status === 404) throw new Error("AutoEq moved its files: update this plugin in Settings > Plugins > Official plugins");
     if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
     index = parseIndex(r.text);
     status = '';
