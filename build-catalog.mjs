@@ -62,6 +62,7 @@ for (const dir of fs.readdirSync(root, { withFileTypes: true })) {
   if (!fs.existsSync(mf)) continue;
   const m = JSON.parse(fs.readFileSync(mf, 'utf8'));
   if (m.id !== dir.name) throw new Error(`${dir.name}: folder name must equal the id (${m.id})`);
+  if (m.unlisted) { console.log(`skipped ${m.id} (unlisted)`); continue; } // kept in the repo, not offered (e.g. not shipped yet)
   const files = ['plugin.json', m.main].map((name) => ({
     name,
     sha256: crypto.createHash('sha256').update(fs.readFileSync(path.join(root, dir.name, name))).digest('hex'),
