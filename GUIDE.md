@@ -54,7 +54,7 @@ which isn't planned.
 |---|---|---|
 | 1 | events, `storage`, `notify`, `log` | every plugin, no approval |
 | 2 | `playback.control`, `audio.sessions`, `audio.level` (1.6+), `storage.secret` (1.6+), `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when the user turns the plugin on |
-| 3 | `files` (exactly the listed existing text files under `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`), `net.fetch` (only the listed `hosts`), `game.log`, `game.local_http` | shown in red; **only plugins from the signed official catalog**, or with Settings › Plugins › Developer mode on |
+| 3 | `files` (exactly the listed existing text files under `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`), `net.fetch` (only the listed `hosts`), `net.ws` (1.6+: a WebSocket to the `local` ports listed, e.g. `"ws://127.0.0.1:4455"` for OBS), `game.log`, `game.local_http` | shown in red; **only plugins from the signed official catalog**, or with Settings › Plugins › Developer mode on |
 
 The approval covers `id` + `permissions` (+ `game`). An update that changes them has to be approved again; one that only
 changes code, text or settings keeps running. Voltage's own data, auto-run places, credential stores and dot-folders are

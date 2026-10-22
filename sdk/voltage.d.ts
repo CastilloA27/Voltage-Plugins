@@ -46,6 +46,8 @@ declare namespace Voltage {
     /** Capability audio.level (Voltage 1.6+), on demand: how loud Voltage's own music is (peak 0..1), ~20 per second while
      *  it plays on this PC; silence is sent once. A level only, never the sound. */
     level: { level: number };
+    /** Voltage 1.6+, capability net.ws: traffic of a socket from voltage.net.ws(). */
+    ws: { sock: number; type: 'message' | 'close' | 'error'; data: string | null };
     /** Voltage 1.6+: one of plugin.json provides.commands was picked (Ctrl+K, or a song's right-click menu with "song": true).
      *  `track` = the song it was picked for, or the current song. */
     command: { id: string; track: Track | null };
@@ -102,7 +104,12 @@ declare namespace Voltage {
     lyrics: { provide(rid: string, result: Lyrics | null): void };
     /** Capability net.fetch + plugin.json permissions.hosts (tier 3): only those addresses, 60 requests a minute,
      *  no cookies, redirects come back as 3xx with `location`, answers over 5 MB are cut off. */
-    net: { fetch(url: string, options?: { method?: 'GET' | 'POST'; headers?: Record<string, string>; body?: string }): Promise<FetchResult> };
+    net: {
+      fetch(url: string, options?: { method?: 'GET' | 'POST'; headers?: Record<string, string>; body?: string }): Promise<FetchResult>;
+      /** Voltage 1.6+, capability net.ws + permissions.local ["ws://127.0.0.1:PORT"] (tier 3): a WebSocket to that program on
+       *  this PC. Resolves once open; traffic arrives as 'ws' events. Text only, 1 MB per message, at most 4 open. */
+      ws(url: string): Promise<{ sock: number; send(text: string): Promise<void>; close(): Promise<void> }>;
+    };
     /** audio.eq: bands after the user's EQ (<= 20, +-15 dB), null removes them. audio.sessions: watch exe names. */
     audio: {
       eq(bands: EqBand[] | null, preamp?: number): Promise<void>;
