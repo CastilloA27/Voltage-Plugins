@@ -12,6 +12,7 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 | [More lyrics sources](more-lyrics) | Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs; shows up in the lyrics view's source menu. | Voltage 1.4.5+. Talks to Kugou's lyrics search only |
 | [League of Legends](league) | Game pack: pauses or lowers the music in a match, back when you're dead or the game ends. **Not yet tested in a real match.** | Voltage 1.4.5+. Riot's Live Client Data API on 127.0.0.1:2999, only while the game runs |
 | [Minecraft (Java)](minecraft) | Game pack: pauses or lowers the music in a world / on a server, back in menus and briefly when you die. **Not yet tested in a real game.** | Voltage 1.4.5+. Reads `%APPDATA%\.minecraft\logs\latest.log` (new lines only) while Minecraft runs |
+| [OBS: now playing](obs) | Puts the song you're playing in a text source in OBS, and shows one of your sources (a music overlay) only while music plays. **Tested against a stand-in OBS server (tools/fake-obs.mjs), not yet a real OBS.** | Voltage 1.6+, OBS 28+ with its WebSocket server on (port 4455). Talks to OBS on this PC only; the password is stored encrypted |
 | [Streaks & achievements](streaks) | Listening streaks and badges (night owl, on repeat, explorer, marathon…) in its own window, with a notification when you earn one. Counts from when it's installed; nothing leaves your PC. | Voltage 1.4+. Its own window |
 
 ## How plugins work

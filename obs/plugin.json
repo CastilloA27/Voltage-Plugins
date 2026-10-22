@@ -1,0 +1,21 @@
+{
+  "id": "obs",
+  "name": "OBS: now playing",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Shows the song you're playing in a text source in OBS, and can show one of your sources (an overlay) only while music plays. Talks to OBS's own obs-websocket server on this PC (OBS 28+: Tools > WebSocket Server Settings).",
+  "minVoltage": "1.6.0",
+  "untested": true,
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["net.ws", "storage.secret"],
+    "local": ["ws://127.0.0.1:4455"]
+  },
+  "settings": [
+    { "key": "password", "label": "obs-websocket password", "type": "secret", "help": "From OBS: Tools > WebSocket Server Settings > Show Connect Info. Leave empty if authentication is off." },
+    { "key": "textSource", "label": "Text source", "type": "text", "default": "Now playing", "help": "The name of a Text (GDI+) source in OBS. Empty: don't set any text." },
+    { "key": "format", "label": "Text", "type": "choice", "default": "title-artist", "options": [["title-artist", "Title - Artist"], ["artist-title", "Artist - Title"], ["title", "Title only"]] },
+    { "key": "paused", "label": "While paused", "type": "choice", "default": "keep", "options": [["keep", "Keep the text"], ["clear", "Empty the text"]] },
+    { "key": "showSource", "label": "Show this source while music plays", "type": "text", "default": "", "help": "A source in your current scene (e.g. a music overlay). Empty: none." }
+  ]
+}

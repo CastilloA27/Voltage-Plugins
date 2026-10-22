@@ -8,6 +8,7 @@
 //   await p.advance(31_000);              // timers fire; 'position' events are yours to send
 //   p.calls      // [{cap, args}] every voltage.call (storage.*, playback.*, net.fetch, ...)
 //   p.notices    // voltage.notify texts;  p.logs: voltage.log lines;  p.panel: last {html, css};  p.reported: game states
+//   p.sockets    // net.ws: [{sock, url, sent: [texts], open}]; send the plugin traffic with p.emit('ws', {sock, type, data})
 //   p.storage    // the plugin's key/value store;  p.now: the fake clock (starts at the real time, or the `start` option)
 //
 // Answers to calls: pass `answer(cap, args)` (return a value, or throw for an error); the default answers storage.* from
@@ -20,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-export async function loadPlugin(idOrDir, { settings = {}, storage = {}, running = false, answer = null, start = Date.now() } = {}) {
+export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets = {}, running = false, answer = null, start = Date.now() } = {}) {
   const dir = fs.existsSync(idOrDir) ? idOrDir : path.join(ROOT, idOrDir);
   const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'plugin.json'), 'utf8'));
   const src = fs.readFileSync(path.join(dir, manifest.main), 'utf8');
@@ -28,8 +29,8 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, running
   const timers = new Map(); // id -> {f, at, every}
   const handlers = {};
   const host = {
-    manifest, calls: [], notices: [], logs: [], reported: [], panel: null, themeTokens: null, lyrics: [],
-    storage: structuredClone(storage), running,
+    manifest, calls: [], notices: [], logs: [], reported: [], panel: null, themeTokens: null, lyrics: [], options: {},
+    storage: structuredClone(storage), secrets: { ...secrets }, running, sockets: [],
     get now() { return now; },
   };
   const defaultAnswer = (cap, args) => {
@@ -40,6 +41,11 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, running
       return null;
     }
     if (cap === 'storage.all') return structuredClone(host.storage);
+    if (cap === 'secret.get') return host.secrets[args.key] ?? null;
+    if (cap === 'secret.set') { if (args.value == null) delete host.secrets[args.key]; else host.secrets[args.key] = args.value; return null; }
+    if (cap === 'net.ws.open') { const sock = host.sockets.length + 1; host.sockets.push({ sock, url: args.url, sent: [], open: true }); return sock; }
+    if (cap === 'net.ws.send') { host.sockets[args.sock - 1]?.sent.push(args.text); return null; }
+    if (cap === 'net.ws.close') { const s = host.sockets[args.sock - 1]; if (s) s.open = false; return null; }
     if (cap === 'game.running') return host.running;
     if (cap === 'game.report') { if (!host.running) throw new Error('GAME_NOT_RUNNING'); host.reported.push(args.state); return null; }
     return null;
@@ -59,13 +65,21 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, running
     theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; } },
     game: { running: () => call('game.running', {}), report: (state, label) => call('game.report', { state, label }), log: () => call('game.log.read', {}), http: (p) => call('game.http', { path: p }) },
     lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }) },
-    net: { fetch: (url, o = {}) => call('net.fetch', { url, method: o.method, headers: o.headers, body: o.body }) },
+    net: {
+      fetch: (url, o = {}) => call('net.fetch', { url, method: o.method, headers: o.headers, body: o.body }),
+      ws: async (url) => {
+        const sock = await call('net.ws.open', { url });
+        return { sock, send: (text) => call('net.ws.send', { sock, text: String(text) }), close: () => call('net.ws.close', { sock }) };
+      },
+    },
+    secret: { get: (key) => call('secret.get', { key }), set: (key, value) => call('secret.set', { key, value }) },
+    settingOptions: (key, options) => { host.options[key] = options; },
     audio: { eq: (bands, preamp = 0) => call('audio.eq', { bands: bands ?? [], preamp }), watch: (apps) => call('audio.watch', { apps }), unwatch: () => call('audio.unwatch', {}) },
   };
   voltage.playback.duck = (db, ms = 300) => call('playback.duck', { db, ms });
   const add = (f, ms, every) => { const id = ++timerSeq; timers.set(id, { f, at: now + Math.max(0, ms | 0), every }); return id; };
   const ctx = {
-    voltage, console, structuredClone, URL, TextEncoder, TextDecoder, Math, JSON,
+    voltage, console, structuredClone, URL, TextEncoder, TextDecoder, Math, JSON, crypto: globalThis.crypto, btoa, atob,
     performance: { now: () => now },
     Date: class extends Date { constructor(...a) { super(...(a.length ? a : [now])); } static now() { return now; } },
     setTimeout: (f, ms) => add(f, ms, 0), setInterval: (f, ms) => add(f, ms, Math.max(1, ms | 0)),
