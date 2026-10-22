@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "seq": 1,
-  "expires": 1824131467,
-  "commit": "d9a60f01d56187cafc18c2bdc778de7fba3f8971",
+  "seq": 2,
+  "expires": 1824170995,
+  "commit": "d3c1192b1331a1e747cbca69a8d5af43aa04deb0",
   "data": {
     "fortnite": {
       "lobby": [
@@ -29,7 +29,7 @@
     {
       "id": "autoeq",
       "name": "Headphone correction (AutoEQ)",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": "Voltage",
       "description": "Makes your headphones sound neutral: pick your model from AutoEQ's ~8,800 measured profiles and its correction EQ is applied on top of your own EQ. Open it from Settings > Plugins or Ctrl+K.",
       "permissions": {
@@ -42,45 +42,15 @@
           "https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/autoeq",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/autoeq",
       "files": [
         {
           "name": "plugin.json",
-          "sha256": "583d45a10ccc318fcf7cb046619e9205e96f1c32746c55c07dd31669a2333971"
+          "sha256": "96f6c95f1339b68acdc03948b1d684e06a050cd3b6bee2a3ab8920dfd6fc585c"
         },
         {
           "name": "main.js",
-          "sha256": "ae13f470eb9b8a67c626dc61ef2a2caf611d0934a8429f7b2d4f2af6ede895cf"
-        }
-      ]
-    },
-    {
-      "id": "league",
-      "name": "League of Legends",
-      "version": "1.0.0",
-      "author": "Voltage",
-      "description": "Pauses (or lowers) your music while you're in a League match, and brings it back when you're dead or the game ends. Uses Riot's official Live Client Data API on your PC, nothing else.",
-      "permissions": {
-        "capabilities": [
-          "game.local_http"
-        ]
-      },
-      "game": {
-        "name": "League of Legends",
-        "exes": [
-          "league of legends.exe"
-        ],
-        "http": "https://127.0.0.1:2999"
-      },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/league",
-      "files": [
-        {
-          "name": "plugin.json",
-          "sha256": "efe835e4e16287ca5b3962cc404de56a6535b2f2685d20941891f423c4818f9b"
-        },
-        {
-          "name": "main.js",
-          "sha256": "2e3edc241573b09237b1dc0ddc385028359a36b6b0fab3a1ee2af709943426f7"
+          "sha256": "c33c55e144e96e7606437b248f5cd3594052e8e607badf4e3a59cec2e47505e3"
         }
       ]
     },
@@ -95,7 +65,7 @@
           "%APPDATA%/legcord/quickCss.css"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/legcord-theme",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
@@ -113,6 +83,7 @@
       "version": "1.0.1",
       "author": "Voltage",
       "description": "Pauses (or lowers) your music while you're in a world or on a server, and brings it back in the menus and briefly when you die. Reads Minecraft's own latest.log, nothing else.",
+      "untested": true,
       "permissions": {
         "capabilities": [
           "game.log"
@@ -126,7 +97,7 @@
         ],
         "log": "%APPDATA%/.minecraft/logs/latest.log"
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/minecraft",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/minecraft",
       "files": [
         {
           "name": "plugin.json",
@@ -155,7 +126,7 @@
           "https://lyrics.kugou.com/download"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/more-lyrics",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/more-lyrics",
       "files": [
         {
           "name": "plugin.json",
@@ -178,7 +149,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/streaks",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/streaks",
       "files": [
         {
           "name": "plugin.json",
@@ -201,7 +172,7 @@
           "ui.canvas"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/visualizers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/visualizers",
       "files": [
         {
           "name": "plugin.json",
@@ -225,7 +196,7 @@
           "playback.control"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d9a60f01d56187cafc18c2bdc778de7fba3f8971/voice-duck",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/voice-duck",
       "files": [
         {
           "name": "plugin.json",
