@@ -68,7 +68,8 @@ for (const dir of fs.readdirSync(root, { withFileTypes: true })) {
   }));
   // permissions + game: shown before installing (A14); minVoltage: Voltage hides what it can't run (A1)
   plugins.push({ id: m.id, name: m.name, version: m.version, author: m.author, description: m.description,
-    ...(m.minVoltage ? { minVoltage: m.minVoltage } : {}), permissions: m.permissions ?? {}, ...(m.game ? { game: m.game } : {}),
+    ...(m.minVoltage ? { minVoltage: m.minVoltage } : {}), ...(m.untested ? { untested: true } : {}),
+    permissions: m.permissions ?? {}, ...(m.game ? { game: m.game } : {}),
     base: `${RAW}/${commit}/${m.id}`, files });
 }
 // Data Voltage reads from the signed catalog (round 10 K5): data/fortnite.json = Fortnite's log markers (games.rs FnMarkers;
