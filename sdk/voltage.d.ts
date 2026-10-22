@@ -46,6 +46,9 @@ declare namespace Voltage {
     /** Capability audio.level (Voltage 1.6+), on demand: how loud Voltage's own music is (peak 0..1), ~20 per second while
      *  it plays on this PC; silence is sent once. A level only, never the sound. */
     level: { level: number };
+    /** Voltage 1.6+: one of plugin.json provides.commands was picked (Ctrl+K, or a song's right-click menu with "song": true).
+     *  `track` = the song it was picked for, or the current song. */
+    command: { id: string; track: Track | null };
     /** Capability ui.canvas: your progress-bar style was picked; draw on this OffscreenCanvas. */
     canvas: { id: string; canvas: OffscreenCanvas; style: string; width: number; height: number; dpr: number };
     'canvas-resize': { id: string; width: number; height: number };
@@ -62,6 +65,11 @@ declare namespace Voltage {
     on<K extends keyof Events>(name: K, handler: (data: Events[K]) => void | Promise<void>): void;
     /** Any capability by name; the helpers below are easier. Rejects with an Error whose message says why. */
     call(capability: string, args?: Record<string, unknown>): Promise<unknown>;
+    /** Voltage 1.6+, capability storage.secret: a password / API key, encrypted for the Windows user, never in backups.
+     *  The user types it into a "secret" setting; get(key) reads it; set(key, value | null) stores one the plugin got. */
+    secret: { get(key: string): Promise<string | null>; set(key: string, value: string | null): Promise<void> };
+    /** Voltage 1.6+: fill a "choice" setting's options yourself: [[value, label], ...], at most 50. */
+    settingOptions(key: string, options: [string, string][]): void;
     /** A short notice in Voltage (at most 3 per 10 s). */
     notify(text: string): void;
     /** A line in Voltage's log (Settings > About > Open logs folder), at most 20 per second. */
