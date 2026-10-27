@@ -35,6 +35,26 @@ await p.emit('playing', false);
 for (let i = 0; i < 4; i++) await answer();
 assert.deepEqual(shows(), [false, true, false]);
 
+// a scene switch in OBS: the overlay is set on the new scene too (round 11 Z7)
+await p.emit('playing', true);
+for (let i = 0; i < 4; i++) await answer();
+assert.equal(sent().filter((x) => x.op === 1)[0].d.eventSubscriptions & 4, 4); // subscribed to scene events
+const before = shows().length;
+await reply({ op: 5, d: { eventType: 'CurrentProgramSceneChanged', eventData: { sceneName: 'Chatting' } } });
+for (let i = 0; i < 4; i++) await answer();
+assert.deepEqual(shows().slice(before), [true]);
+
+// OBS closed: looks again after 10 s, 30 s, then every 60 s (round 11 Z6)
+let opens = 0;
+const r = await loadPlugin('obs', { answer: (cap) => { if (cap === 'net.ws.open') { opens++; throw new Error('NOT_RUNNING: nothing is listening'); } } });
+await r.advance(1);
+assert.equal(opens, 1);
+await r.advance(10_000); assert.equal(opens, 2);
+await r.advance(29_000); assert.equal(opens, 2);
+await r.advance(1_000); assert.equal(opens, 3);
+await r.advance(60_000); assert.equal(opens, 4);
+await r.advance(60_000); assert.equal(opens, 5);
+
 // refused password: closed right after Identify -> one notice
 const q = await loadPlugin('obs', { secrets: { password: 'wrong' } });
 await q.advance(10);

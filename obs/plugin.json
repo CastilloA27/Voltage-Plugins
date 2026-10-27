@@ -1,7 +1,7 @@
 {
   "id": "obs",
   "name": "OBS: now playing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Voltage",
   "description": "Shows the song you're playing in a text source in OBS, and can show one of your sources (an overlay) only while music plays. Talks to OBS's own obs-websocket server on this PC (OBS 28+: Tools > WebSocket Server Settings).",
   "minVoltage": "1.6.0",

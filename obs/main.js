@@ -1,11 +1,13 @@
 /// <reference path="../sdk/voltage.d.ts" />
 // OBS: now playing. Talks to OBS's built-in obs-websocket server (v5, OBS 28+) on this PC through Voltage's net.ws:
 // sets a text source to the song, and shows one source (an overlay) only while music plays. The password is a "secret"
-// setting (stored encrypted by Voltage). Reconnects every 10 s while OBS isn't running. Tested against tools/fake-obs.mjs,
-// not yet against a real OBS.
+// setting (stored encrypted by Voltage). While OBS isn't running it looks again after 10 s, 30 s, then every 60 s. Follows
+// scene switches (the overlay source is set on the new scene too). Tested against tools/fake-obs.mjs, not yet a real OBS.
 const OBS = 'ws://127.0.0.1:4455';
 let settings = { textSource: 'Now playing', format: 'title-artist', paused: 'keep', showSource: '' };
 let ws = null, ready = false, seq = 0, retry = null, track = null, playing = false, lastText = null, lastShown = null, again = false, identifying = false, refusedNoted = false;
+let fails = 0; // connection attempts in a row that found no OBS: the wait grows 10 s -> 30 s -> 60 s
+const BACKOFF = [10000, 30000, 60000];
 const pending = new Map(); // requestId -> resolve
 
 const b64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
@@ -50,9 +52,10 @@ async function connect() {
   if (ws) return;
   try {
     ws = await voltage.net.ws(OBS);
+    fails = 0;
   } catch {
-    ws = null; // OBS isn't running (or its server is off): look again in 10 s
-    retry = setTimeout(connect, 10000);
+    ws = null; // OBS isn't running (or its server is off): look again later
+    retry = setTimeout(connect, BACKOFF[Math.min(fails++, BACKOFF.length - 1)]);
   }
 }
 
@@ -76,7 +79,7 @@ voltage.on('ws', async (e) => {
   try { m = JSON.parse(e.data); } catch { return; }
   if (m.op === 0) { // Hello: identify, with the password challenge if OBS asks for one
     const a = m.d.authentication;
-    const d = { rpcVersion: 1, eventSubscriptions: 0 };
+    const d = { rpcVersion: 1, eventSubscriptions: 1 << 2 }; // Scenes: CurrentProgramSceneChanged
     if (a) {
       const pw = (await voltage.secret.get('password')) ?? '';
       if (!pw) voltage.notify('OBS asks for its WebSocket password: add it in Settings > Plugins > OBS');
@@ -87,6 +90,9 @@ voltage.on('ws', async (e) => {
   } else if (m.op === 2) { // Identified
     ready = true; identifying = false; refusedNoted = false;
     voltage.log('connected to OBS');
+    sync();
+  } else if (m.op === 5 && m.d?.eventType === 'CurrentProgramSceneChanged') {
+    lastShown = null; // the overlay source on the new scene hasn't been set yet (round 11 Z7)
     sync();
   } else if (m.op === 7) {
     pending.get(m.d.requestId)?.(m.d);
