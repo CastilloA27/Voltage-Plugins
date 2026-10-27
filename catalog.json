@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "seq": 2,
-  "expires": 1824170995,
-  "commit": "d3c1192b1331a1e747cbca69a8d5af43aa04deb0",
+  "seq": 3,
+  "expires": 1824657568,
+  "commit": "f51779333bc2c0007df2574015cf6ecd0c7ba5a5",
   "data": {
     "fortnite": {
       "lobby": [
@@ -42,7 +42,7 @@
           "https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/autoeq",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/autoeq",
       "files": [
         {
           "name": "plugin.json",
@@ -65,7 +65,7 @@
           "%APPDATA%/legcord/quickCss.css"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/legcord-theme",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
@@ -97,7 +97,7 @@
         ],
         "log": "%APPDATA%/.minecraft/logs/latest.log"
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/minecraft",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/minecraft",
       "files": [
         {
           "name": "plugin.json",
@@ -126,7 +126,7 @@
           "https://lyrics.kugou.com/download"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/more-lyrics",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/more-lyrics",
       "files": [
         {
           "name": "plugin.json",
@@ -135,6 +135,35 @@
         {
           "name": "main.js",
           "sha256": "d7baaf68cb8fd561c47bafe6229cdeee64e0fd485e28effceb8ca3545ea2e2e8"
+        }
+      ]
+    },
+    {
+      "id": "obs",
+      "name": "OBS: now playing",
+      "version": "1.0.1",
+      "author": "Voltage",
+      "description": "Shows the song you're playing in a text source in OBS, and can show one of your sources (an overlay) only while music plays. Talks to OBS's own obs-websocket server on this PC (OBS 28+: Tools > WebSocket Server Settings).",
+      "minVoltage": "1.6.0",
+      "untested": true,
+      "permissions": {
+        "capabilities": [
+          "net.ws",
+          "storage.secret"
+        ],
+        "local": [
+          "ws://127.0.0.1:4455"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/obs",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "33fe06aa195751e1f61d4924d58d80a4f42620bd32bf8615ba65f3f74a19e052"
+        },
+        {
+          "name": "main.js",
+          "sha256": "0e91ff1dcd1f12cc1f8b444a323c167af77a5bf7b4f0ff823db926929cfd70d0"
         }
       ]
     },
@@ -149,7 +178,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/streaks",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/streaks",
       "files": [
         {
           "name": "plugin.json",
@@ -172,7 +201,7 @@
           "ui.canvas"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/visualizers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/visualizers",
       "files": [
         {
           "name": "plugin.json",
@@ -196,7 +225,7 @@
           "playback.control"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/d3c1192b1331a1e747cbca69a8d5af43aa04deb0/voice-duck",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/f51779333bc2c0007df2574015cf6ecd0c7ba5a5/voice-duck",
       "files": [
         {
           "name": "plugin.json",
