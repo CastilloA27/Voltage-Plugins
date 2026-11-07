@@ -1,15 +1,19 @@
 {
   "id": "streaks",
   "name": "Streaks & achievements",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Voltage",
-  "description": "Listening streaks and badges (night owl, on repeat, explorer, marathon…), with a notification when you earn one. Open it from Settings > Plugins or Ctrl+K.",
+  "description": "Listening streaks and badges (night owl, on repeat, explorer, marathon, gaming soundtrack, polyglot…) and an optional weekly goal, with a notification when you earn one. Open it from Settings > Plugins or Ctrl+K.",
   "main": "main.js",
   "permissions": {
-    "capabilities": ["ui.panel"]
+    "capabilities": [
+      "ui.panel"
+    ]
   },
   "provides": {
-    "panel": { "title": "Streaks & achievements" }
+    "panel": {
+      "title": "Streaks & achievements"
+    }
   },
   "settings": [
     {
@@ -26,6 +30,16 @@
       "max": 60,
       "step": 5,
       "default": 10,
+      "unit": " min"
+    },
+    {
+      "key": "weeklyMinutes",
+      "type": "slider",
+      "label": "Weekly goal (0 = off)",
+      "min": 0,
+      "max": 1500,
+      "step": 30,
+      "default": 0,
       "unit": " min"
     }
   ]

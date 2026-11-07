@@ -45,4 +45,23 @@ const listen = async (p, track, secs) => {
   await p.advance(120_000);
   assert.equal(p.notices.filter((n) => n.includes("couldn't save")).length, 1);
 }
+
+// 1.1: Gaming soundtrack counts music only while a game is in front; Polyglot needs 3 writing systems; the weekly goal
+{
+  const p = await loadPlugin('streaks', { settings: { notify: true, weeklyMinutes: 1 } });
+  await p.emit('gaming', true);
+  await listen(p, { id: 'g1', title: 'Plastic Love', artist: 'Mariya Takeuchi' }, 40);
+  await p.emit('gaming', false);
+  await listen(p, { id: 'g2', title: 'Lemon', artist: '米津玄師' }, 40);
+  await listen(p, { id: 'g3', title: '봄날', artist: 'BTS' }, 40);
+  await p.advance(30_000);
+  const d = p.storage.data;
+  assert.ok(d.gaming >= 39 && d.gaming <= 41, `gaming seconds ${d.gaming}`);
+  assert.equal(Object.keys(d.scripts).sort().join(), 'japanese,korean,latin');
+  assert.ok(d.badges.polyglot, 'Polyglot earned');
+  assert.ok(Object.keys(d.goals).length === 1, 'weekly goal (1 min) reached once');
+  assert.equal(p.notices.filter((n) => n.startsWith('Weekly goal reached')).length, 1, 'told once');
+  assert.equal(p.scope.scriptOf('Мой мир'), 'cyrillic');
+  assert.equal(p.scope.scriptOf("Don't Stop"), 'latin');
+}
 console.log('PASS streaks.test.mjs');

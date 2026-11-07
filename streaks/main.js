@@ -2,13 +2,15 @@
 // Streaks & achievements: counts your listening from the events Voltage sends (track, playing, position), keeps it in the
 // plugin's own storage, and shows streaks and badges in its panel. Nothing leaves the PC. History starts when the plugin
 // is installed (plugins can't read Voltage's play history).
+// 1.1 (round 12 P12-13): Gaming soundtrack (10 h while a game is in front), Polyglot (songs in 3 scripts), a weekly goal
+// (a setting) with its own badge.
 const DAY = 86400000;
 const PLAY_SECS = 30; // a play counts after 30 s, like Voltage's own stats
 
-let settings = { notify: true, streakMinutes: 10 };
-let data = { days: {}, plays: {}, artists: {}, hours: {}, badges: {}, total: 0 };
+let settings = { notify: true, streakMinutes: 10, weeklyMinutes: 0 };
+let data = { days: {}, plays: {}, artists: {}, hours: {}, badges: {}, total: 0, gaming: 0, scripts: {}, goals: {} };
 let loaded = false, dirty = false, open = false, saveFailed = false;
-let cur = null, curSecs = 0, counted = false, playing = false, lastPos = null;
+let cur = null, curSecs = 0, counted = false, playing = false, lastPos = null, gaming = false;
 
 const dayKey = (t = Date.now()) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -57,7 +59,21 @@ function compact(d, today = dayKey()) {
   const seen = new Set((d.seen ?? '').split(',').filter(Boolean));
   for (const [a, when] of Object.entries(d.artists)) if (when.slice(0, 7) < lastMonth) { seen.add(hash(a)); delete d.artists[a]; }
   d.seen = [...seen].join(',');
+  const weeks = Object.keys(d.goals ?? {}).sort();
+  for (const k of weeks.slice(0, Math.max(0, weeks.length - 60))) delete d.goals[k];
   return d;
+}
+/** Monday of the week `t` is in, as a day key: the weekly goal's week. */
+const weekKey = (t = Date.now()) => { const d = new Date(t); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return dayKey(d.getTime()); };
+const weekSecs = (t = Date.now()) => { const w = weekKey(t); let s = 0; for (let i = 0; i < 7; i++) s += data.days[dayKey(Date.parse(w + 'T12:00:00') + i * DAY)] ?? 0; return s; };
+/** The writing system a title is in (Polyglot): Japanese (kana / kanji), Korean (Hangul), Chinese-only titles count as
+ *  kanji too, Cyrillic, Greek, Arabic, Thai, Devanagari; plain Latin last. */
+function scriptOf(text) {
+  const t = String(text ?? '');
+  if (/[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u.test(t)) return 'japanese';
+  if (/\p{Script=Hangul}/u.test(t)) return 'korean';
+  for (const sc of ['Cyrillic', 'Greek', 'Arabic', 'Thai', 'Devanagari', 'Hebrew']) if (new RegExp(`\\p{Script=${sc}}`, 'u').test(t)) return sc.toLowerCase();
+  return /\p{Script=Latin}/u.test(t) ? 'latin' : null;
 }
 const topPlays = () => Math.max(0, ...Object.values(data.plays));
 const hourPlays = (from, to) => Object.entries(data.hours).filter(([h]) => (from < to ? h >= from && h < to : h >= from || h < to)).reduce((s, [, n]) => s + n, 0);
@@ -76,7 +92,20 @@ const BADGES = () => [
   ['early', 'Early bird', '25 plays between 5 and 8 am', hourPlays(5, 8) / 25],
   ['marathon', 'Marathon', '3 hours of music in one day', bestDay() / (3 * 3600)],
   ['thousand', 'Ten thousand minutes', '10,000 minutes in total', data.total / 600000],
+  ['gaming', 'Gaming soundtrack', '10 hours of music while a game is in front', (data.gaming ?? 0) / 36000],
+  ['polyglot', 'Polyglot', 'Songs in 3 writing systems (e.g. Latin, Japanese, Korean)', Object.keys(data.scripts ?? {}).length / 3],
+  ...(settings.weeklyMinutes ? [['goal4', 'Goal getter', `Reach your weekly goal (${settings.weeklyMinutes} min) 4 times`, Object.keys(data.goals ?? {}).length / 4]] : []),
 ];
+
+/** The weekly goal: noted once per week (and told) when this week's minutes reach it. */
+function checkGoal() {
+  if (!settings.weeklyMinutes) return;
+  const w = weekKey();
+  if ((data.goals ??= {})[w] || weekSecs() < settings.weeklyMinutes * 60) return;
+  data.goals[w] = true;
+  dirty = true;
+  if (settings.notify) voltage.notify(`Weekly goal reached: ${settings.weeklyMinutes} minutes this week`);
+}
 
 function checkBadges() {
   for (const [id, title, desc, p] of BADGES()) {
@@ -105,6 +134,8 @@ function render() {
       <div><span class="big">${today}</span><small>minutes today (streak: ${settings.streakMinutes})</small></div>
       <div><span class="big">${Math.round(data.total / 3600)}</span><small>hours since installed</small></div>
     </div>
+    ${settings.weeklyMinutes ? `<div class="goal"><small>This week: ${Math.round(weekSecs() / 60)} of ${settings.weeklyMinutes} minutes${data.goals?.[weekKey()] ? ' · reached' : ''}</small>
+      <progress max="100" value="${Math.min(100, Math.round(weekSecs() / 60 / settings.weeklyMinutes * 100))}"></progress></div>` : ''}
     <h3>Badges <small>${Object.keys(data.badges).length} of ${BADGES().length}</small></h3>
     <div class="grid">${badges}</div>
     ${top ? `<h3>Most played</h3><ol>${top}</ol>` : ''}
@@ -120,7 +151,7 @@ function render() {
     progress::-webkit-progress-bar { background: rgba(255,255,255,.1); border-radius: 3px; }
     progress::-webkit-progress-value { background: #a020f0; border-radius: 3px; }
     .when { color: #c9a0ff; opacity: 1; }
-    ol { padding-left: 20px; } .hint { opacity: .5; font-size: 12px; }`);
+    ol { padding-left: 20px; } .hint { opacity: .5; font-size: 12px; } .goal { margin: 4px 0 10px; display: flex; flex-direction: column; gap: 4px; }`);
 }
 
 async function save() {
@@ -144,6 +175,10 @@ function countPlay() {
   (data.titles ??= {})[cur.id] = `${cur.title} · ${firstArtist(cur.artist)}`.slice(0, 120);
   const a = firstArtist(cur.artist).toLowerCase();
   if (a && !knownArtist(a)) data.artists[a] = dayKey();
+  // a Japanese song with an English title (Lemon by 米津玄師) is Japanese: a non-Latin title, else a non-Latin artist
+  const ts = scriptOf(cur.title), as = scriptOf(cur.artist);
+  const sc = ts && ts !== 'latin' ? ts : as && as !== 'latin' ? as : ts ?? as;
+  if (sc && !(data.scripts ??= {})[sc]) data.scripts[sc] = dayKey();
   const h = String(new Date().getHours()).padStart(2, '0');
   data.hours[h] = (data.hours[h] ?? 0) + 1;
   dirty = true;
@@ -166,12 +201,14 @@ voltage.on('position', ({ pos }) => {
     curSecs += d;
     data.total += d;
     data.days[dayKey()] = (data.days[dayKey()] ?? 0) + d;
+    if (gaming) data.gaming = (data.gaming ?? 0) + d;
     dirty = true;
     countPlay();
-    if (Math.floor(data.total / 60) !== Math.floor((data.total - d) / 60)) checkBadges(); // once a minute is enough
+    if (Math.floor(data.total / 60) !== Math.floor((data.total - d) / 60)) { checkGoal(); checkBadges(); } // once a minute is enough
   }
   lastPos = pos;
 });
+voltage.on('gaming', (g) => { gaming = !!g; });
 voltage.on('panel', ({ open: o }) => { open = o; render(); });
 voltage.on('stop', () => save());
 
@@ -181,3 +218,4 @@ voltage.on('stop', () => save());
   render();
 })();
 setInterval(save, 30000);
+self.scriptOf = scriptOf; self.weekKey = weekKey; // for tests
