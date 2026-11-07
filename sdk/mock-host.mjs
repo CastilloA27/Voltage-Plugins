@@ -82,6 +82,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
   const add = (f, ms, every) => { const id = ++timerSeq; timers.set(id, { f, at: now + Math.max(0, ms | 0), every }); return id; };
   const ctx = {
     voltage, console, structuredClone, URL, TextEncoder, TextDecoder, Math, JSON, crypto: globalThis.crypto, btoa, atob,
+    Blob, Response, DecompressionStream, CompressionStream, // what a worker has (e.g. to inflate a download)
     performance: { now: () => now },
     Date: class extends Date { constructor(...a) { super(...(a.length ? a : [now])); } static now() { return now; } },
     setTimeout: (f, ms) => add(f, ms, 0), setInterval: (f, ms) => add(f, ms, Math.max(1, ms | 0)),

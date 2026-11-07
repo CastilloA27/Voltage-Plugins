@@ -1,3 +1,4 @@
+/// <reference path="../sdk/voltage.d.ts" />
 // Legcord live theme: writes Voltage's current colours into Legcord's Quick CSS file, which Legcord reloads by itself.
 // The colours are registered CSS properties with a transition, so Discord fades between songs instead of jumping.
 // Only a marked block at the end of the file is ours; everything else in the file is left exactly as it was.

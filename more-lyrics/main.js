@@ -1,3 +1,4 @@
+/// <reference path="../sdk/voltage.d.ts" />
 // More lyrics sources: Kugou's word-timed lyrics (KRC). Search the song (same title, same first artist, length within
 // 3 s), ask Kugou's lyrics search for that exact recording, download the KRC, decode it (base64, "krc1" header, a fixed
 // XOR key, zlib) and hand Voltage lines with word times. Matching is strict on purpose: no lyrics beats wrong lyrics.

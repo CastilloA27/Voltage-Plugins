@@ -1,3 +1,4 @@
+/// <reference path="../sdk/voltage.d.ts" />
 // Streaks & achievements: counts your listening from the events Voltage sends (track, playing, position), keeps it in the
 // plugin's own storage, and shows streaks and badges in its panel. Nothing leaves the PC. History starts when the plugin
 // is installed (plugins can't read Voltage's play history).

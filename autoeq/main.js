@@ -1,3 +1,4 @@
+/// <reference path="../sdk/voltage.d.ts" />
 // Headphone correction (AutoEQ, github.com/jaakkopasanen/AutoEq): the index of measured headphones and each one's
 // ParametricEQ.txt (preamp + up to 10 low-shelf / peak / high-shelf filters) come from the AutoEq repository's results
 // folder, the only address this plugin may reach. The chosen profile is kept in storage (works offline afterwards) and
