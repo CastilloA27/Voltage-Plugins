@@ -8,6 +8,7 @@
 //   await p.advance(31_000);              // timers fire; 'position' events are yours to send
 //   p.calls      // [{cap, args}] every voltage.call (storage.*, playback.*, net.fetch, ...)
 //   p.notices    // voltage.notify texts;  p.logs: voltage.log lines;  p.panel: last {html, css};  p.reported: game states
+//   p.scope      // the plugin's globals: functions it put on `self` for tests (self.parse = parse)
 //   p.sockets    // net.ws: [{sock, url, sent: [texts], open}]; send the plugin traffic with p.emit('ws', {sock, type, data})
 //   p.storage    // the plugin's key/value store;  p.now: the fake clock (starts at the real time, or the `start` option)
 //
@@ -56,6 +57,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
   };
   const voltage = {
     on: (name, f) => { (handlers[name] ??= []).push(f); },
+    off: (name, f) => { const l = handlers[name] ?? []; const i = l.indexOf(f); if (i >= 0) l.splice(i, 1); },
     call,
     notify: (t) => host.notices.push(String(t)),
     log: (...a) => host.logs.push(a.map(String).join(' ')),
@@ -86,6 +88,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     clearTimeout: (id) => timers.delete(id), clearInterval: (id) => timers.delete(id),
   };
   ctx.self = ctx;
+  host.scope = ctx; // the plugin's globals (what it put on `self`), for unit tests of its helpers
   vm.createContext(ctx);
   vm.runInContext(src, ctx, { filename: `${manifest.id}/${manifest.main}` });
   const flush = () => new Promise((r) => setImmediate(r));

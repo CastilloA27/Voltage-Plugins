@@ -2,10 +2,14 @@
 // ParametricEQ.txt (preamp + up to 10 low-shelf / peak / high-shelf filters) come from the AutoEq repository's results
 // folder, the only address this plugin may reach. The chosen profile is kept in storage (works offline afterwards) and
 // sent to Voltage as EQ bands (capability audio.eq), applied after your own EQ preset.
+// 1.1 (round 12 P12-1): a correction is for one pair of headphones, so it's applied only while the music plays on the
+// output it was picked on (Voltage 1.6.1's 'output' event); on speakers, a TV or a Spotify speaker it's off. More devices can
+// be added from the panel ("Use on this output too").
 const BASE = 'https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results';
 
 let settings = { on: true };
-let profile = null; // {name, path, source, bands, preamp}
+let profile = null; // {name, path, source, bands, preamp, devices: [{id, name}]}
+let output = null; // {kind, id, name}: where the music plays now
 let index = null; // [{name, path, source}]
 let query = '', status = '', open = false;
 
@@ -34,11 +38,29 @@ function parseIndex(md) {
   return out;
 }
 
+/** Is the music on one of the profile's outputs? A profile from 1.0 (no devices yet) takes the first output it sees. */
+function onItsOutput() {
+  if (!profile || output?.kind !== 'local' || !output.id) return false;
+  return (profile.devices ?? []).some((d) => d.id === output.id);
+}
+
+let applied = null;
 async function apply() {
+  const want = !!(settings.on && profile?.bands?.length && onItsOutput());
+  if (want === applied && want === false) return; // nothing to undo (calls only when something changes)
+  applied = want;
   try {
-    if (settings.on && profile?.bands?.length) await voltage.audio.eq(profile.bands, profile.preamp);
+    if (want) await voltage.audio.eq(profile.bands, profile.preamp);
     else await voltage.audio.eq(null);
   } catch (e) { voltage.log(`eq failed: ${e}`); }
+}
+
+async function adopt() {
+  // a profile picked with AutoEQ 1.0 has no devices: it was meant for whatever played then; take the current output
+  if (profile && !profile.devices && output?.kind === 'local' && output.id) {
+    profile.devices = [{ id: output.id, name: output.name }];
+    await voltage.storage.set('profile', profile);
+  }
 }
 
 async function loadIndex() {
@@ -65,11 +87,13 @@ async function pick(i) {
     if (r.status !== 200) throw new Error(`HTTP ${r.status}`);
     const { bands, preamp } = parseParametric(r.text);
     if (!bands.length) throw new Error('no filters in the profile');
-    profile = { name: e.name, path: e.path, source: e.source, bands: bands.slice(0, 20), preamp };
+    const here = output?.kind === 'local' && output.id ? [{ id: output.id, name: output.name }] : null;
+    profile = { name: e.name, path: e.path, source: e.source, bands: bands.slice(0, 20), preamp, devices: here };
     await voltage.storage.set('profile', profile);
     status = '';
+    applied = null;
     await apply();
-    voltage.notify(`Correction for ${e.name} on`);
+    voltage.notify(`Correction for ${e.name} on${here ? ` (on ${here[0].name})` : ''}`);
   } catch (err) { status = `Couldn't load that profile (${err.message ?? err}).`; }
   render();
 }
@@ -80,12 +104,22 @@ function results() {
   return index.filter((e) => words.every((w) => e.name.toLowerCase().includes(w))).slice(0, 40);
 }
 
+function whereLine() {
+  if (!profile) return '';
+  const names = (profile.devices ?? []).map((d) => esc(d.name)).join(', ');
+  if (output?.kind === 'spotify') return `<br><small class="warn">Off: the music plays on ${esc(output.name)}.</small>`;
+  if (onItsOutput()) return `<br><small>On for ${names}.</small>`;
+  const here = output?.name ? esc(output.name) : 'this output';
+  return `<br><small class="warn">Off on ${here}${names ? ` (it's for ${names})` : ''}.</small>
+    ${output?.id ? `<button data-action="here">Use on ${here} too</button>` : ''}`;
+}
+
 function render() {
   if (!open) return;
   const list = results();
   voltage.panel.render(`
     <p class="now">${profile ? `<b>${esc(profile.name)}</b> <small>measured by ${esc(profile.source)} · ${profile.bands.length} filters · preamp ${profile.preamp} dB</small>
-      ${settings.on ? '' : '<br><small class="warn">Correction is switched off (Settings &gt; Plugins).</small>'}` : 'No headphones chosen yet.'}</p>
+      ${settings.on ? whereLine() : '<br><small class="warn">Correction is switched off (Settings &gt; Plugins).</small>'}` : 'No headphones chosen yet.'}</p>
     <div class="row"><input name="q" placeholder="Search your headphones, e.g. HyperX Cloud III" value="${esc(query)}" data-action="search">
       ${profile ? '<button data-action="clear">Remove</button>' : ''}</div>
     ${status ? `<p class="status">${esc(status)}</p>` : ''}
@@ -99,17 +133,24 @@ function render() {
     small { opacity: .65; } .status { opacity: .8; } .warn { color: #ffb347; opacity: 1; } .hint { opacity: .5; font-size: 12px; }`);
 }
 
-voltage.on('settings', (s) => { settings = { ...settings, ...s }; apply(); render(); });
+voltage.on('settings', (s) => { settings = { ...settings, ...s }; applied = null; apply(); render(); });
+voltage.on('output', async (o) => { output = o; await adopt(); apply(); render(); });
 voltage.on('panel', ({ open: o }) => { open = o; if (o) loadIndex(); render(); });
 voltage.on('panel-action', ({ action, value, form }) => {
   if (action === 'search') { query = String(form?.q ?? ''); render(); }
   else if (action === 'pick') pick(+value);
-  else if (action === 'clear') { profile = null; voltage.storage.set('profile', null); apply(); render(); }
+  else if (action === 'clear') { profile = null; voltage.storage.set('profile', null); applied = null; apply(); render(); }
+  else if (action === 'here' && profile && output?.id && !onItsOutput()) {
+    profile.devices = [...(profile.devices ?? []), { id: output.id, name: output.name }];
+    voltage.storage.set('profile', profile);
+    apply(); render();
+  }
 });
 voltage.on('stop', () => voltage.audio.eq(null).catch(() => {}));
 
 (async () => {
   try { profile = await voltage.storage.get('profile'); } catch { /* none yet */ }
+  await adopt();
   apply();
 })();
 self.parseParametric = parseParametric; self.parseIndex = parseIndex; // for tests

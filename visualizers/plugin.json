@@ -1,18 +1,21 @@
 {
   "id": "visualizers",
   "name": "Visualizer pack",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Voltage",
-  "description": "Three more progress-bar animations in the song's colours: Particles, Ribbon and Pixel blocks. Pick one in Settings > Appearance > Progress animation.",
+  "description": "Five more progress-bar animations in the song's colours that move with the music: Particles, Ribbon, Pixel blocks, Neon tube and Equalizer. Pick one in Settings > Appearance > Progress animation.",
   "main": "main.js",
+  "minVoltage": "1.6.0",
   "permissions": {
-    "capabilities": ["ui.canvas"]
+    "capabilities": ["ui.canvas", "audio.level"]
   },
   "provides": {
     "waveStyles": [
-      { "id": "particles", "label": "Particles", "help": "Sparks drift off the playhead and fade along the played part." },
+      { "id": "particles", "label": "Particles", "help": "Sparks drift off the playhead and fade along the played part; more on loud parts." },
       { "id": "ribbon", "label": "Ribbon", "help": "Three soft, overlapping colour ribbons flowing up to the playhead." },
-      { "id": "blocks", "label": "Pixel blocks", "help": "A retro, stepped block meter in the song's colour." }
+      { "id": "blocks", "label": "Pixel blocks", "help": "A retro, stepped block meter in the song's colour." },
+      { "id": "neon", "label": "Neon tube", "help": "One glowing line that gets thicker and brighter with the music." },
+      { "id": "eq", "label": "Equalizer", "help": "Mirrored bars over the played part, as tall as the music is loud." }
     ]
   }
 }

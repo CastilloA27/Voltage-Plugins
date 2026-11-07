@@ -4,6 +4,7 @@
 const FILE = '%APPDATA%/legcord/quickCss.css';
 const START = '{} /* >>> Voltage live colours';
 const END = '/* <<< Voltage live colours */';
+const ORPHAN = '/* (an unfinished Voltage colour block started here: safe to delete) */';
 const PURPLE = { accent: '#a020f0', c1: '#2a0a4a', c2: '#12051f' };
 
 let settings = { style: 'voltage', strength: 30, idle: 'purple' };
@@ -165,13 +166,17 @@ html, body {
 
 // Removes our block and exactly the separator we added, so turning the plugin off gives back the file byte for byte.
 const SEP = '\n\n';
+/** The file without our block. Round 12 P12-16: when the end marker is missing (the file was cut off or edited by hand),
+ *  nothing after the start is dropped: that may be your own CSS. The orphaned start marker is turned into a plain comment
+ *  instead, so it can't pair with the next block's end marker later and swallow what lies between. */
 function strip(text) {
   const i = text.indexOf(START);
   if (i < 0) return text;
   const j = text.indexOf(END, i);
+  if (j < 0) return text.slice(0, i) + ORPHAN + text.slice(i + START.length);
   let head = text.slice(0, i);
   if (head.endsWith(SEP)) head = head.slice(0, -SEP.length);
-  let tail = j < 0 ? '' : text.slice(j + END.length);
+  let tail = text.slice(j + END.length);
   if (tail.startsWith('\n')) tail = tail.slice(1);
   return head + tail;
 }
@@ -237,3 +242,4 @@ voltage.on('stop', async (reason) => {
   const c = reason === 'quit' && settings.idle === 'purple' ? PURPLE : null;
   await write(c ? block(c) : null);
 });
+self.strip = strip; // for tests

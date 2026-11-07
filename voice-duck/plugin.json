@@ -1,12 +1,16 @@
 {
   "id": "voice-duck",
   "name": "Voice chat ducking",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Voltage",
-  "description": "Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop.",
+  "description": "Lowers (or pauses) the music while people talk in Discord, Legcord, TeamSpeak, Mumble or any app you add, and brings it back once they stop. Its panel shows a live meter.",
   "main": "main.js",
+  "minVoltage": "1.6.0",
   "permissions": {
-    "capabilities": ["audio.sessions", "playback.control"]
+    "capabilities": ["audio.sessions", "playback.control", "ui.panel"]
+  },
+  "provides": {
+    "panel": { "title": "Voice chat ducking" }
   },
   "settings": [
     {
@@ -20,12 +24,41 @@
       "unit": "%"
     },
     {
+      "key": "action",
+      "type": "choice",
+      "label": "While they talk",
+      "default": "lower",
+      "options": [["lower", "Lower the music"], ["pause", "Pause the music"]]
+    },
+    {
       "key": "sensitivity",
       "type": "choice",
       "label": "Starts at",
       "default": "medium",
-      "help": "How loud a voice must be to lower the music. Sensitive also reacts to quiet speakers; Loud voices only ignores background noise and soft notification sounds.",
+      "help": "How loud a voice must be to lower the music. Sensitive also reacts to quiet speakers; Loud voices only ignores background noise and soft notification sounds. The panel shows where the line is.",
       "options": [["high", "Sensitive"], ["medium", "Normal"], ["low", "Loud voices only"]]
+    },
+    {
+      "key": "attack",
+      "type": "slider",
+      "label": "Reacts after",
+      "min": 50,
+      "max": 1000,
+      "step": 50,
+      "default": 150,
+      "unit": " ms",
+      "help": "How long a voice must last before the music drops (longer = fewer dips for short sounds)."
+    },
+    {
+      "key": "release",
+      "type": "slider",
+      "label": "Comes back after",
+      "min": 0.5,
+      "max": 5,
+      "step": 0.5,
+      "default": 1,
+      "unit": " s",
+      "help": "How long it must be quiet before the music comes back (longer = no pumping between sentences)."
     },
     {
       "key": "apps",
@@ -33,6 +66,14 @@
       "label": "Listen to",
       "default": "discord",
       "options": [["discord", "Discord and Legcord"], ["all", "All voice apps (also TeamSpeak, Mumble, Guilded)"]]
+    },
+    {
+      "key": "extra",
+      "type": "text",
+      "label": "Also listen to",
+      "default": "",
+      "placeholder": "e.g. ms-teams, zoom, slack",
+      "help": "Program names (as in Task Manager > Details), separated by commas: Teams, Zoom, Slack, WhatsApp, a game's own voice chat."
     }
   ]
 }

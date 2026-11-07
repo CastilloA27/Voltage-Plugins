@@ -64,12 +64,16 @@ always refused, and so are local debug ports and Voltage's own ports.
 
 1. Voltage starts your worker when the plugin is turned on (and at every launch), then sends `settings`, `track`, `playing`,
    `gaming`, `theme`, `palette` and `background`.
-2. `position`, `queue`, `lyric` and `game` are sent only once you `voltage.on(...)` them.
+2. `position`, `queue`, `lyric`, `game`, `visible`, `level` and `output` (1.6.1+: where the music plays, e.g. to apply
+   something only on one pair of headphones) are sent only once you `voltage.on(...)` them. With 1.6.1+ you can stop them
+   again: `voltage.off(name, handler)`; with no handler left Voltage stops sending it (for `level` it stops measuring).
+   Check `if (voltage.off)` first: older Voltage doesn't have it.
 3. `stop` (`'disable'` or `'quit'`): clean up within ~1.5 s, then the worker ends. Whatever you held (a duck, EQ bands, a
    game pause) is given back by Voltage anyway.
 4. A plugin that crashes is restarted once after 5 s; a second crash turns it off until Voltage restarts.
 
-Be cheap: stop animations and polling while `visible` is false or `gaming` is true.
+Be cheap: stop animations and polling while `visible` is false or `gaming` is true, and let go of `level` while you
+draw nothing (the Visualizer pack shows how: it sleeps until an event wakes it).
 
 ## Budgets
 

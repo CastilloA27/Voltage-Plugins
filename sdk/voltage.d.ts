@@ -46,6 +46,10 @@ declare namespace Voltage {
     /** Capability audio.level (Voltage 1.6+), on demand: how loud Voltage's own music is (peak 0..1), ~20 per second while
      *  it plays on this PC; silence is sent once. A level only, never the sound. */
     level: { level: number };
+    /** Voltage 1.6.1+, on demand: where the music plays. `local` = this PC (the device picked in Settings while it's
+     *  plugged in, else the Windows default; `id` is the same as Settings' device ids, `null` until Voltage knows it),
+     *  `spotify` = a Spotify Connect speaker. Sent on subscribe and whenever it changes (devices are checked every 3 s). */
+    output: { kind: 'local' | 'spotify'; id: string | null; name: string | null };
     /** Voltage 1.6+, capability net.ws: traffic of a socket from voltage.net.ws(). */
     ws: { sock: number; type: 'message' | 'close' | 'error'; data: string | null };
     /** Voltage 1.6+: one of plugin.json provides.commands was picked (Ctrl+K, or a song's right-click menu with "song": true).
@@ -65,6 +69,9 @@ declare namespace Voltage {
 
   interface Api {
     on<K extends keyof Events>(name: K, handler: (data: Events[K]) => void | Promise<void>): void;
+    /** Voltage 1.6.1+ (check `voltage.off` exists): remove a handler; with none left Voltage stops sending that event
+     *  (for `level`: stops measuring for you). */
+    off?<K extends keyof Events>(name: K, handler: (data: Events[K]) => void | Promise<void>): void;
     /** Any capability by name; the helpers below are easier. Rejects with an Error whose message says why. */
     call(capability: string, args?: Record<string, unknown>): Promise<unknown>;
     /** Voltage 1.6+, capability storage.secret: a password / API key, encrypted for the Windows user, never in backups.
