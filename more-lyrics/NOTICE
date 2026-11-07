@@ -1,0 +1,5 @@
+The QQ Music QRC decryption in main.js (keySchedule, f, crypt, decryptQrc) is ported from Lyricify Lyrics Helper,
+https://github.com/WXRIW/Lyricify-Lyrics-Helper (Lyricify.Lyrics.Helper/Decrypter/Qrc/DESHelper.cs),
+Copyright (c) WXRIW and contributors, licensed under the Apache License, Version 2.0:
+https://www.apache.org/licenses/LICENSE-2.0
+Changes: translated from C# to JavaScript; the zlib step tolerates the block padding after the stream.

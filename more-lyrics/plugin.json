@@ -1,9 +1,9 @@
 {
   "id": "more-lyrics",
   "name": "More lyrics sources",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Voltage",
-  "description": "Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs (and plenty of others). It shows up in the lyrics view's source menu and Voltage picks it automatically when it's the best one.",
+  "description": "Adds Kugou and QQ Music as lyrics sources: word-by-word timed lyrics for many Japanese, Chinese and Korean songs (and plenty of others). They show up in the lyrics view's source menu and Voltage picks one automatically when it's the best.",
   "main": "main.js",
   "permissions": {
     "capabilities": [
@@ -13,7 +13,9 @@
     "hosts": [
       "https://mobiles.kugou.com/api/v3/search",
       "https://krcs.kugou.com/search",
-      "https://lyrics.kugou.com/download"
+      "https://lyrics.kugou.com/download",
+      "https://c.y.qq.com/soso/fcgi-bin/client_search_cp",
+      "https://c.y.qq.com/qqmusic/fcgi-bin/lyric_download.fcg"
     ]
   },
   "minVoltage": "1.6.0",
@@ -25,5 +27,19 @@
         "song": true
       }
     ]
-  }
+  },
+  "settings": [
+    {
+      "key": "kugou",
+      "type": "switch",
+      "label": "Kugou",
+      "default": true
+    },
+    {
+      "key": "qq",
+      "type": "switch",
+      "label": "QQ Music",
+      "default": true
+    }
+  ]
 }
