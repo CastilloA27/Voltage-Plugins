@@ -50,6 +50,8 @@ declare namespace Voltage {
      *  plugged in, else the Windows default; `id` is the same as Settings' device ids, `null` until Voltage knows it),
      *  `spotify` = a Spotify Connect speaker. Sent on subscribe and whenever it changes (devices are checked every 3 s). */
     output: { kind: 'local' | 'spotify'; id: string | null; name: string | null };
+    /** Voltage 1.6.1+, on demand: the Voltage for Discord helper is connected (Discord's colours are then set live by it). */
+    discord: { connected: boolean };
     /** Voltage 1.6+, capability net.ws: traffic of a socket from voltage.net.ws(). */
     ws: { sock: number; type: 'message' | 'close' | 'error'; data: string | null };
     /** Voltage 1.6+: one of plugin.json provides.commands was picked (Ctrl+K, or a song's right-click menu with "song": true).

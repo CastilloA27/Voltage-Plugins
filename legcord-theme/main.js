@@ -24,6 +24,9 @@ let settings = { style: 'voltage', strength: 30, idle: 'purple', client: 'legcor
 let track = null; // for the now-playing strip
 let lastKey = null; // the last block written, without its animation names (P12-20 d: unchanged -> no write)
 let deferred = false; // a change while a game was in front, written when it ends
+// Voltage for Discord (P12-22) connected: it sets the colours live and draws the cover itself, so the file keeps only the
+// rules (fixed colours, no cover) and isn't rewritten on every song (P12-20 d: no writes while the helper works)
+let helper = false;
 let colours = null; // null = nothing playing
 let gaming = false; // Voltage's game mode: the cover stays, but nothing moves (no drift, no fade) while a game is in front
 let bg = { style: 'gradient', image: null }; // Voltage's background (Settings > Appearance) and its baked cover
@@ -119,7 +122,8 @@ function areas() {
   // P12-20 b: your profile popout and the cards that show your song
   if (settings.areaProfile) out.push(`[class*="accountPopout_"] [class*="outer_"], [class*="userPopoutOuter_"], [class*="userProfileOuter_"] { box-shadow: ${g(40)}, 0 0 0 1px color-mix(in srgb, var(--voltage-accent) 45%, transparent) !important; }`);
   // P12-19 g: now playing, under the channel header (CSS only: the text is escaped for a CSS string)
-  const np = settings.nowPlaying && track && colours ? cssText(`♪ ${track.title} · ${String(track.artist ?? '').split(',')[0]}`) : '';
+  // (not while Voltage for Discord is connected: its mini player shows the song, and the file stays unchanged per song)
+  const np = settings.nowPlaying && !helper && track && colours ? cssText(`♪ ${track.title} · ${String(track.artist ?? '').split(',')[0]}`) : '';
   if (np) out.push(`section[class*="themed_"][class*="container_"]::after { content: "${np}"; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); z-index: 3; pointer-events: none;
   margin-top: 4px; padding: 2px 10px; border-radius: 999px; font-size: 12px; white-space: nowrap; max-width: 60%; overflow: hidden; text-overflow: ellipsis;
   color: color-mix(in oklab, var(--voltage-accent) 40%, white); background: ${glass(0.6)}; border: 1px solid color-mix(in srgb, var(--voltage-accent) 35%, transparent); }`);
@@ -180,7 +184,7 @@ function voltageLook() {
   // .bg-cover-shade = vignette + grain. Black = no gradient at all.
   const style = bg.style || 'gradient';
   const g = style === 'black' ? 0 : style === 'cover' && bg.image ? 25 : 60;
-  const image = style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
+  const image = !helper && style === 'cover' && bg.image && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(bg.image) ? bg.image : null;
   // drift in step with Voltage: both use phase = wall clock mod 80 s. A new animation name per write restarts it at that
   // phase (Legcord applies the file ~0.7 s after we write it).
   seq += 1;
@@ -271,7 +275,7 @@ function schedule(why = 'change', force = false) {
   if (gaming && why !== 'song' && !force) { deferred = true; return; }
   clearTimeout(timer);
   timer = setTimeout(() => {
-    const c = current(), b = c ? block(c) : null;
+    const c = helper ? PURPLE : current(), b = c ? block(c) : null;
     const key = b && b.replace(/voltage-(drift|in)-\d+/g, 'a').replace(/-[\d.]+s infinite/g, ' infinite');
     if (!force && key === lastKey) { if (settings.debug) voltage.log('unchanged: no write'); return; }
     lastKey = key;
@@ -290,7 +294,8 @@ voltage.on('gaming', (on) => {
   gaming = !!on;
   if (!gaming && deferred) { deferred = false; schedule('settings'); } else schedule('song', true); // the drift stops / starts
 });
-voltage.on('track', (t) => { track = t; if (settings.nowPlaying) schedule('song'); });
+voltage.on('track', (t) => { track = t; if (settings.nowPlaying && !helper) schedule('song'); });
+voltage.on('discord', (d) => { if (helper !== !!d?.connected) { helper = !!d?.connected; lastKey = null; schedule('settings', true); } });
 // P12-15: Ctrl+K "Reapply Discord colours" (Discord was started after Voltage, or the file was edited by hand)
 voltage.on('command', ({ id }) => { if (id === 'reapply') { lastKey = null; schedule('song', true); voltage.notify('Discord colours written again'); } });
 voltage.on('background', (b) => {
