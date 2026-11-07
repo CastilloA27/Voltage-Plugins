@@ -2,6 +2,8 @@
 // More lyrics sources: Kugou's word-timed lyrics (KRC). Search the song (same title, same first artist, length within
 // 3 s), ask Kugou's lyrics search for that exact recording, download the KRC, decode it (base64, "krc1" header, a fixed
 // XOR key, zlib) and hand Voltage lines with word times. Matching is strict on purpose: no lyrics beats wrong lyrics.
+// 1.1 (round 12 P12-11): a command (song menu / Ctrl+K) searches the playing song again more loosely: the title must still
+// match, but not the length, and the artist may be missing or spelled differently. Shown as "Kugou (loose match)".
 const KEY = [64, 71, 97, 119, 94, 50, 116, 71, 81, 54, 49, 45, 206, 210, 110, 105];
 const CREDIT = /^\s*(作词|作曲|编曲|作詞|編曲|词|曲|制作人|混音|录音|母带|和声|监制|Lyrics|Composer|Arranger|Producer|Written by)\s*[:：]/i;
 
@@ -38,27 +40,37 @@ function parseKrc(text) {
 }
 
 const LATIN = /^[\p{Script=Latin}\p{N}\s\p{P}\p{S}]*$/u;
+const COPY = /karaoke|cover|instrumental|inst\.|remix|伴奏|翻唱|纯音乐|カラオケ|カバー/i;
 
-async function find({ title, artist, dur }) {
+let looseFor = null; // the song id the loose search was asked for
+
+async function find({ id, title, artist, dur }) {
+  const loose = id === looseFor;
   const fa = firstArtist(artist), wantA = norm(fa);
   // bilingual YouTube titles ("プラスティック・ラブ - Plastic Love"): every part is a possible title
   const parts = [...new Set([title, ...title.split(/\s+[-–]\s+/)].map((t) => t.replace(/[(（[【].*?[)）\]】]/g, ' ').trim()).filter(Boolean))];
   const wants = parts.map(norm).filter(Boolean);
+  const titleOk = (x) => { const n = norm(x.songname); return !!n && wants.some((w) => n === w || n.includes(w) || w.includes(n)); };
+  const artistOk = (x) => { const a = norm(x.singername); return !wantA || a.includes(wantA) || wantA.includes(a); };
   const ok = (x) => {
-    const n = norm(x.songname), a = norm(x.singername);
-    if (!n || (dur && Math.abs(x.duration - dur) > 3)) return false;
-    const sameArtist = !wantA || a.includes(wantA) || wantA.includes(a);
-    if (sameArtist) return wants.some((w) => n === w || n.includes(w) || w.includes(n));
+    if (!titleOk(x) || (dur && Math.abs(x.duration - dur) > 3)) return false;
+    if (artistOk(x)) return true;
     // the artist in another script (Mariya Takeuchi / 竹内まりや): only an exact title and a closer length
     const otherScript = LATIN.test(fa) !== LATIN.test(x.singername);
-    return otherScript && wants.includes(n) && (!dur || Math.abs(x.duration - dur) <= 2);
+    return otherScript && wants.includes(norm(x.songname)) && (!dur || Math.abs(x.duration - dur) <= 2);
   };
+  // loose (the command): same artist at any length first, then anyone's, never karaoke / cover / instrumental / remix
+  // copies unless the title says so
+  const copy = (x) => COPY.test(x.songname ?? '') && !COPY.test(title);
+  const pick = (list) => (loose
+    ? list.find((x) => titleOk(x) && artistOk(x) && !copy(x)) ?? list.find((x) => titleOk(x) && !copy(x))
+    : list.find(ok));
   let song = null;
   // artist + title first; then the artist alone (Kugou maps "Tomoko Aran" to 亜蘭知子, which "Tomoko Aran I'm in Love"
   // doesn't), then the title alone; 30 results each, at most 3 searches
   for (const q of [`${fa} ${parts[parts.length - 1]}`, fa, parts[0]].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 3)) {
     const s = await getJson(`https://mobiles.kugou.com/api/v3/search/song?format=json&page=1&pagesize=30&showtype=1&keyword=${encodeURIComponent(q)}`);
-    song = (s.data?.info ?? []).find(ok);
+    song = pick(s.data?.info ?? []);
     if (song) break;
   }
   if (!song) return null;
@@ -72,12 +84,26 @@ async function find({ title, artist, dur }) {
     .some((p) => p.length > 1 && wants.some((w) => p === w || p.startsWith(w) || w.startsWith(p)));
   const lines = parseKrc(await decodeKrc(d.content)).filter((l, i) => !(i < 3 && header(l.text)));
   if (lines.length < 5) return null;
-  return { source: 'Kugou', synced: true, wordSynced: lines.some((x) => x.words.length > 1), lines };
+  return { source: loose ? 'Kugou (loose match)' : 'Kugou', synced: true, wordSynced: lines.some((x) => x.words.length > 1), lines };
 }
 
 voltage.on('lyrics-request', async (req) => {
   let result = null;
   try { result = await find(req); } catch (e) { voltage.log(`${req.title}: ${e.message ?? e}`); }
+  if (req.id === looseFor) {
+    looseFor = null;
+    voltage.notify(result ? `Found lyrics on Kugou for "${req.title}" (loose match: pick it in the lyrics view's source menu)` : `Kugou has nothing for "${req.title}", even with a loose search`);
+  }
   voltage.lyrics.provide(req.rid, result);
+});
+
+let current = null;
+voltage.on('track', (t) => { current = t; });
+voltage.on('command', ({ id, track }) => {
+  if (id !== 'loose') return;
+  if (!track || track.id !== current?.id) { voltage.notify('Play the song first, then search again'); return; }
+  if (!voltage.lyrics.refresh) { voltage.notify('This needs Voltage 1.6.1 or newer'); return; }
+  looseFor = track.id;
+  voltage.lyrics.refresh();
 });
 self.parseKrc = parseKrc; self.norm = norm; // for tests

@@ -66,7 +66,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     panel: { render: (html, css = '') => { host.panel = { html: String(html), css: String(css) }; } },
     theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; } },
     game: { running: () => call('game.running', {}), report: (state, label) => call('game.report', { state, label }), log: () => call('game.log.read', {}), http: (p) => call('game.http', { path: p }) },
-    lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }) },
+    lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }), refresh: () => { host.refreshes = (host.refreshes ?? 0) + 1; } },
     net: {
       fetch: (url, o = {}) => call('net.fetch', { url, method: o.method, headers: o.headers, body: o.body }),
       ws: async (url) => {

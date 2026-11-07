@@ -48,6 +48,17 @@ assert.equal(JSON.stringify(r.lines[0].words.map((w) => +w.t.toFixed(1))), "[6,6
 assert.equal(await ask({ title: 'Plastic Love', artist: 'Mariya Takeuchi', dur: 490 }), null);
 // another song: nothing
 assert.equal(await ask({ title: 'September', artist: 'Mariya Takeuchi', dur: 470 }), null);
+// 1.1: the loose search (command): a length that's off is accepted for that one song, and labelled
+await p.emit('track', { id: 'v9', title: 'Plastic Love', artist: 'Mariya Takeuchi', dur: 490 });
+await p.emit('command', { id: 'loose', track: { id: 'v9', title: 'Plastic Love', artist: 'Mariya Takeuchi' } });
+assert.equal(p.refreshes, 1, 'asks Voltage to request lyrics again');
+const loose = await ask({ id: 'v9', title: 'Plastic Love', artist: 'Mariya Takeuchi', dur: 490 });
+assert.ok(loose && loose.source === 'Kugou (loose match)');
+assert.ok(p.notices.some((n) => n.includes('loose match')));
+assert.equal(await ask({ id: 'v9', title: 'Plastic Love', artist: 'Mariya Takeuchi', dur: 490 }), null, 'only once: back to strict');
+// a command for a song that isn't playing: told, nothing searched
+await p.emit('command', { id: 'loose', track: { id: 'other', title: 'X', artist: 'Y' } });
+assert.equal(p.refreshes, 1);
 // the norm() helper: brackets, feat. and punctuation don't matter
 assert.equal(p.scope.norm('Plastic Love (2021 Remaster) feat. X'), p.scope.norm('plastic love'));
 console.log('PASS more-lyrics.test.mjs');
