@@ -1,0 +1,19 @@
+{
+  "id": "song-facts",
+  "name": "Song facts",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "A panel about the song you're playing: when it came out, who wrote and produced it, what it samples, and a short bio of the artist. From MusicBrainz and Wikipedia (no account or key). Open it from Settings > Plugins or Ctrl+K.",
+  "main": "main.js",
+  "minVoltage": "1.6.0",
+  "permissions": {
+    "capabilities": ["ui.panel", "net.fetch"],
+    "hosts": ["https://musicbrainz.org/ws/2/", "https://www.wikidata.org/wiki/Special:EntityData/", "https://en.wikipedia.org/api/rest_v1/page/summary/"]
+  },
+  "provides": {
+    "panel": { "title": "Song facts" }
+  },
+  "settings": [
+    { "key": "bio", "type": "switch", "label": "Show a short artist bio (Wikipedia)", "default": true }
+  ]
+}
