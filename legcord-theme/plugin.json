@@ -1,16 +1,44 @@
 {
   "id": "legcord-theme",
-  "name": "Legcord live theme",
-  "version": "1.4.1",
+  "name": "Discord live theme",
+  "version": "1.5.0",
   "author": "Voltage",
-  "description": "Discord in Legcord takes on Voltage's look and the colours of the song you're playing, and fades with every change. Follows Voltage's theme too (background, panels, glow, font).",
+  "description": "Discord (in Legcord, Vesktop or with Vencord / Equibop) takes on Voltage's look and the colours of the song you're playing, and fades with every change: mentions, channels, the message box, the member list and your profile in the song's colour, optionally the song under the channel header. Follows Voltage's theme too.",
   "main": "main.js",
   "permissions": {
     "files": [
-      "%APPDATA%/legcord/quickCss.css"
+      "%APPDATA%/legcord/quickCss.css",
+      "%APPDATA%/vesktop/settings/quickCss.css",
+      "%APPDATA%/Vencord/settings/quickCss.css",
+      "%APPDATA%/equibop/settings/quickCss.css"
     ]
   },
   "settings": [
+    {
+      "key": "client",
+      "type": "choice",
+      "label": "Discord client",
+      "default": "legcord",
+      "help": "Where your Quick CSS lives. Vencord and Equibop: turn on Settings > Vencord > Enable Custom CSS once.",
+      "options": [
+        [
+          "legcord",
+          "Legcord"
+        ],
+        [
+          "vesktop",
+          "Vesktop"
+        ],
+        [
+          "vencord",
+          "Discord with Vencord"
+        ],
+        [
+          "equibop",
+          "Equibop"
+        ]
+      ]
+    },
     {
       "key": "style",
       "type": "choice",
@@ -64,6 +92,89 @@
           "Discord's own colours"
         ]
       ]
+    },
+    {
+      "key": "cover",
+      "type": "slider",
+      "label": "Cover brightness",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "%",
+      "when": {
+        "key": "style",
+        "in": [
+          "voltage"
+        ]
+      },
+      "help": "How much of the album cover shows behind Discord (dark covers are lifted a little by themselves)."
+    },
+    {
+      "key": "speaking",
+      "type": "choice",
+      "label": "Speaking ring",
+      "default": "green",
+      "options": [
+        [
+          "green",
+          "Green (clearer)"
+        ],
+        [
+          "accent",
+          "The song's colour"
+        ]
+      ]
+    },
+    {
+      "key": "nowPlaying",
+      "type": "switch",
+      "label": "Show the song under the channel header",
+      "default": false
+    },
+    {
+      "key": "areaMentions",
+      "type": "switch",
+      "label": "Mentions and replies in the song colour",
+      "default": true
+    },
+    {
+      "key": "areaChannels",
+      "type": "switch",
+      "label": "Selected channel in the song colour",
+      "default": true
+    },
+    {
+      "key": "areaInput",
+      "type": "switch",
+      "label": "Message box: glass and a glow while typing",
+      "default": true
+    },
+    {
+      "key": "areaMembers",
+      "type": "switch",
+      "label": "Member list and activity cards",
+      "default": true
+    },
+    {
+      "key": "areaProfile",
+      "type": "switch",
+      "label": "Your profile popout",
+      "default": true
+    },
+    {
+      "key": "debug",
+      "type": "switch",
+      "label": "Debug: log every write (Settings > Plugins > log)",
+      "default": false
     }
-  ]
+  ],
+  "provides": {
+    "commands": [
+      {
+        "id": "reapply",
+        "label": "Reapply Discord colours"
+      }
+    ]
+  }
 }

@@ -2,13 +2,28 @@
 // Legcord live theme: writes Voltage's current colours into Legcord's Quick CSS file, which Legcord reloads by itself.
 // The colours are registered CSS properties with a transition, so Discord fades between songs instead of jumping.
 // Only a marked block at the end of the file is ours; everything else in the file is left exactly as it was.
-const FILE = '%APPDATA%/legcord/quickCss.css';
+// 1.5 (round 12 P12-14/15/19/20): other Discord clients (Vesktop, Vencord, Equibop), a "Reapply" command, the rest of
+// Discord in the accent (mentions, selected channel, message box, member list, profile popout, optional now-playing strip,
+// speaking ring), a switch per area, cover brightness that follows the cover, fewer writes, and a Debug log.
+// Discord's class / variable names were read from the user's Legcord on 2026-11-07; they change with Discord updates, so
+// every rule matches loosely ([class*=...]) and an area that breaks only loses its own look.
+const FILES = {
+  legcord: '%APPDATA%/legcord/quickCss.css',
+  vesktop: '%APPDATA%/vesktop/settings/quickCss.css',
+  vencord: '%APPDATA%/Vencord/settings/quickCss.css',
+  equibop: '%APPDATA%/equibop/settings/quickCss.css',
+};
+const file = () => FILES[settings.client] ?? FILES.legcord;
 const START = '{} /* >>> Voltage live colours';
 const END = '/* <<< Voltage live colours */';
 const ORPHAN = '/* (an unfinished Voltage colour block started here: safe to delete) */';
 const PURPLE = { accent: '#a020f0', c1: '#2a0a4a', c2: '#12051f' };
 
-let settings = { style: 'voltage', strength: 30, idle: 'purple' };
+let settings = { style: 'voltage', strength: 30, idle: 'purple', client: 'legcord', cover: 50, speaking: 'green', nowPlaying: false,
+  areaMentions: true, areaChannels: true, areaInput: true, areaMembers: true, areaProfile: true, debug: false };
+let track = null; // for the now-playing strip
+let lastKey = null; // the last block written, without its animation names (P12-20 d: unchanged -> no write)
+let deferred = false; // a change while a game was in front, written when it ends
 let colours = null; // null = nothing playing
 let gaming = false; // Voltage's game mode: the cover stays, but nothing moves (no drift, no fade) while a game is in front
 let bg = { style: 'gradient', image: null }; // Voltage's background (Settings > Appearance) and its baked cover
@@ -20,6 +35,15 @@ let warned = false;
 // font. Voltage's own theme = the values below.
 let theme = { bg: [0, 0, 0], panel: [0, 0, 0], panelAlpha: 0.42, glowSize: 12, glowAlpha: 40, font: null };
 
+/** Relative lightness (0..1) of a CSS colour we produced: #rrggbb or rgb(r g b) / rgb(r, g, b). */
+function lightness(c) {
+  const h = /^#([0-9a-f]{6})$/i.exec(c || '');
+  const v = h ? [0, 2, 4].map((i) => parseInt(h[1].slice(i, i + 2), 16)) : (/(\d+(?:\.\d+)?)[\s,]+(\d+(?:\.\d+)?)[\s,]+(\d+(?:\.\d+)?)/.exec(c || '') ?? []).slice(1).map(Number);
+  if (v.length !== 3) return 0.2;
+  return (0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]) / 255;
+}
+/** "♪ Title · Artist" made safe for a CSS string: no quotes, backslashes, line breaks or other control characters. */
+const cssText = (s) => String(s ?? '').replace(/["\\\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80);
 const safe = (c) => (/^[#a-zA-Z0-9(),.%\s-]{3,60}$/.test(c || '') ? c : null);
 
 // `{}` first: an unfinished rule above (e.g. bare declarations) would otherwise swallow our first rule.
@@ -51,6 +75,10 @@ function block(c) {
     '--polls-voted-fill': alpha(20), '--datepicker-range-background-default': alpha(40), '--background-code': alpha(8),
   };
   for (const p of [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]) vars[`--brand-${String(p).padStart(2, '0')}a`] = alpha(p);
+  // P12-19 a: a message that mentions you: Discord's gold band in the accent (the bar is a rule below)
+  if (settings.areaMentions) Object.assign(vars, { '--message-mentioned-background-default': alpha(14), '--message-mentioned-background-hover': alpha(9) });
+  // P12-19 f: the speaking ring and voice icons: green (clearer) or the accent
+  if (settings.speaking === 'accent') Object.assign(vars, { '--status-speaking': A, '--text-voice-speaking': A, '--icon-voice-speaking': A });
   if (settings.style === 'voltage') Object.assign(vars, voltageSurfaces());
   const decl = Object.entries(vars).map(([k, v]) => `  ${k}: ${v};`).join('\n');
   const look = settings.style === 'voltage' ? voltageLook() : '';
@@ -62,6 +90,7 @@ function block(c) {
               radial-gradient(ellipse at 95% 100%, var(--voltage-accent), transparent 60%),
               radial-gradient(ellipse at 60% 40%, var(--voltage-c1), transparent 75%);
 }` : '';
+  const extra = areas();
   return `${START} (Voltage plugin "Legcord live theme": this block is rewritten on every song) */
 @property --voltage-accent { syntax: '<color>'; inherits: true; initial-value: #a020f0; }
 @property --voltage-c1 { syntax: '<color>'; inherits: true; initial-value: #000000; }
@@ -72,14 +101,37 @@ function block(c) {
 }
 :root:root, .visual-refresh.visual-refresh, .theme-dark.theme-dark, .theme-darker.theme-darker, .theme-midnight.theme-midnight, .theme-light.theme-light {
 ${decl}
-}${tint}${look}
+}${tint}${look}${extra}
 ${END}`;
+}
+
+/** Rules per area (P12-19 / P12-20 a), each in its own block after the rest, so one Discord change can't break another. */
+function areas() {
+  const out = [];
+  const g = (pct) => `0 0 ${theme.glowSize}px color-mix(in srgb, var(--voltage-accent) ${pct}%, transparent)`;
+  if (settings.areaMentions) out.push(`[class*="mentioned_"]::before { background: var(--voltage-accent) !important; }`);
+  if (settings.areaChannels) out.push(`[class*="modeSelected_"] [class*="link_"] { box-shadow: inset 2px 0 0 var(--voltage-accent); }`);
+  if (settings.areaInput) out.push(`[class*="channelTextArea_"]:focus-within { border-color: color-mix(in srgb, var(--voltage-accent) 45%, transparent) !important; box-shadow: ${g(35)} !important; }`);
+  if (settings.areaMembers) {
+    out.push(`[class*="member_"]:hover { background: color-mix(in srgb, var(--voltage-accent) 10%, transparent) !important; }`);
+    out.push(`[class*="activityCard_"] { background: ${glass(0.35)} !important; border: 1px solid color-mix(in srgb, var(--voltage-accent) 18%, transparent); border-radius: 10px; }`);
+  }
+  // P12-20 b: your profile popout and the cards that show your song
+  if (settings.areaProfile) out.push(`[class*="accountPopout_"] [class*="outer_"], [class*="userPopoutOuter_"], [class*="userProfileOuter_"] { box-shadow: ${g(40)}, 0 0 0 1px color-mix(in srgb, var(--voltage-accent) 45%, transparent) !important; }`);
+  // P12-19 g: now playing, under the channel header (CSS only: the text is escaped for a CSS string)
+  const np = settings.nowPlaying && track && colours ? cssText(`♪ ${track.title} · ${String(track.artist ?? '').split(',')[0]}`) : '';
+  if (np) out.push(`section[class*="themed_"][class*="container_"]::after { content: "${np}"; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); z-index: 3; pointer-events: none;
+  margin-top: 4px; padding: 2px 10px; border-radius: 999px; font-size: 12px; white-space: nowrap; max-width: 60%; overflow: hidden; text-overflow: ellipsis;
+  color: color-mix(in oklab, var(--voltage-accent) 40%, white); background: ${glass(0.6)}; border: 1px solid color-mix(in srgb, var(--voltage-accent) 35%, transparent); }`);
+  return out.length ? `\n${out.join('\n')}` : '';
 }
 
 // ── "Voltage look": Discord dressed like Voltage while it plays: pitch black, the album gradient glowing through
 // dark glass surfaces, accent borders and Voltage's neon glow on the brand controls. ──
 // panel opacities below are tuned for Voltage's 0.42 glass; another theme scales them by its own opacity
-const glass = (a) => `rgba(${theme.panel.join(', ')}, ${Math.min(0.97, a * (theme.panelAlpha / 0.42)).toFixed(3)})`;
+// P12-19 i: on a light cover the panels get thicker, so text never sits on a light background
+const coverLight = () => (colours ? (lightness(colours.c1) + lightness(colours.c2)) / 2 : 0.2);
+const glass = (a) => `rgba(${theme.panel.join(', ')}, ${Math.min(0.97, a * (theme.panelAlpha / 0.42) * (1 + Math.max(0, coverLight() - 0.45) * 1.6)).toFixed(3)})`;
 const bgCss = () => `rgb(${theme.bg.join(' ')})`;
 const glow = (pct) => `0 0 ${theme.glowSize}px color-mix(in srgb, var(--voltage-accent) ${Math.round(pct * theme.glowAlpha / 40)}%, transparent)`;
 const tinted = (pct, a) => `color-mix(in srgb, color-mix(in oklab, var(--voltage-c1) ${pct}%, ${bgCss()}) ${a}%, transparent)`;
@@ -105,7 +157,20 @@ function voltageSurfaces() {
     '--card-border-default': edge(20), '--chat-border': edge(18), '--app-frame-border': edge(22),
     '--scrollbar-auto-thumb': edge(45), '--scrollbar-thin-thumb': edge(45), '--scrollbar-auto-scrollbar-color-thumb': edge(45),
     '--interactive-text-active': '#ffffff',
+    // P12-19 b: the selected / hovered channel (Discord's grey) in the accent
+    ...(settings.areaChannels ? { '--interactive-background-selected': edge(20), '--interactive-background-hover': edge(10) } : {}),
+    // P12-19 c: the message box, dark glass like the panels
+    ...(settings.areaInput ? { '--channeltextarea-background': glass(0.45) } : {}),
+    // P12-19 e: the member list on the panel tint
+    ...(settings.areaMembers ? { '--custom-channel-members-bg': glass(0.3) } : {}),
   };
+}
+/** The cover's dark layer (P12-19 h, P12-20 c): the "Cover brightness" setting (50 = as before), and dark covers get a
+ *  lighter layer, light ones a darker one. */
+function shade(base) {
+  const want = (Number(settings.cover) || 50) / 50; // 0..2
+  const auto = 1 + (coverLight() - 0.25) * 1.2; // ~0.7 for a near-black cover, ~1.5 for a bright one
+  return Math.max(0, Math.min(0.92, base * auto / Math.max(0.25, want))).toFixed(3);
 }
 function voltageLook() {
   const k = Math.max(0, Math.min(100, Number(settings.strength) || 30)) / 30; // 30% = Voltage's own look
@@ -142,7 +207,7 @@ body::before {
 @keyframes voltage-drift-${seq} { from { background-size: 134% 134%; background-position: 42% 45%; } to { background-size: 154% 154%; background-position: 58% 56%; } }
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse 85% 75% at 58% 42%, rgba(0, 0, 0, .18), rgba(0, 0, 0, .62) 100%); /* no grain here: ~8% CPU in Discord */
+  background: radial-gradient(ellipse 85% 75% at 58% 42%, rgba(0, 0, 0, ${shade(0.18)}), rgba(0, 0, 0, ${shade(0.62)}) 100%); /* no grain here: ~8% CPU in Discord */
 }` : '';
   return `
 html, body {
@@ -182,12 +247,13 @@ function strip(text) {
   return head + tail;
 }
 
-async function write(b) {
+async function write(b, path = file(), force = false) {
   try {
-    const cur = (await voltage.call('file.read', { path: FILE })) ?? '';
+    const cur = (await voltage.call('file.read', { path })) ?? '';
     const base = strip(cur);
     const next = b ? `${base}${SEP}${b}\n` : base;
-    if (next !== cur) await voltage.call('file.write', { path: FILE, text: next });
+    if (next !== cur || force) await voltage.call('file.write', { path, text: next }); // force: Reapply makes Discord reload it
+    if (settings.debug) voltage.log(`${next !== cur ? 'wrote' : 'unchanged'} ${path} (${next.length} chars, ${b ? 'colours on' : 'colours off'})`);
   } catch (e) {
     if (!warned) { warned = true; voltage.notify(`couldn't update Legcord (${e.message}). Is Legcord installed?`); }
     voltage.log(String(e));
@@ -199,13 +265,34 @@ function current() {
   return settings.idle === 'purple' ? PURPLE : null;
 }
 
-function schedule() {
+/** Writes the block in 350 ms (several changes at once are one write). P12-20 d: nothing when the CSS is the same as last
+ *  time (ignoring the drift's animation names), and while a game is in front only a song change writes. */
+function schedule(why = 'change', force = false) {
+  if (gaming && why !== 'song' && !force) { deferred = true; return; }
   clearTimeout(timer);
-  timer = setTimeout(() => { const c = current(); write(c ? block(c) : null); }, 350);
+  timer = setTimeout(() => {
+    const c = current(), b = c ? block(c) : null;
+    const key = b && b.replace(/voltage-(drift|in)-\d+/g, 'a').replace(/-[\d.]+s infinite/g, ' infinite');
+    if (!force && key === lastKey) { if (settings.debug) voltage.log('unchanged: no write'); return; }
+    lastKey = key;
+    write(b, file(), force);
+  }, 350);
 }
 
-voltage.on('settings', (s) => { settings = { ...settings, ...s }; schedule(); });
-voltage.on('gaming', (on) => { if (gaming !== !!on) { gaming = !!on; schedule(); } });
+voltage.on('settings', (s) => {
+  const before = file();
+  settings = { ...settings, ...s };
+  if (before !== file()) { write(null, before); lastKey = null; } // moved to another client: leave the old file as it was
+  schedule('settings');
+});
+voltage.on('gaming', (on) => {
+  if (gaming === !!on) return;
+  gaming = !!on;
+  if (!gaming && deferred) { deferred = false; schedule('settings'); } else schedule('song', true); // the drift stops / starts
+});
+voltage.on('track', (t) => { track = t; if (settings.nowPlaying) schedule('song'); });
+// P12-15: Ctrl+K "Reapply Discord colours" (Discord was started after Voltage, or the file was edited by hand)
+voltage.on('command', ({ id }) => { if (id === 'reapply') { lastKey = null; schedule('song', true); voltage.notify('Discord colours written again'); } });
 voltage.on('background', (b) => {
   // a song change first reports the cover still loading (no image yet): keep showing the old one until the new arrives
   if (b?.style === 'cover' && !b.image && bg.image && bg.style === 'cover') return;
@@ -215,7 +302,7 @@ voltage.on('background', (b) => {
     fadeTimer = setTimeout(() => { fadeFrom = null; }, 3000); // ...but not in later writes (a settings change)
   }
   bg = b || bg;
-  schedule();
+  schedule('song');
 });
 // theme tokens are hex colours (#rgb / #rrggbb / #rrggbbaa); anything else keeps Voltage's own value
 const hexParts = (h) => {
@@ -231,11 +318,11 @@ voltage.on('theme', (t) => {
   const font = typeof tk.font === 'string' && /^[\w\s",-]{1,120}$/.test(tk.font) && !/Segoe UI Variable/.test(tk.font) ? tk.font : null;
   theme = { bg: bgc?.rgb ?? [0, 0, 0], panel: pan?.rgb ?? [0, 0, 0], panelAlpha: pan ? Math.max(0.05, pan.a) : 0.42,
     glowSize: num(tk.glowSize, 0, 40, 12), glowAlpha: num(tk.glowAlpha, 0, 100, 40), font };
-  schedule();
+  schedule('settings');
 });
 voltage.on('palette', (p) => {
   colours = p.idle ? null : { accent: safe(p.accent) ?? PURPLE.accent, c1: safe(p.c1) ?? PURPLE.c1, c2: safe(p.c2) ?? PURPLE.c2 };
-  schedule();
+  schedule('song');
 });
 voltage.on('stop', async (reason) => {
   clearTimeout(timer);
@@ -243,4 +330,4 @@ voltage.on('stop', async (reason) => {
   const c = reason === 'quit' && settings.idle === 'purple' ? PURPLE : null;
   await write(c ? block(c) : null);
 });
-self.strip = strip; // for tests
+self.strip = strip; self.cssText = cssText; self.makeBlock = block; // for tests
