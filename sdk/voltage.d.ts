@@ -107,8 +107,11 @@ declare namespace Voltage {
       /** GET on the declared 127.0.0.1 API. */
       http(path: string): Promise<{ status: number; json: unknown; text: string }>;
     };
-    /** Capability lyrics.provider: your answer to a 'lyrics-request' (null = none for this song). */
-    lyrics: { provide(rid: string, result: Lyrics | null): void };
+    /** Capability lyrics.provider: your answer to a 'lyrics-request' (null = none for this song). Voltage 1.6.1+: a list of
+     *  up to 4 (one per source you asked; each becomes a choice in the lyrics view's source menu), and refresh(): ask Voltage to
+     *  send you a 'lyrics-request' for the playing song again (e.g. after a command changed how you search). Check that
+     *  refresh exists before relying on either: older Voltage has neither and ignores a list. */
+    lyrics: { provide(rid: string, result: Lyrics | Lyrics[] | null): void; refresh?(): void };
     /** Capability net.fetch + plugin.json permissions.hosts (tier 3): only those addresses, 60 requests a minute,
      *  no cookies, redirects come back as 3xx with `location`, answers over 5 MB are cut off. */
     net: {
