@@ -1,0 +1,16 @@
+{
+  "id": "lyrics-fixer",
+  "name": "Lyrics fixer",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Make your own timed lyrics: start from LRCLIB's text (or paste it), tap along as each line starts, nudge what's off and save them as \"My lyrics\". Optionally share them on lrclib.net so other players get them too. Open it from Settings > Plugins or Ctrl+K.",
+  "main": "main.js",
+  "minVoltage": "1.6.0",
+  "permissions": {
+    "capabilities": ["ui.panel", "lyrics.provider", "net.fetch"],
+    "hosts": ["https://lrclib.net/api/get", "https://lrclib.net/api/request-challenge", "https://lrclib.net/api/publish"]
+  },
+  "provides": {
+    "panel": { "title": "Lyrics fixer" }
+  }
+}
