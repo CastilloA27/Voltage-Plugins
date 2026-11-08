@@ -63,6 +63,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     log: (...a) => host.logs.push(a.map(String).join(' ')),
     storage: { get: (key) => call('storage.get', { key }), set: (key, value) => call('storage.set', { key, value }), all: () => call('storage.all', {}) },
     playback: Object.fromEntries(['pause', 'resume', 'next', 'prev'].map((k) => [k, () => call(`playback.${k}`, {})])),
+    queue: { remove: (ids) => call('queue.remove', { ids }) },
     panel: { render: (html, css = '') => { host.panel = { html: String(html), css: String(css) }; } },
     theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; } },
     game: { running: () => call('game.running', {}), report: (state, label) => call('game.report', { state, label }), log: () => call('game.log.read', {}), http: (p) => call('game.http', { path: p }) },

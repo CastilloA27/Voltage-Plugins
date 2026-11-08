@@ -1,0 +1,22 @@
+{
+  "id": "version-filter",
+  "name": "Version filter",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "Radio and autoplay leave out the versions you don't want: sped up / nightcore, slowed + reverb, live, remixes, karaoke and instrumentals, covers, 8D. Only songs the radio adds by itself; a song you pick, your playlists and your queue always play.",
+  "minVoltage": "1.6.1",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["queue.write", "playback.control"]
+  },
+  "settings": [
+    { "key": "spedUp", "type": "switch", "label": "Sped up and nightcore", "default": true },
+    { "key": "slowed", "type": "switch", "label": "Slowed + reverb", "default": true },
+    { "key": "eightD", "type": "switch", "label": "8D audio", "default": true },
+    { "key": "karaoke", "type": "switch", "label": "Karaoke and instrumentals", "default": true },
+    { "key": "live", "type": "switch", "label": "Live recordings", "default": false },
+    { "key": "remix", "type": "switch", "label": "Remixes", "default": false },
+    { "key": "cover", "type": "switch", "label": "Covers (also 歌ってみた)", "default": false },
+    { "key": "debug", "type": "switch", "label": "Log what it leaves out (Settings > Plugins > log)", "default": false }
+  ]
+}

@@ -4,7 +4,13 @@
 // new things are only added (they need a newer Voltage: declare it with "minVoltage" in plugin.json).
 
 declare namespace Voltage {
-  interface Track { id: string; title: string; artist: string; album?: string; thumb?: string }
+  interface Track {
+    id: string; title: string; artist: string; album?: string; thumb?: string;
+    /** Voltage 1.6.1+: Voltage queued it from a radio by itself (endless radio, More like this, For you) */
+    radio?: boolean;
+    /** Voltage 1.6.1+ ('track' event): 'pick' the user chose it, 'next' the user skipped to it, 'auto' it followed on */
+    how?: 'pick' | 'next' | 'auto';
+  }
   interface Palette { accent: string; c1: string; c2: string; onAccent: string; idle: boolean }
   interface ThemeTokens {
     bg: string; text: string; textDim: string; glassBg: string; glassBorder: string; glassBlur: number; radius: number;
@@ -96,6 +102,9 @@ declare namespace Voltage {
       pause(): Promise<void>; resume(): Promise<void>; next(): Promise<void>; prev(): Promise<void>;
       duck(db: number, ms?: number): Promise<void>;
     };
+    /** Capability queue.write (Voltage 1.6.1+): take songs out of what's coming up (never the playing one or earlier ones).
+     *  Resolves to how many were removed. */
+    queue?: { remove(ids: string[]): Promise<number> };
     /** Capability ui.panel + plugin.json provides.panel {title}. Plain HTML/CSS only (no scripts, no url(), data: images). */
     panel: { render(html: string, css?: string): void };
     /** Capability ui.theme: adjust the active theme while you run; clear() undoes it. */

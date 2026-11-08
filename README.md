@@ -9,11 +9,19 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 | [Voice chat ducking](voice-duck) | Lowers the music while people talk in Discord, Legcord, TeamSpeak or Mumble, and brings it back a second after they stop. Level and sensitivity adjustable. | Voltage 1.4+. Sees how loud those apps are (never what they play); lowers the PC player only |
 | [Visualizer pack](visualizers) | Three more progress-bar animations in the song's colours: Particles, Ribbon, Pixel blocks (Settings › Appearance › Progress animation). | Voltage 1.4+. Draws in the player |
 | [Headphone correction (AutoEQ)](autoeq) | Pick your headphones from ~8,850 measured profiles (AutoEQ project) and their correction EQ is applied on top of your own EQ. | Voltage 1.4.5+. Downloads profiles from the AutoEq repository on GitHub only |
-| [More lyrics sources](more-lyrics) | Adds Kugou as a lyrics source: word-by-word timed lyrics for many Japanese, Chinese and Korean songs; shows up in the lyrics view's source menu. | Voltage 1.4.5+. Talks to Kugou's lyrics search only |
-| [League of Legends](league) | Game pack: pauses or lowers the music in a match, back when you're dead or the game ends. **Not offered in the catalog for now** (not tested in a real match). | Voltage 1.4.5+. Riot's Live Client Data API on 127.0.0.1:2999, only while the game runs |
-| [Minecraft (Java)](minecraft) | Game pack: pauses or lowers the music in a world / on a server, back in menus and briefly when you die. **Not yet tested in a real game.** | Voltage 1.4.5+. Reads `%APPDATA%\.minecraft\logs\latest.log` (new lines only) while Minecraft runs |
-| [OBS: now playing](obs) | Voltage 1.6 (not in the catalog until 1.6 is out). Puts the song you're playing in a text source in OBS, and shows one of your sources (a music overlay) only while music plays. **Tested against a stand-in OBS server (tools/fake-obs.mjs), not yet a real OBS.** | Voltage 1.6+, OBS 28+ with its WebSocket server on (port 4455). Talks to OBS on this PC only; the password is stored encrypted |
+| [More lyrics sources](more-lyrics) | Adds Kugou and QQ Music as lyrics sources: word-by-word timed lyrics for many Japanese, Chinese and Korean songs; they show up in the lyrics view's source menu. | Voltage 1.6+. Talks to Kugou's and QQ Music's lyrics search only |
+| [Song facts](song-facts) | A panel about the song you're playing: release, writers and producers, samples, a short artist bio. | Voltage 1.6+. MusicBrainz and Wikipedia only |
+| [Lyrics fixer](lyrics-fixer) | Make your own timed lyrics: tap along as each line starts, nudge, save as "My lyrics", optionally share on lrclib.net. | Voltage 1.6+. LRCLIB only |
 | [Streaks & achievements](streaks) | Listening streaks and badges (night owl, on repeat, explorer, marathon…) in its own window, with a notification when you earn one. Counts from when it's installed; nothing leaves your PC. | Voltage 1.4+. Its own window |
+
+## Unfinished, for builders
+
+Kept in this repo but not offered in the catalog:
+
+| Plugin | State |
+|---|---|
+| [League of Legends](league) | Game pack, never tested in a real match. See [league/README.md](league/README.md) to install it from a folder and test it with the simulator |
+| [OBS: now playing](obs) | Parked. Tested against a stand-in OBS server (`tools/fake-obs.mjs`), not a real OBS |
 
 ## How plugins work
 
