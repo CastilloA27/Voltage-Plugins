@@ -65,3 +65,18 @@ const listen = async (p, track, secs) => {
   assert.equal(p.scope.scriptOf("Don't Stop"), 'latin');
 }
 console.log('PASS streaks.test.mjs');
+
+// 1.2: Discovery previews (track.preview) don't count; "Full song" (same id, no preview) does from then on
+{
+  const q = await loadPlugin('streaks', { settings: { notify: false } });
+  await listen(q, { id: 'pv', title: 'P', artist: 'A', preview: true }, 40);
+  await q.advance(30_000);
+  assert.ok(!(q.storage.data?.total > 0), 'a preview adds no listening time');
+  assert.ok(!q.storage.data?.plays?.pv, 'and is no play');
+  await q.emit('track', { id: 'pv', title: 'P', artist: 'A', preview: false });
+  for (let s = 41; s <= 80; s++) { await q.emit('position', { pos: s, dur: 200 }); await q.advance(1000); }
+  await q.advance(30_000);
+  assert.ok(q.storage.data.total >= 38, 'the full song counts');
+  assert.equal(q.storage.data.plays.pv, 1);
+  console.log('PASS streaks preview');
+}

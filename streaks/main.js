@@ -188,13 +188,14 @@ function countPlay() {
 
 voltage.on('settings', (s) => { settings = { ...settings, ...s }; render(); });
 voltage.on('track', (t) => {
-  if (t?.id === cur?.id) return;
+  // 1.2: a Discovery preview (Voltage 1.6.1, track.preview) isn't listening; "Full song" sends the same song without it
+  if (t?.id === cur?.id) { if (cur && !t.preview && cur.preview) { cur = t; lastPos = null; } return; }
   cur = t; curSecs = 0; counted = false; lastPos = null;
   save();
 });
 voltage.on('playing', (p) => { playing = p; lastPos = null; });
 voltage.on('position', ({ pos }) => {
-  if (!playing || !cur) return;
+  if (!playing || !cur || cur.preview) return;
   // only real listening time: small forward steps (a seek doesn't count)
   if (lastPos != null && pos > lastPos && pos - lastPos <= 3) {
     const d = pos - lastPos;
