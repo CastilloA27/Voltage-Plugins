@@ -66,20 +66,27 @@ const CSS = `
   background: 50% 50% / 134% 134% no-repeat; animation: voltage-drift 40s steps(160) infinite alternate; }
 .voltage-cover.on { opacity: 1; }
 body.voltage-look #app-mount { position: relative; z-index: 1; } /* the cover layers sit behind Discord, never over it */
+/* an older "Discord live theme" (before 1.5) still draws its cover in Quick CSS, rewritten ~1 s later on every song: hidden
+   while this draws it at once (two covers, and the late one looked like a slow fade) */
+body.voltage-look::before, html:has(body.voltage-look)::before, body.voltage-look::after { display: none !important; }
+.voltage-shade { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
+  background: radial-gradient(ellipse 85% 75% at 58% 42%, rgba(0, 0, 0, .18), rgba(0, 0, 0, .62) 100%); }
+.voltage-shade.on { opacity: 1; }
 @keyframes voltage-drift { from { background-size: 134% 134%; background-position: 42% 45%; } to { background-size: 154% 154%; background-position: 58% 56%; } }
 .voltage-mini { margin: 0 8px 6px; padding: 8px; border-radius: 10px; display: grid; grid-template-columns: 40px 1fr; gap: 4px 10px; align-items: center;
-  background: color-mix(in srgb, var(--voltage-accent) 12%, rgba(0,0,0,.35)); border: 1px solid color-mix(in srgb, var(--voltage-accent) 30%, transparent); }
+  color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6); /* Discord's panel sets color: transparent: our text was invisible */
+  background: color-mix(in srgb, var(--voltage-accent) 14%, rgba(10,10,14,.78)); border: 1px solid color-mix(in srgb, var(--voltage-readable, var(--voltage-accent)) 35%, transparent); }
 .voltage-mini img { width: 40px; height: 40px; border-radius: 6px; object-fit: cover; grid-row: span 2; }
 .voltage-mini .meta { min-width: 0; overflow: hidden; white-space: nowrap; }
 .voltage-mini .meta b, .voltage-mini .meta span { display: block; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-.voltage-mini .meta span { opacity: .7; font-size: 12px; }
+.voltage-mini .meta b { color: #fff; } .voltage-mini .meta span { color: rgba(255,255,255,.72); font-size: 12px; }
 .voltage-mini .row { display: flex; align-items: center; gap: 4px; }
-.voltage-mini button { background: none; border: 0; color: var(--interactive-normal, #ddd); cursor: pointer; padding: 2px 4px; border-radius: 4px; line-height: 0; }
+.voltage-mini button { background: none; border: 0; color: rgba(255,255,255,.85); cursor: pointer; padding: 2px 4px; border-radius: 4px; line-height: 0; }
 .voltage-mini button:hover { color: #fff; background: color-mix(in srgb, var(--voltage-accent) 20%, transparent); }
 .voltage-mini .bar { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.12); cursor: pointer; overflow: hidden; }
-.voltage-mini .bar i { display: block; height: 100%; background: var(--voltage-accent); box-shadow: 0 0 6px var(--voltage-accent); }
+.voltage-mini .bar i { display: block; height: 100%; background: var(--voltage-readable, var(--voltage-accent)); box-shadow: 0 0 6px var(--voltage-readable, var(--voltage-accent)); }
 .voltage-mini .lyric { grid-column: 1 / -1; font-size: 12px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  color: color-mix(in oklab, var(--voltage-accent) 45%, white); }
+  color: color-mix(in oklab, var(--voltage-readable, var(--voltage-accent)) 45%, white); }
 `;
 
 function colours() {
@@ -89,21 +96,36 @@ function colours() {
   const safe = (c) => (/^[#a-zA-Z0-9(),.%\s-]{3,60}$/.test(c || '') ? c : null);
   if (p.idle) { for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2']) r.removeProperty(k); return; }
   for (const [k, v] of [['--voltage-accent', p.accent], ['--voltage-c1', p.c1], ['--voltage-c2', p.c2]]) if (safe(v)) r.setProperty(k, v);
+  if (safe(p.accent)) r.setProperty('--voltage-readable', readable(p.accent));
+}
+
+/** The accent made readable on a dark panel (a basic contrast check): its lightness is raised to at least ~0.45 by mixing
+ *  in white; light accents stay as they are. */
+function readable(c) {
+  const h = /^#([0-9a-f]{6})$/i.exec(c);
+  const v = h ? [0, 2, 4].map((i) => parseInt(h[1].slice(i, i + 2), 16)) : (/(\d+(?:\.\d+)?)[\s,]+(\d+(?:\.\d+)?)[\s,]+(\d+(?:\.\d+)?)/.exec(c) ?? []).slice(1).map(Number);
+  if (v.length !== 3) return c;
+  const lum = (0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]) / 255;
+  if (lum >= 0.45) return c;
+  const white = Math.min(80, Math.round(((0.45 - lum) / (1 - lum)) * 100) + 10);
+  return `color-mix(in srgb, ${c} ${100 - white}%, white)`;
 }
 
 // two stacked layers: the new cover is decoded first, then fades in over the old one (no black flash, no pop)
-let layers = null, front = 0, coverKey = null;
+let layers = null, front = 0, coverKey = null, shade = null;
 function cover() {
   if (!store.look) return;
   const url = st.blurred && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(st.blurred) ? st.blurred : null;
   if (url === coverKey) return;
   coverKey = url;
   if (!layers) {
+    shade = document.createElement('div'); shade.className = 'voltage-shade'; document.body.prepend(shade); nodes.push(shade);
     layers = [0, 1].map(() => { const d = document.createElement('div'); d.className = 'voltage-cover'; document.body.prepend(d); nodes.push(d); return d; });
     // in step with Voltage's own drift: both use the wall clock modulo 80 s
     for (const l of layers) l.style.animationDelay = `-${((Date.now() / 1000) % 80).toFixed(2)}s`;
   }
   const next = layers[1 - front], prev = layers[front];
+  shade.classList.toggle('on', !!url);
   if (!url) { prev.classList.remove('on'); return; }
   const img = new Image();
   img.onload = () => {
@@ -217,6 +239,7 @@ function settings() {
 function apply() {
   if (!store.look) { for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2']) document.documentElement.style.removeProperty(k); layers?.forEach((l) => l.classList.remove('on')); coverKey = null; }
   else { colours(); cover(); }
+  if (!store.look) shade?.classList.remove('on');
   onVoice();
   render();
 }
@@ -245,9 +268,9 @@ exports.onUnload = () => {
   if (ws) { ws.onclose = ws.onmessage = ws.onerror = null; ws.close(); ws = null; } live = false;
   for (const u of unsubs.splice(0)) u();
   for (const n of nodes.splice(0)) n.remove();
-  for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2']) document.documentElement.style.removeProperty(k);
+  for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2', '--voltage-readable']) document.documentElement.style.removeProperty(k);
   document.body.classList.remove('voltage-look');
-  layers = null; mini = null; coverKey = null;
+  layers = null; mini = null; coverKey = null; shade = null;
 };
 exports.settings = settings;
 return exports;
