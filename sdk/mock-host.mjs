@@ -75,6 +75,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
       },
     },
     secret: { get: (key) => call('secret.get', { key }), set: (key, value) => call('secret.set', { key, value }) },
+    discord: { css: (text) => { host.discordCss = String(text ?? ''); } },
     settingOptions: (key, options) => { host.options[key] = options; },
     audio: { eq: (bands, preamp = 0) => call('audio.eq', { bands: bands ?? [], preamp }), watch: (apps) => call('audio.watch', { apps }), unwatch: () => call('audio.unwatch', {}) },
   };

@@ -26,7 +26,7 @@ let lastKey = null; // the last block written, without its animation names (P12-
 let deferred = false; // a change while a game was in front, written when it ends
 // Voltage for Discord (P12-22) connected: it sets the colours live and draws the cover itself, so the file keeps only the
 // rules (fixed colours, no cover) and isn't rewritten on every song (P12-20 d: no writes while the helper works)
-let helper = false;
+let helper = false, fileClean = false;
 let colours = null; // null = nothing playing
 let gaming = false; // Voltage's game mode: the cover stays, but nothing moves (no drift, no fade) while a game is in front
 let bg = { style: 'gradient', image: null }; // Voltage's background (Settings > Appearance) and its baked cover
@@ -279,6 +279,14 @@ function schedule(why = 'change', force = false) {
     const key = b && b.replace(/voltage-(drift|in)-\d+/g, 'a').replace(/-[\d.]+s infinite/g, ' infinite');
     if (!force && key === lastKey) { if (settings.debug) voltage.log('unchanged: no write'); return; }
     lastKey = key;
+    // user, 2026-11-07: with Voltage for Discord connected (Voltage 1.6.1+), the file isn't touched at all: the sheet goes
+    // to Discord through it (no file write, no Legcord reload), and our block is taken out of the file
+    if (helper && voltage.discord) {
+      voltage.discord.css(b ?? '');
+      if (!fileClean) { fileClean = true; write(null); }
+      if (settings.debug) voltage.log('sent to Voltage for Discord (no file write)');
+      return;
+    }
     write(b, file(), force);
   }, 350);
 }
@@ -295,7 +303,13 @@ voltage.on('gaming', (on) => {
   if (!gaming && deferred) { deferred = false; schedule('settings'); } else schedule('song', true); // the drift stops / starts
 });
 voltage.on('track', (t) => { track = t; if (settings.nowPlaying && !helper) schedule('song'); });
-voltage.on('discord', (d) => { if (helper !== !!d?.connected) { helper = !!d?.connected; lastKey = null; schedule('settings', true); } });
+voltage.on('discord', (d) => {
+  if (helper === !!d?.connected) return;
+  helper = !!d?.connected;
+  fileClean = false; lastKey = null;
+  if (!helper) voltage.discord?.css(''); // back to the file
+  schedule('settings', true);
+});
 // P12-15: Ctrl+K "Reapply Discord colours" (Discord was started after Voltage, or the file was edited by hand)
 voltage.on('command', ({ id }) => { if (id === 'reapply') { lastKey = null; schedule('song', true); voltage.notify('Discord colours written again'); } });
 voltage.on('background', (b) => {

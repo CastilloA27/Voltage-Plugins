@@ -98,15 +98,21 @@ assert.equal(nWrites(), before + 1);
 // P12-22: with Voltage for Discord connected, the helper sets the colours live: a song change writes nothing
 await p.emit('discord', { connected: true });
 await p.advance(1000);
-assert.match(file, /--voltage-accent: #a020f0/, 'the file keeps fixed colours (the helper overrides them live)');
+assert.ok(!file.includes(START) && file.includes(mine), 'helper connected: our block is out of the file, your CSS stays');
+assert.ok(p.discordCss.includes(START) && p.discordCss.includes('channelTextArea_'), 'the sheet goes through Voltage for Discord instead');
 const atHelper = nWrites();
 await p.emit('palette', { accent: 'rgb(10 200 200)', c1: 'rgb(10 60 60)', c2: 'rgb(10 10 60)', onAccent: '#000', idle: false });
 await p.emit('track', { id: 'd', title: 'Next song', artist: 'X' });
 await p.advance(1000);
-assert.equal(nWrites(), atHelper, 'no write per song while the helper works');
+assert.equal(nWrites(), atHelper, 'no file write at all while the helper works');
+await p.emit('settings', { areaMembers: true });
+await p.advance(1000);
+assert.equal(nWrites(), atHelper, 'not even for a settings change: the sheet is sent again instead');
+assert.match(p.discordCss, /member_/);
 await p.emit('discord', { connected: false });
 await p.advance(1000);
-assert.match(file, /--voltage-accent: rgb\(10 200 200\)/, 'helper gone: the file follows the song again');
+assert.equal(p.discordCss, '', 'helper gone: its sheet is removed');
+assert.match(file, /--voltage-accent: rgb\(10 200 200\)/, 'and the file follows the song again');
 
 // P12-14: another client: the block moves to that file, the old file is given back without it
 const files = { '%APPDATA%/legcord/quickCss.css': `${mine}\n`, '%APPDATA%/vesktop/settings/quickCss.css': '.vesktop {}\n' };

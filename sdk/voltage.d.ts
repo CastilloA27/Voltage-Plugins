@@ -114,6 +114,9 @@ declare namespace Voltage {
      *  send you a 'lyrics-request' for the playing song again (e.g. after a command changed how you search). Check that
      *  refresh exists before relying on either: older Voltage has neither and ignores a list. */
     lyrics: { provide(rid: string, result: Lyrics | Lyrics[] | null): void; refresh?(): void };
+    /** Capability discord.css (Voltage 1.6.1+): your stylesheet for Discord, applied live by Voltage for Discord while it's
+     *  connected (the 'discord' event); '' removes it. */
+    discord?: { css(text: string): void };
     /** Capability net.fetch + plugin.json permissions.hosts (tier 3): only those addresses, 60 requests a minute,
      *  no cookies, redirects come back as 3xx with `location`, answers over 5 MB are cut off. */
     net: {

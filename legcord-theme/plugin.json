@@ -11,6 +11,9 @@
       "%APPDATA%/vesktop/settings/quickCss.css",
       "%APPDATA%/Vencord/settings/quickCss.css",
       "%APPDATA%/equibop/settings/quickCss.css"
+    ],
+    "capabilities": [
+      "discord.css"
     ]
   },
   "settings": [

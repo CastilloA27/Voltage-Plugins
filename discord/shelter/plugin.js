@@ -52,6 +52,7 @@ function incoming(type, d) {
   else if (type === 'cover') { st.art = d?.art ?? null; st.blurred = d?.blurred ?? null; cover(); }
   else if (type === 'lyric') st.lyric = d;
   else if (type === 'gaming') st.gaming = !!d;
+  else if (type === 'css') sheet(d?.id, d?.text);
   render();
 }
 const now = () => (st.playing ? st.pos + (Date.now() - st.posAt) / 1000 : st.pos);
@@ -135,6 +136,18 @@ function cover() {
     front = 1 - front;
   };
   img.src = url;
+}
+
+/** A Voltage plugin's stylesheet for Discord (the Discord live theme), applied live: no Quick CSS file, no reload.
+ *  CSS only: @import (loading anything from elsewhere) is dropped. */
+const sheets = new Map();
+function sheet(id, text) {
+  if (typeof id !== 'string' || !/^[a-z0-9-]{1,40}$/.test(id)) return;
+  let el = sheets.get(id);
+  if (!text) { el?.remove(); sheets.delete(id); return; }
+  if (!el) { el = document.createElement('style'); el.dataset.voltagePlugin = id; document.head.append(el); sheets.set(id, el); nodes.push(el); }
+  const clean = String(text).replace(/@import[^;]*;?/gi, '');
+  if (el.textContent !== clean) el.textContent = clean;
 }
 
 // ───────────── H4 / H5: the mini player in the user panel ─────────────
@@ -270,7 +283,7 @@ exports.onUnload = () => {
   for (const n of nodes.splice(0)) n.remove();
   for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2', '--voltage-readable']) document.documentElement.style.removeProperty(k);
   document.body.classList.remove('voltage-look');
-  layers = null; mini = null; coverKey = null; shade = null;
+  layers = null; mini = null; coverKey = null; shade = null; sheets.clear();
 };
 exports.settings = settings;
 return exports;
