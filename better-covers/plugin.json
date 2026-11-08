@@ -1,0 +1,16 @@
+{
+  "id": "better-covers",
+  "name": "Better covers",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "When a song only has a video frame as its art (uploads and music videos), finds its album cover on Apple's iTunes catalogue (strict match: same artist, title and album) and Voltage shows that instead, with the colours to match. Album covers from YouTube Music are never replaced.",
+  "minVoltage": "1.6.1",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["ui.art", "net.fetch"],
+    "hosts": ["https://itunes.apple.com/search"]
+  },
+  "settings": [
+    { "key": "debug", "type": "switch", "label": "Log the lookups (Settings > Plugins > log)", "default": false }
+  ]
+}

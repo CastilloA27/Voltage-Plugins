@@ -105,6 +105,12 @@ declare namespace Voltage {
     /** Capability queue.write (Voltage 1.6.1+): take songs out of what's coming up (never the playing one or earlier ones).
      *  Resolves to how many were removed. */
     queue?: { remove(ids: string[]): Promise<number> };
+    /** Capability ui.art (Voltage 1.6.1+): offer an album cover (https on *.mzstatic.com) for the playing song. Voltage only
+     *  uses it while the song's own art is a video frame (i.ytimg.com), never over an album cover. */
+    art?: { offer(trackId: string, url: string): void };
+    /** Capability ui.navigate (Voltage 1.6.1+): open an artist page or a search in Voltage; only within 3 s of a click in
+     *  your panel (a 'panel-action'). */
+    navigate?: { artist(name: string, channelId?: string): void; search(query: string): void };
     /** Capability ui.panel + plugin.json provides.panel {title}. Plain HTML/CSS only (no scripts, no url(), data: images). */
     panel: { render(html: string, css?: string): void };
     /** Capability ui.theme: adjust the active theme while you run; clear() undoes it. */

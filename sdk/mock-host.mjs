@@ -77,6 +77,11 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     },
     secret: { get: (key) => call('secret.get', { key }), set: (key, value) => call('secret.set', { key, value }) },
     discord: { css: (text) => { host.discordCss = String(text ?? ''); } },
+    art: { offer: (id, url) => { (host.artOffers ??= []).push({ id: String(id), url: String(url) }); } },
+    navigate: {
+      artist: (name, channel) => { (host.navigations ??= []).push({ kind: 'artist', query: String(name), channel }); },
+      search: (query) => { (host.navigations ??= []).push({ kind: 'search', query: String(query) }); },
+    },
     settingOptions: (key, options) => { host.options[key] = options; },
     audio: { eq: (bands, preamp = 0) => call('audio.eq', { bands: bands ?? [], preamp }), watch: (apps) => call('audio.watch', { apps }), unwatch: () => call('audio.unwatch', {}) },
   };

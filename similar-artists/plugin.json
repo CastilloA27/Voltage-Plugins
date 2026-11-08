@@ -1,0 +1,19 @@
+{
+  "id": "similar-artists",
+  "name": "Similar artists",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "A panel with artists like the one you're playing, from ListenBrainz (what people listen to together; no account or key). Click one to open their page in Voltage. Open it from Settings > Plugins or Ctrl+K.",
+  "minVoltage": "1.6.1",
+  "main": "main.js",
+  "permissions": {
+    "capabilities": ["ui.panel", "ui.navigate", "net.fetch"],
+    "hosts": ["https://musicbrainz.org/ws/2/", "https://labs.api.listenbrainz.org/similar-artists/json"]
+  },
+  "provides": {
+    "panel": { "title": "Similar artists" }
+  },
+  "settings": [
+    { "key": "count", "type": "slider", "label": "How many to show", "min": 5, "max": 30, "step": 5, "default": 15 }
+  ]
+}
