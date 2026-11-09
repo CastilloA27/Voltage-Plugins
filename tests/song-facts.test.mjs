@@ -73,6 +73,24 @@ await settle();
 assert.ok(urls.slice(n).every((u) => !u.url.includes('rec1')), 'cached song: no lookup');
 assert.match(p.panel.html, /Japanese singer-songwriter/);
 
+// 1.1: the Discovery slot (ui.slot) looks up while it shows, a line each, no bio; empty for an unknown song
+await p.emit('panel', { open: false });
+await p.emit('slot', { name: 'discovery.details', open: true });
+await p.emit('track', { id: 'v1', title: 'Mariya Takeuchi - Plastic Love (Official Music Video)', artist: 'Mariya Takeuchi', dur: 471 });
+await settle();
+const sl = p.slots['discovery.details'].html;
+assert.match(sl, /<p>Released 1984 · <i>VARIETY<\/i><\/p>/);
+assert.match(sl, /<p>Produced by Tatsuro Yamashita<\/p>/);
+assert.doesNotMatch(sl, /singer-songwriter/, 'no bio in the slot');
+await p.emit('track', { id: 'v2', title: 'Other', artist: 'Nobody', dur: 100 });
+await settle();
+assert.equal(p.slots['discovery.details'].html, '', 'unknown song: the slot hides');
+const m = urls.length;
+await p.emit('slot', { name: 'discovery.details', open: false });
+await p.emit('track', { id: 'v3', title: 'New', artist: 'Someone', dur: 100 });
+await settle();
+assert.equal(urls.length, m, 'no lookups with the slot and the panel closed');
+
 // the title helper: video suffixes and "Artist - " prefixes go
 assert.equal(JSON.stringify(p.scope.titles('Mariya Takeuchi - Plastic Love (Official Music Video)', 'Mariya Takeuchi')), JSON.stringify(['Mariya Takeuchi - Plastic Love', 'Plastic Love']));
 console.log('PASS song-facts.test.mjs');

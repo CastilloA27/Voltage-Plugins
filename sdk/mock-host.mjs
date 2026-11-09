@@ -30,7 +30,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
   const timers = new Map(); // id -> {f, at, every}
   const handlers = {};
   const host = {
-    manifest, calls: [], notices: [], logs: [], reported: [], panel: null, themeTokens: null, lyrics: [], options: {},
+    manifest, calls: [], notices: [], logs: [], reported: [], panel: null, slots: {}, themeTokens: null, lyrics: [], options: {},
     storage: structuredClone(storage), secrets: { ...secrets }, running, sockets: [],
     get now() { return now; },
   };
@@ -65,6 +65,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     playback: Object.fromEntries(['pause', 'resume', 'next', 'prev'].map((k) => [k, () => call(`playback.${k}`, {})])),
     queue: { remove: (ids) => call('queue.remove', { ids }) },
     panel: { render: (html, css = '') => { host.panel = { html: String(html), css: String(css) }; } },
+    slot: { render: (name, html, css = '') => { host.slots[String(name)] = { html: String(html), css: String(css) }; } },
     theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; } },
     game: { running: () => call('game.running', {}), report: (state, label) => call('game.report', { state, label }), log: () => call('game.log.read', {}), http: (p) => call('game.http', { path: p }) },
     lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }), refresh: () => { host.refreshes = (host.refreshes ?? 0) + 1; } },

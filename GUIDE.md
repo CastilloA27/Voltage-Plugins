@@ -41,7 +41,9 @@ which isn't planned.
 - `version` and `minVoltage`: plain `major.minor.patch` numbers.
 - `provides`: `panel` (your window, needs `ui.panel`), `waveStyles` (progress-bar animations, needs `ui.canvas`), `themes`
   (needs `ui.theme`), `commands` (1.6+: `[{"id", "label", "song": true}]`, at most 10: entries in Ctrl+K, and in a song's
-  right-click menu with `"song"`; you get the `command` event).
+  right-click menu with `"song"`; you get the `command` event), `slots` (1.6.1+, needs `ui.slot`: `["discovery.details"]`, a few plain lines under the song
+  in Discovery: `voltage.slot.render(name, html, css)`, same rules as a panel, `''` hides it; the `slot` event `{name, open}`
+  says when it's on screen).
 - Settings types: `switch`, `choice`, `slider`, and since 1.6 `text`, `number`, `color`, `secret` (needs `storage.secret`:
   typed by the user, stored encrypted, read with `voltage.secret.get(key)`). Voltage draws them in Settings › Plugins and
   sends them as the `settings` event on start and on every change (never a secret's value). `when` shows a setting only for
@@ -53,7 +55,7 @@ which isn't planned.
 | Tier | What | Who may use it |
 |---|---|---|
 | 1 | events, `storage`, `notify`, `log` | every plugin, no approval |
-| 2 | `playback.control`, `audio.sessions`, `audio.level` (1.6+), `storage.secret` (1.6+), `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.theme` | listed when the user turns the plugin on |
+| 2 | `playback.control`, `audio.sessions`, `audio.level` (1.6+), `storage.secret` (1.6+), `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.slot` (1.6.1+), `ui.theme` | listed when the user turns the plugin on |
 | 3 | `files` (exactly the listed existing text files under `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`), `net.fetch` (only the listed `hosts`), `net.ws` (1.6+: a WebSocket to the `local` ports listed, e.g. `"ws://127.0.0.1:4455"` for OBS), `game.log`, `game.local_http` | shown in red; **only plugins from the signed official catalog**, or with Settings › Plugins › Developer mode on |
 
 The approval covers `id` + `permissions` (+ `game`). An update that changes them has to be approved again; one that only

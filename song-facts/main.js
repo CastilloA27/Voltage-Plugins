@@ -8,7 +8,9 @@ const UA = { 'user-agent': 'Voltage-SongFacts/1.0 (+https://github.com/CastilloA
 const KEEP_SONGS = 150, KEEP_ARTISTS = 80; // storage is capped at 256 KB
 
 let settings = { bio: true };
-let track = null, open = false, facts = null, status = '', busy = null;
+let track = null, open = false, slotShown = false, facts = null, status = '', busy = null;
+// 1.1: also a few lines under the song in Discovery (ui.slot 'discovery.details', Voltage 1.6.1+), looked up while that shows
+const shown = () => open || slotShown;
 let cache = { songs: {}, artists: {}, ids: {} }; // songs: id -> facts | {none: true}; artists: mbid -> {bio, wiki}; ids: name -> mbid | null
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -153,7 +155,7 @@ const save = () => voltage.storage.set('cache', cache).catch(() => {});
 
 async function load() {
   const t = track;
-  if (!t || !open || busy === t.id) return;
+  if (!t || !shown() || busy === t.id) return;
   if (facts?.id === t.id && !facts.pending) return;
   const cached = cache.songs[t.id];
   if (cached) { facts = { id: t.id, ...cached }; render(); if (!cached.none && settings.bio && cached.artistId) await addBio(t); return; }
@@ -180,7 +182,23 @@ async function addBio(t) {
   } catch { /* a missing bio isn't worth an error */ }
 }
 
+// the Discovery slot: released / written / produced / samples on a line each, nothing while unknown or looking
+function renderSlot() {
+  if (!slotShown || !voltage.slot) return;
+  const f = facts;
+  if (!f || f.pending || f.none || f.id !== track?.id) return voltage.slot.render('discovery.details', '');
+  const rows = [
+    f.year ? `Released ${esc(f.year)}${f.album ? ` · <i>${esc(f.album)}</i>` : ''}` : null,
+    f.writers.length ? `Written by ${f.writers.slice(0, 4).map((w) => esc(w.name)).join(', ')}` : null,
+    f.producers.length ? `Produced by ${f.producers.slice(0, 3).map(esc).join(', ')}` : null,
+    f.samples.length ? `Samples ${f.samples.slice(0, 2).map((s) => `<i>${esc(s.title)}</i>${s.artist ? ` by ${esc(s.artist)}` : ''}`).join('; ')}` : null,
+  ].filter(Boolean);
+  voltage.slot.render('discovery.details', rows.map((r) => `<p>${r}</p>`).join(''),
+    ':host { font-size: 13px; color: inherit; } p { margin: 1px 0; opacity: .7; } i { opacity: .9; }');
+}
+
 function render() {
+  renderSlot();
   if (!open) return;
   const f = facts, t = track;
   let body;
@@ -211,6 +229,7 @@ function render() {
 voltage.on('settings', (s) => { settings = { ...settings, ...s }; render(); if (settings.bio && facts && !facts.none && !facts.bio && track) addBio(track); });
 voltage.on('track', (t) => { track = t; facts = null; status = ''; render(); load(); });
 voltage.on('panel', ({ open: o }) => { open = o; render(); load(); });
+voltage.on('slot', ({ name, open: o }) => { if (name !== 'discovery.details') return; slotShown = o; render(); load(); });
 
 (async () => {
   try { const c = await voltage.storage.get('cache'); if (c?.songs && c?.artists) cache = { ids: {}, ...c }; } catch { /* first run */ }
