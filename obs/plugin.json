@@ -6,6 +6,7 @@
   "description": "Shows the song you're playing in a text source in OBS, and can show one of your sources (an overlay) only while music plays. Talks to OBS's own obs-websocket server on this PC (OBS 28+: Tools > WebSocket Server Settings).",
   "minVoltage": "1.6.0",
   "untested": true,
+  "unlisted": true,
   "main": "main.js",
   "permissions": {
     "capabilities": ["net.ws", "storage.secret"],
