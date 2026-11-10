@@ -16,6 +16,19 @@ added. A plugin that needs something newer says so with `"minVoltage"`; older Vo
 and refuse to load it with "needs Voltage X or newer", instead of failing halfway. A breaking change would be Voltage 2.0,
 which isn't planned.
 
+**Retiring something (round 13 S5, the rule in writing).** When a better way replaces part of the API:
+1. The old one is marked **deprecated**: `@deprecated` in `sdk/voltage.d.ts` with the replacement and the Voltage version,
+   and a row in the table below. It **keeps working for all of Voltage 1.x**.
+2. From that release Voltage writes one line per plugin per run to its log when a plugin uses it ("<plugin> uses <x>,
+   deprecated since <version>: use <y>"), so authors can find it.
+3. The official catalog's plugins move to the replacement in the next catalog update.
+4. Removal only in a 2.0, announced in the release before it. Permissions follow the same rule: a capability is never
+   narrowed in 1.x (that would make approved plugins fail).
+
+| Deprecated | Since | Use instead |
+|---|---|---|
+| (nothing yet) | | |
+
 ## plugin.json
 
 ```json
