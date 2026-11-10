@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "seq": 5,
-  "expires": 1825781651,
-  "commit": "efa7aa6b9bc018b0a0a22706842ea6efeda31723",
+  "seq": 6,
+  "expires": 1825870942,
+  "commit": "7635685cc3e1951d9cf0d1315b045dbef1430713",
   "data": {
     "fortnite": {
       "lobby": [
@@ -43,7 +43,7 @@
           "https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/autoeq",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/autoeq",
       "files": [
         {
           "name": "plugin.json",
@@ -71,7 +71,7 @@
           "https://itunes.apple.com/search"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/better-covers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/better-covers",
       "files": [
         {
           "name": "plugin.json",
@@ -100,7 +100,7 @@
           "discord.css"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/legcord-theme",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
@@ -131,7 +131,7 @@
           "https://lrclib.net/api/publish"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/lyrics-fixer",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/lyrics-fixer",
       "files": [
         {
           "name": "plugin.json",
@@ -163,7 +163,7 @@
           "https://c.y.qq.com/qqmusic/fcgi-bin/lyric_download.fcg"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/more-lyrics",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/more-lyrics",
       "files": [
         {
           "name": "plugin.json",
@@ -172,35 +172,6 @@
         {
           "name": "main.js",
           "sha256": "143bacc0e11515010c28aa32c1ca645a63eb61707df83d51e28b5211f8327c4d"
-        }
-      ]
-    },
-    {
-      "id": "obs",
-      "name": "OBS: now playing",
-      "version": "1.0.1",
-      "author": "Voltage",
-      "description": "Shows the song you're playing in a text source in OBS, and can show one of your sources (an overlay) only while music plays. Talks to OBS's own obs-websocket server on this PC (OBS 28+: Tools > WebSocket Server Settings).",
-      "minVoltage": "1.6.0",
-      "untested": true,
-      "permissions": {
-        "capabilities": [
-          "net.ws",
-          "storage.secret"
-        ],
-        "local": [
-          "ws://127.0.0.1:4455"
-        ]
-      },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/obs",
-      "files": [
-        {
-          "name": "plugin.json",
-          "sha256": "33fe06aa195751e1f61d4924d58d80a4f42620bd32bf8615ba65f3f74a19e052"
-        },
-        {
-          "name": "main.js",
-          "sha256": "0e91ff1dcd1f12cc1f8b444a323c167af77a5bf7b4f0ff823db926929cfd70d0"
         }
       ]
     },
@@ -222,7 +193,7 @@
           "https://labs.api.listenbrainz.org/similar-artists/json"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/similar-artists",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/similar-artists",
       "files": [
         {
           "name": "plugin.json",
@@ -253,7 +224,7 @@
           "https://en.wikipedia.org/api/rest_v1/page/summary/"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/song-facts",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/song-facts",
       "files": [
         {
           "name": "plugin.json",
@@ -276,7 +247,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/streaks",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/streaks",
       "files": [
         {
           "name": "plugin.json",
@@ -301,7 +272,7 @@
           "playback.control"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/version-filter",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/version-filter",
       "files": [
         {
           "name": "plugin.json",
@@ -326,7 +297,7 @@
           "audio.level"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/visualizers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/visualizers",
       "files": [
         {
           "name": "plugin.json",
@@ -352,7 +323,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/efa7aa6b9bc018b0a0a22706842ea6efeda31723/voice-duck",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/voice-duck",
       "files": [
         {
           "name": "plugin.json",
