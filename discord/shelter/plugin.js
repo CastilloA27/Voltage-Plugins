@@ -13,11 +13,11 @@ const {
 } = shelter;
 
 const URL = 'ws://localhost:43822';
-const DEFAULTS = { mini: true, lyric: true, mic: 'speaking', micDb: -14, ring: 'off', voice: 'off', voiceDb: -10, golive: 'off', look: true };
+const DEFAULTS = { mini: true, lyric: true, mic: 'speaking', micDb: -14, ring: 'off', voice: 'off', voiceDb: -10, golive: 'off', look: true, video: false };
 for (const [k, v] of Object.entries(DEFAULTS)) if (store[k] === undefined) store[k] = v;
 
 let ws = null, retry = null, backoff = 2000, stopped = false, live = false;
-const st = { track: null, playing: false, pos: 0, posAt: 0, dur: 0, palette: null, theme: null, art: null, blurred: null, lyric: null, gaming: false };
+const st = { track: null, playing: false, pos: 0, posAt: 0, dur: 0, palette: null, theme: null, art: null, blurred: null, lyric: null, gaming: false, video: null };
 const nodes = []; // everything we added to the page, removed on unload
 const unsubs = [];
 
@@ -53,6 +53,8 @@ function incoming(type, d) {
   else if (type === 'lyric') st.lyric = d;
   else if (type === 'gaming') st.gaming = !!d;
   else if (type === 'css') sheet(d?.id, d?.text);
+  else if (type === 'video') st.video = d && typeof d === 'object' ? d : null;
+  video();
   render();
 }
 const now = () => (st.playing ? st.pos + (Date.now() - st.posAt) / 1000 : st.pos);
@@ -73,6 +75,10 @@ body.voltage-look::before, html:has(body.voltage-look)::before, body.voltage-loo
 .voltage-shade { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
   background: radial-gradient(ellipse 85% 75% at 58% 42%, rgba(0, 0, 0, .18), rgba(0, 0, 0, .62) 100%); }
 .voltage-shade.on { opacity: 1; }
+/* the music video Voltage shows as its background (option): over the cover, under the shade, blurred like Voltage's */
+.voltage-video { position: fixed; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); z-index: 0; pointer-events: none;
+  object-fit: cover; filter: blur(26px) saturate(1.25) brightness(.5); opacity: 0; transition: opacity 1.2s ease; }
+.voltage-video.on { opacity: 1; }
 @keyframes voltage-drift { from { background-size: 134% 134%; background-position: 42% 45%; } to { background-size: 154% 154%; background-position: 58% 56%; } }
 .voltage-mini { margin: 0 8px 6px; padding: 8px; border-radius: 10px; display: grid; grid-template-columns: 40px 1fr; gap: 4px 10px; align-items: center;
   color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6); /* Discord's panel sets color: transparent: our text was invisible */
@@ -136,6 +142,36 @@ function cover() {
     front = 1 - front;
   };
   img.src = url;
+}
+
+// The music video behind Discord (option "Music video background", off by default). Voltage sends it only while its own
+// background shows one (Settings > Appearance > Music video); the stream is YouTube's video-only file for this PC (no
+// sound), so it costs Discord one video decode. Paused while Voltage is paused or a game is running. Legcord drops
+// Discord's content security policy, so the video host loads; in a Discord that keeps it, the video just never shows.
+let vid = null;
+const VIDEO_HOST = /^https:\/\/[a-z0-9.-]+\.googlevideo\.com\//;
+function video() {
+  const want = store.look && store.video && !st.gaming && st.video?.url && VIDEO_HOST.test(st.video.url) ? st.video : null;
+  if (!want) {
+    if (vid) { vid.classList.remove('on'); vid.pause(); if (vid.getAttribute('src')) { vid.removeAttribute('src'); vid.load(); } }
+    return;
+  }
+  if (!vid) {
+    if (!shade) cover();
+    if (!shade) return;
+    vid = document.createElement('video');
+    vid.className = 'voltage-video';
+    vid.muted = true; vid.playsInline = true; vid.preload = 'auto';
+    vid.onloadeddata = () => vid.classList.add('on');
+    vid.onerror = () => vid.classList.remove('on');
+    shade.before(vid); // above the cover layers (prepended earlier), below the shade
+    nodes.push(vid);
+  }
+  if (vid.getAttribute('src') !== want.url) { vid.classList.remove('on'); vid.src = want.url; }
+  vid.loop = !want.synced;
+  if (want.synced && vid.readyState >= 1 && Math.abs(vid.currentTime - now()) > 1.5) vid.currentTime = now();
+  if (st.playing && vid.paused) vid.play().catch(() => {});
+  else if (!st.playing && !vid.paused) vid.pause();
 }
 
 /** A Voltage plugin's stylesheet for Discord (the Discord live theme), applied live: no Quick CSS file, no reload.
@@ -240,6 +276,7 @@ function settings() {
   status.textContent = live ? 'Connected to Voltage.' : 'Not connected: is Voltage running, with Settings > Plugins > Voltage for Discord on? The first time, allow it in Voltage.';
   box.append(status);
   row('Song colours and cover in Discord', check('look'));
+  row('Music video background (when Voltage shows one)', check('video'));
   row('Mini player in the user panel', check('mini'));
   row('The line being sung under it', check('lyric'));
   row('Lower the music for your mic', pick('mic', [['speaking', 'While you speak'], ['unmuted', 'While you are unmuted in a call'], ['off', 'Off']]));
@@ -253,6 +290,7 @@ function apply() {
   if (!store.look) { for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2']) document.documentElement.style.removeProperty(k); layers?.forEach((l) => l.classList.remove('on')); coverKey = null; }
   else { colours(); cover(); }
   if (!store.look) shade?.classList.remove('on');
+  video();
   onVoice();
   render();
 }
@@ -270,7 +308,7 @@ exports.onLoad = () => {
   sub('VOICE_STATE_UPDATES', onVoice);
   for (const t of ['CALL_CREATE', 'CALL_UPDATE', 'CALL_DELETE']) sub(t, onCall);
   for (const t of ['STREAM_START', 'STREAM_CREATE', 'STREAM_STOP', 'STREAM_DELETE']) sub(t, onStream);
-  tick = setInterval(() => { if (live && st.playing) render(); }, 1000); // the progress bar
+  tick = setInterval(() => { if (live && st.playing) { render(); video(); } }, 1000); // the progress bar, the video's sync
   connect();
 };
 exports.onUnload = () => {
@@ -283,7 +321,7 @@ exports.onUnload = () => {
   for (const n of nodes.splice(0)) n.remove();
   for (const k of ['--voltage-accent', '--voltage-c1', '--voltage-c2', '--voltage-readable']) document.documentElement.style.removeProperty(k);
   document.body.classList.remove('voltage-look');
-  layers = null; mini = null; coverKey = null; shade = null; sheets.clear();
+  layers = null; mini = null; coverKey = null; shade = null; vid = null; sheets.clear();
 };
 exports.settings = settings;
 return exports;
