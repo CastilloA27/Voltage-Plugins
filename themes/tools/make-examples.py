@@ -372,6 +372,11 @@ write('jackpot', {
 [data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
 [data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
 [data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+/* the home screen: the cover in a gold reel window, the playing row lit gold */
+[data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #e0a82e, 0 0 0 9px #5a1020, 0 0 30px rgb(255 190 40 / .45) !important; }
+[data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(255 204 51 / .22), transparent); box-shadow: inset 3px 0 0 #ffcc33; }
+/* the mini player is too small for marquee bulbs */
+[data-part="app"][data-state~="mini"] [data-part="overlay"] { background: none; animation: none; }
 /* the mini player: one reel window */
 .lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #e0a82e; padding: 4px; background: #2a0610; }
 """, files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.svg': reel_svg, 'assets/coin.svg': coin_svg,
