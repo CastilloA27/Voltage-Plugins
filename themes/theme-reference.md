@@ -148,6 +148,51 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `note.playNext` | Playing next: {title} |
 | `note.addedQueue` | Added to queue: {title} |
 | `note.addedTo` | Added to {playlist} |
+| `note.queueReplaced` | Queue replaced · Ctrl+Z to undo |
+| `note.sleepStopped` | Sleep timer: stopped after the song |
+| `note.miniGhost` | Mini player see-through: same hotkey to undo |
+| `note.noMoreResults` | No more results |
+| `note.romanInstalled` | Romanization installed |
+| `note.updateOut` | Voltage {version} is out · Settings > About to download it |
+| `note.upToDate` | Voltage {version} is the newest version |
+| `note.savedPlaylist` | Saved "{playlist}" |
+| `note.discoverOffline` | Discovery needs the internet |
+| `note.discoverEmptyPlaylist` | Discovery needs a playlist with songs in it |
+| `note.discoverNone` | No songs to discover for this playlist right now |
+| `note.discoverNoMore` | Discovery: no more songs for this playlist right now |
+| `note.notOnSpotifySkipped` | Not on Spotify: skipped {title} |
+| `note.discoverNotOnSpotify` | Discovery: these songs aren't on Spotify. Switch to This PC to hear them. |
+| `note.discoverAdded` | Added to {playlist}: {title} |
+| `note.radioFrom` | Up next: songs like {title} |
+| `note.sleepAfterSong` | Sleep timer: after this song |
+| `note.sleepMinutes` | Sleep timer: {minutes} min |
+| `note.sleepPaused` | Sleep timer: paused |
+| `note.removalUndone` | Removal undone |
+| `note.removedUnavailable` | Removed {count} unavailable song{s} · syncing with YouTube in the background |
+| `note.removedDuplicates` | Removed {count} duplicate{s} · syncing with YouTube in the background |
+| `note.libraryRefreshed` | Library refreshed |
+| `note.savedWillSync` | {what}: saved, will sync when Google allows |
+| `note.synced` | Synced {count} change{s} with YouTube |
+| `note.created` | Created "{playlist}" |
+| `note.deletedPlaylist` | Deleted "{playlist}" |
+| `note.addedToLibrary` | Added "{playlist}" to your library |
+| `note.queueCleared` | Queue cleared |
+| `note.discoverFinding` | Finding songs you haven't heard… |
+| `note.discoverNothingNew` | Nothing new to discover right now |
+| `note.discoverFound` | Discover: {count} songs you haven't played |
+| `note.offlineNotDownloaded` | Offline: "{title}" isn't downloaded |
+| `note.skippedUnplayable` | Skipped "{title}": {reason} on YouTube |
+| `note.noVideo` | No music video found for this song: showing the cover |
+| `note.notOnSpotifyStuck` | "{title}" isn't on Spotify, and nothing after it could play on {device}. Switch to This PC to play it. |
+| `note.notOnSpotify` | "{title}" isn't on Spotify: skipped on {device} |
+| `note.playingOn` | Playing on {device}. Game auto-pause controls it too. |
+| `note.spotifyConnected` | Spotify connected |
+| `note.downloadsRemoved` | Removed {count} downloads |
+| `note.backOnline` | Back online |
+| `note.playlistEmpty` | "{playlist}" is empty |
+| `note.queuedPlaylist` | Added {count} songs from "{playlist}" to the queue |
+| `note.backupSaved` | Backup saved to {path} |
+| `note.switchedAccount` | Switched to {account} |
 
 ## Supported settings (`"supports"`: values that work with the theme; others show as the first listed while it is on, the saved setting is untouched)
 

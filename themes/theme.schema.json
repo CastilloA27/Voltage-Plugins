@@ -1920,6 +1920,231 @@
      "type": "string",
      "maxLength": 60,
      "description": "Voltage: Added to {playlist}"
+    },
+    "note.queueReplaced": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Queue replaced · Ctrl+Z to undo"
+    },
+    "note.sleepStopped": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Sleep timer: stopped after the song"
+    },
+    "note.miniGhost": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Mini player see-through: same hotkey to undo"
+    },
+    "note.noMoreResults": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: No more results"
+    },
+    "note.romanInstalled": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Romanization installed"
+    },
+    "note.updateOut": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Voltage {version} is out · Settings > About to download it"
+    },
+    "note.upToDate": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Voltage {version} is the newest version"
+    },
+    "note.savedPlaylist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Saved \"{playlist}\""
+    },
+    "note.discoverOffline": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Discovery needs the internet"
+    },
+    "note.discoverEmptyPlaylist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Discovery needs a playlist with songs in it"
+    },
+    "note.discoverNone": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: No songs to discover for this playlist right now"
+    },
+    "note.discoverNoMore": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Discovery: no more songs for this playlist right now"
+    },
+    "note.notOnSpotifySkipped": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Not on Spotify: skipped {title}"
+    },
+    "note.discoverNotOnSpotify": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Discovery: these songs aren't on Spotify. Switch to This PC to hear them."
+    },
+    "note.discoverAdded": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Added to {playlist}: {title}"
+    },
+    "note.radioFrom": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Up next: songs like {title}"
+    },
+    "note.sleepAfterSong": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Sleep timer: after this song"
+    },
+    "note.sleepMinutes": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Sleep timer: {minutes} min"
+    },
+    "note.sleepPaused": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Sleep timer: paused"
+    },
+    "note.removalUndone": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Removal undone"
+    },
+    "note.removedUnavailable": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Removed {count} unavailable song{s} · syncing with YouTube in the background"
+    },
+    "note.removedDuplicates": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Removed {count} duplicate{s} · syncing with YouTube in the background"
+    },
+    "note.libraryRefreshed": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Library refreshed"
+    },
+    "note.savedWillSync": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: {what}: saved, will sync when Google allows"
+    },
+    "note.synced": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Synced {count} change{s} with YouTube"
+    },
+    "note.created": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Created \"{playlist}\""
+    },
+    "note.deletedPlaylist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Deleted \"{playlist}\""
+    },
+    "note.addedToLibrary": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Added \"{playlist}\" to your library"
+    },
+    "note.queueCleared": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Queue cleared"
+    },
+    "note.discoverFinding": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Finding songs you haven't heard…"
+    },
+    "note.discoverNothingNew": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Nothing new to discover right now"
+    },
+    "note.discoverFound": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Discover: {count} songs you haven't played"
+    },
+    "note.offlineNotDownloaded": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Offline: \"{title}\" isn't downloaded"
+    },
+    "note.skippedUnplayable": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Skipped \"{title}\": {reason} on YouTube"
+    },
+    "note.noVideo": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: No music video found for this song: showing the cover"
+    },
+    "note.notOnSpotifyStuck": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: \"{title}\" isn't on Spotify, and nothing after it could play on {device}. Switch to This PC to play it."
+    },
+    "note.notOnSpotify": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: \"{title}\" isn't on Spotify: skipped on {device}"
+    },
+    "note.playingOn": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Playing on {device}. Game auto-pause controls it too."
+    },
+    "note.spotifyConnected": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Spotify connected"
+    },
+    "note.downloadsRemoved": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Removed {count} downloads"
+    },
+    "note.backOnline": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Back online"
+    },
+    "note.playlistEmpty": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: \"{playlist}\" is empty"
+    },
+    "note.queuedPlaylist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Added {count} songs from \"{playlist}\" to the queue"
+    },
+    "note.backupSaved": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Backup saved to {path}"
+    },
+    "note.switchedAccount": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Switched to {account}"
     }
    },
    "additionalProperties": false
