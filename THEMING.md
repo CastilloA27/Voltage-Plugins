@@ -11,6 +11,15 @@ Reference (generated from Voltage's code, so it's always exact): [`themes/theme-
 (every token, variant, label and icon), [`themes/parts.md`](themes/parts.md) (every part you can style), and
 [`themes/theme.schema.json`](themes/theme.schema.json) (autocomplete and error marks in VS Code).
 
+## Examples
+
+Six complete themes in [`themes/`](themes/), each a folder you can install or copy: `voltage-starter` (Voltage's own look with
+every value written out: the best starting point), `terminal` (text only: pixel font, ASCII progress, renamed labels,
+scanlines), `crt-green` (green phosphor, vignette, flicker, click sounds), `pastel-goth` (rounded font, round covers,
+decorations in the overlay), `sidebar` (a different layout: song table in the middle, player bar along the bottom) and
+`frosted-light` (follows Windows' light / dark setting). Their fonts, art and sounds are made by
+[`themes/tools/make-examples.py`](themes/tools/make-examples.py) and are CC0: reuse them freely.
+
 ## Your first theme in 10 minutes
 
 1. Make a folder, for example `C:\themes\neon-night\`, with one file, `theme.json`:
@@ -48,7 +57,8 @@ Reference (generated from Voltage's code, so it's always exact): [`themes/theme-
 6. Before sharing: `node tools/theme-check.mjs C:\themes\neon-night` (in the Voltage repo) lists anything Voltage would
    refuse or drop. Share the folder (or zip it); others install it the same way.
 
-If a theme ever makes Voltage hard to use: tray icon > **Reset look**, or start Voltage with `--safe-mode`.
+A theme can't hide the window buttons: if its CSS hides or covers minimize, maximize or close, Voltage switches that CSS
+off and says so under the theme picker. If a theme ever makes Voltage hard to use: tray icon > **Reset look**, or start Voltage with `--safe-mode`.
 
 ## The package
 
@@ -126,7 +136,8 @@ Parts you can place: `sidebar` (search + tabs + list), `search`, `tracklist` (ta
 `player`, `progress`, `volume`, `lyrics`, `spacer`, `slot:<name>`. A part placed on its own leaves Now Playing (it never
 shows twice); a part you don't place isn't shown (its keyboard shortcuts still work). `below` gives another layout for
 windows up to that width. **A layout must show the song list and a way to play**, or Voltage keeps its own layout (so a
-theme can't lock you out of your music). Today only `home` can be laid out.
+theme can't lock you out of your music). Without `nowplaying`, the `player` cell also carries the volume, Play on (the
+output picker), radio and the full-screen button, so nothing is lost. Today only `home` can be laid out.
 
 ## Variants
 

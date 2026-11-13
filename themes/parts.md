@@ -42,6 +42,7 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `player.button.play` | `paused` `playing` | src/Players.jsx |
 | `player.button.prev` |  | src/Players.jsx |
 | `player.buttons` |  | src/Players.jsx |
+| `player.extras` |  | src/Players.jsx |
 | `progress` |  | src/Players.jsx |
 | `progress.bar` |  | src/Players.jsx |
 | `progress.time` | `loading` | src/Players.jsx |
@@ -70,4 +71,4 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `window.maximize` |  | src/App.jsx |
 | `window.minimize` |  | src/App.jsx |
 
-62 parts.
+63 parts.
