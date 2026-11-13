@@ -109,6 +109,12 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `library.liked` | Liked songs |
 | `library.recent` | Recently played |
 
+## Moments (`<html data-event="...">` for about 1.2 s; not while gaming or with reduced motion)
+
+`track-change`, `skip`, `previous`, `seek`, `like`, `unlike`, `shuffle`, `queue-add`, `download-done`
+
+Example: `:root[data-event="like"] [data-part="art"] { animation: pop .6s; }`
+
 ## Icons (`"icons"`: an svg / png / webp in the package, or `{"text": "..."}`)
 
 `play`, `check`, `pause`, `next`, `prev`, `close`, `block`, `min`, `max`, `mini`, `expand`, `gear`, `back`, `add`, `heart`, `list`, `thumbUp`, `thumbDown`, `moon`, `volUp`, `volOff`, `save`, `grid`, `spark`, `down`, `share`, `link`, `refresh`, `lyrics`, `shuffle`, `repeat`, `queueAdd`, `playNext`, `person`, `history`, `edit`, `dupes`, `fullscreen`, `chart`, `explore`, `video`, `download`, `speaker`, `radio`, `trash`, `search`

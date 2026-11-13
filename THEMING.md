@@ -96,7 +96,7 @@ Anything Voltage can't use is listed under the theme picker ("Theme report") and
 
 ## Tokens
 
-Tokens are named `group.name` (`color.bg`, `shape.k`, `font.body`); each sets a CSS variable that Voltage's own styles
+Tokens are named `group.name` (`color.bg`, `shape.roundness`, `font.body`); each sets a CSS variable that Voltage's own styles
 read, so one token changes every place that uses it. The full list with Voltage's own values is in
 [`themes/theme-reference.md`](themes/theme-reference.md). The ones that matter most:
 
@@ -173,6 +173,17 @@ the text colour, like Voltage's own) or up to 8 characters of text. Icon names a
 - **Overlay:** `"overlay": true` adds `[data-part="overlay"]` over the whole window; style it in your CSS
   (`background: repeating-linear-gradient(...)` for scanlines, `radial-gradient(...)` for a vignette, an image for
   stickers). It never takes clicks, and it disappears while a permission prompt is open.
+
+## Moments: animate on what happens
+
+For about 1.2 seconds after something happens, `<html>` carries `data-event`: `track-change`, `skip`, `previous`, `seek`,
+`like`, `unlike`, `shuffle`, `queue-add`, `download-done` (a new one restarts it). Not set while gaming or with reduced motion.
+
+```css
+:root[data-event="like"] [data-part="art"] { animation: pop .6s ease; }
+:root[data-event="track-change"] [data-part="info.title"] { animation: slide-in .5s ease; }
+@keyframes pop { 50% { transform: scale(1.06); } }
+```
 
 ## Behaviour: a companion plugin
 
