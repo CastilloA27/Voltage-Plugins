@@ -61,14 +61,17 @@
 :root[data-event="like"] [data-cell^="slot:reel"]::after, :root[data-event="like"] [data-cell="art"]::after { animation: payline 1.2s ease-out; }
 @keyframes payline { 10%, 30%, 50%, 70% { opacity: 1; } 20%, 40%, 60% { opacity: .3; } 100% { opacity: 0; } }
 
-/* marquee bulbs around the window, chasing */
+/* marquee bulbs: real bulbs (glass, gold socket, halo) in the margins outside the panels, framing the window like a
+   cabinet; nothing crosses the title bar. Four-bulb pattern (cyan, dark, violet, dark) moved one bulb per step = a chase. */
 [data-part="overlay"] {
-  background:
-    radial-gradient(circle, #e8fdff 0 3px, #00d2ff 4px, transparent 6px) 0 25px / 26px 14px repeat-x, /* the top row runs under the title bar (36 px), clear of the logo and buttons */
-    radial-gradient(circle, #f6e8ff 0 3px, #b26bff 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
-  animation: bulbs 1.2s steps(2) infinite;
+  /* the two bottom corners: a gold rivet over the spot where a column meets the row */
+  background-image: radial-gradient(circle, #d4af37 0 2.5px, #0d0a1f 3.5px), radial-gradient(circle, #d4af37 0 2.5px, #0d0a1f 3.5px), url("assets/bulbs-h.svg"), url("assets/bulbs-v.svg"), url("assets/bulbs-v.svg");
+  background-repeat: no-repeat, no-repeat, repeat-x, repeat-y, repeat-y;
+  background-size: 16px 16px, 16px 16px, 64px 16px, 16px 64px, 16px 64px;
+  background-position: -1px calc(100% + 1px), calc(100% + 1px) calc(100% + 1px), 0 calc(100% + 1px), -1px 0, calc(100% + 1px) 0;
+  animation: bulbs 2s steps(4) infinite;
 }
-@keyframes bulbs { to { background-position: 26px 25px, 39px calc(100% - 4px); } }
+@keyframes bulbs { to { background-position: -1px calc(100% + 1px), calc(100% + 1px) calc(100% + 1px), 64px calc(100% + 1px), -1px 64px, calc(100% + 1px) -64px; } }
 [data-part="overlay"]::before { content: ""; position: absolute; inset: -20% 0 0; background: url("assets/coin.svg") 0 0 / 46px 46px; opacity: 0;
   -webkit-mask: linear-gradient(transparent, #000 20%, #000 70%, transparent); mask: linear-gradient(transparent, #000 20%, #000 70%, transparent); }
 :root[data-event="like"] [data-part="overlay"]::before { animation: coins 1.2s linear; }
@@ -76,7 +79,7 @@
 [data-part="overlay"]::after { content: "BIG WIN"; position: absolute; inset: 0; display: grid; place-items: center; font: 900 min(13vw, 140px) "Bungee", sans-serif;
   color: #ffd700; text-shadow: 0 0 30px #7000ff, 0 0 60px #00d2ff, 0 6px 0 #3a1d7a; opacity: 0; }
 :root[data-event="like"] [data-part="overlay"]::after { animation: bigwin 1.2s ease-out; }
-:root[data-event="like"] [data-part="overlay"] { animation-duration: .25s; }
+:root[data-event="like"] [data-part="overlay"] { animation-duration: .5s; }
 @keyframes bigwin { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.08); } 35%, 60% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.15); } }
 @media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
 

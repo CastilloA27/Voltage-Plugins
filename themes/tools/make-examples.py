@@ -287,6 +287,30 @@ arcane_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800">' + 
 reel_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800"><defs><linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">'
             '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e8d6b0"/></linearGradient></defs>'
             + ''.join(f'<g transform="translate(0 {i * TILE})">{tile(b)}</g>' for i, b in enumerate(SYMBOLS)) + '</svg>\n')
+def _bulb(cx, cy, lit):
+    """One marquee bulb in a 16 x 16 cell: halo (lit only), gold socket ring, glass with a highlight."""
+    if lit:
+        g = {'c': ('#ffffff', '#8ff6ff', '#00b8e6'), 'h': '#00d2ff'} if lit == 'cyan' else {'c': ('#ffffff', '#e2b8ff', '#9b4dff'), 'h': '#b26bff'}
+        gid = f'b{lit}'
+        return (f'<circle cx="{cx}" cy="{cy}" r="8" fill="url(#{gid}h)"/>'
+                f'<circle cx="{cx}" cy="{cy}" r="4.6" fill="none" stroke="#d4af37" stroke-width="1.1"/>'
+                f'<circle cx="{cx}" cy="{cy}" r="3.8" fill="url(#{gid})"/>'
+                f'<ellipse cx="{cx - 1.2}" cy="{cy - 1.4}" rx="1.3" ry=".9" fill="#ffffff" opacity=".9"/>')
+    return (f'<circle cx="{cx}" cy="{cy}" r="4.6" fill="none" stroke="#8a7330" stroke-width="1.1"/>'
+            f'<circle cx="{cx}" cy="{cy}" r="3.8" fill="url(#boff)"/>'
+            f'<ellipse cx="{cx - 1.2}" cy="{cy - 1.4}" rx="1.1" ry=".7" fill="#ffffff" opacity=".25"/>')
+def _bulb_defs():
+    out = []
+    for name, (a, b, c), h in (('cyan', ('#ffffff', '#8ff6ff', '#00b8e6'), '#00d2ff'), ('violet', ('#ffffff', '#e2b8ff', '#9b4dff'), '#b26bff')):
+        out.append(f'<radialGradient id="b{name}" cx=".38" cy=".35" r=".7"><stop offset="0" stop-color="{a}"/><stop offset=".45" stop-color="{b}"/><stop offset="1" stop-color="{c}"/></radialGradient>')
+        out.append(f'<radialGradient id="b{name}h"><stop offset="0" stop-color="{h}" stop-opacity=".7"/><stop offset=".55" stop-color="{h}" stop-opacity=".25"/><stop offset="1" stop-color="{h}" stop-opacity="0"/></radialGradient>')
+    out.append('<radialGradient id="boff" cx=".38" cy=".35" r=".7"><stop offset="0" stop-color="#5a4f80"/><stop offset="1" stop-color="#1a1436"/></radialGradient>')
+    return '<defs>' + ''.join(out) + '</defs>'
+_PATTERN = ['cyan', None, 'violet', None]
+bulbs_h = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 16">' + _bulb_defs()
+           + ''.join(_bulb(8 + 16 * i, 8, lit) for i, lit in enumerate(_PATTERN)) + '</svg>' + chr(10))
+bulbs_v = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 64">' + _bulb_defs()
+           + ''.join(_bulb(8, 8 + 16 * i, lit) for i, lit in enumerate(_PATTERN)) + '</svg>' + chr(10))
 coin_svg = SVG('<circle cx="32" cy="32" r="26" fill="#ffc21a" stroke="#a86a00" stroke-width="4"/><circle cx="32" cy="32" r="17" fill="none" stroke="#fff0a0" stroke-width="3"/><path d="M27 22h10v20H27z" fill="#d4af37"/>')
 REEL = 180  # the largest symbol size (--reel in the CSS shrinks it on short windows)
 write('jackpot', {
@@ -383,14 +407,17 @@ write('jackpot', {
 :root[data-event="like"] [data-cell^="slot:reel"]::after, :root[data-event="like"] [data-cell="art"]::after { animation: payline 1.2s ease-out; }
 @keyframes payline { 10%, 30%, 50%, 70% { opacity: 1; } 20%, 40%, 60% { opacity: .3; } 100% { opacity: 0; } }
 
-/* marquee bulbs around the window, chasing */
+/* marquee bulbs: real bulbs (glass, gold socket, halo) in the margins outside the panels, framing the window like a
+   cabinet; nothing crosses the title bar. Four-bulb pattern (cyan, dark, violet, dark) moved one bulb per step = a chase. */
 [data-part="overlay"] {
-  background:
-    radial-gradient(circle, #e8fdff 0 3px, #00d2ff 4px, transparent 6px) 0 25px / 26px 14px repeat-x, /* the top row runs under the title bar (36 px), clear of the logo and buttons */
-    radial-gradient(circle, #f6e8ff 0 3px, #b26bff 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
-  animation: bulbs 1.2s steps(2) infinite;
+  /* the two bottom corners: a gold rivet over the spot where a column meets the row */
+  background-image: radial-gradient(circle, #d4af37 0 2.5px, #0d0a1f 3.5px), radial-gradient(circle, #d4af37 0 2.5px, #0d0a1f 3.5px), url("assets/bulbs-h.svg"), url("assets/bulbs-v.svg"), url("assets/bulbs-v.svg");
+  background-repeat: no-repeat, no-repeat, repeat-x, repeat-y, repeat-y;
+  background-size: 16px 16px, 16px 16px, 64px 16px, 16px 64px, 16px 64px;
+  background-position: -1px calc(100% + 1px), calc(100% + 1px) calc(100% + 1px), 0 calc(100% + 1px), -1px 0, calc(100% + 1px) 0;
+  animation: bulbs 2s steps(4) infinite;
 }
-@keyframes bulbs { to { background-position: 26px 25px, 39px calc(100% - 4px); } }
+@keyframes bulbs { to { background-position: -1px calc(100% + 1px), calc(100% + 1px) calc(100% + 1px), 64px calc(100% + 1px), -1px 64px, calc(100% + 1px) -64px; } }
 [data-part="overlay"]::before { content: ""; position: absolute; inset: -20% 0 0; background: url("assets/coin.svg") 0 0 / 46px 46px; opacity: 0;
   -webkit-mask: linear-gradient(transparent, #000 20%, #000 70%, transparent); mask: linear-gradient(transparent, #000 20%, #000 70%, transparent); }
 :root[data-event="like"] [data-part="overlay"]::before { animation: coins 1.2s linear; }
@@ -398,7 +425,7 @@ write('jackpot', {
 [data-part="overlay"]::after { content: "BIG WIN"; position: absolute; inset: 0; display: grid; place-items: center; font: 900 min(13vw, 140px) "Bungee", sans-serif;
   color: #ffd700; text-shadow: 0 0 30px #7000ff, 0 0 60px #00d2ff, 0 6px 0 #3a1d7a; opacity: 0; }
 :root[data-event="like"] [data-part="overlay"]::after { animation: bigwin 1.2s ease-out; }
-:root[data-event="like"] [data-part="overlay"] { animation-duration: .25s; }
+:root[data-event="like"] [data-part="overlay"] { animation-duration: .5s; }
 @keyframes bigwin { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.08); } 35%, 60% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.15); } }
 @media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
 
@@ -436,6 +463,6 @@ write('jackpot', {
 [data-part="app"][data-state~="mini"] [data-part="overlay"] { background: none; animation: none; }
 /* the mini player: one reel window */
 .lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #d4af37; padding: 4px; background: #120d26; }
-""", files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.svg': arcane_svg, 'assets/coin.svg': coin_svg,
+""", files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.svg': arcane_svg, 'assets/coin.svg': coin_svg, 'assets/bulbs-h.svg': bulbs_h, 'assets/bulbs-v.svg': bulbs_v,
             'assets/reel.wav': tone('reel'), 'assets/bell.wav': tone('bell'), 'assets/coin.wav': tone('coin'), 'assets/tick.wav': tone('tick'),
             'CREDITS.md': '# Credits\n\n- Font: Bungee by the Bungee Project Authors (David Jonathan Ross), SIL Open Font License 1.1 (assets/bungee/OFL.txt).\n- Reel symbols: the \"arcane tech\" slot symbol pack, provided by the Voltage author (2026-11-12).\n- Coins and sounds: made for Voltage, CC0.\n- Purely a look: no betting, credits or odds.\n'})
