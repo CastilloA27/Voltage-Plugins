@@ -1,0 +1,2432 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "Voltage theme (theme.json)",
+ "type": "object",
+ "required": [
+  "id",
+  "name",
+  "version"
+ ],
+ "properties": {
+  "$schema": {
+   "type": "string"
+  },
+  "id": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9-]{0,39}$"
+  },
+  "name": {
+   "type": "string",
+   "maxLength": 60
+  },
+  "version": {
+   "type": "string"
+  },
+  "author": {
+   "type": "string"
+  },
+  "description": {
+   "type": "string"
+  },
+  "minVoltage": {
+   "type": "string"
+  },
+  "extends": {
+   "type": "string",
+   "description": "A built-in theme (voltage, synthwave, midnight, matrix, mono, contrast) or an installed package"
+  },
+  "appearance": {
+   "enum": [
+    "dark",
+    "light",
+    "system"
+   ]
+  },
+  "tokens": {
+   "type": "object",
+   "properties": {
+    "color.bg": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--bg (color)"
+    },
+    "color.text": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--text (color)"
+    },
+    "color.text-dim": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--text-dim (color)"
+    },
+    "color.text-strong": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-text-strong (color)"
+    },
+    "color.text-soft": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-text-soft (color)"
+    },
+    "color.text-muted": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-text-muted (color)"
+    },
+    "color.surface": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--glass-bg (color)"
+    },
+    "color.border": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--glass-border (color)"
+    },
+    "color.brand": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--brand (color)"
+    },
+    "color.on-accent": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--on-accent (color)"
+    },
+    "color.knob": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-knob (color)"
+    },
+    "color.focus": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-focus (color)"
+    },
+    "color.placeholder": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-placeholder (color)"
+    },
+    "color.media-bg": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-media-bg (color)"
+    },
+    "color.danger": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-danger (color)"
+    },
+    "color.danger-bg": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-danger-bg (color)"
+    },
+    "color.danger-soft": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-danger-soft (color)"
+    },
+    "color.error-text": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-error-text (color)"
+    },
+    "color.warn": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-warn (color)"
+    },
+    "color.warn-soft": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-warn-soft (color)"
+    },
+    "color.ok": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-ok (color)"
+    },
+    "color.select-bg": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-select-bg (color)"
+    },
+    "color.mini-solid": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-mini-solid (color)"
+    },
+    "color.vinyl-groove": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-vinyl-groove (color)"
+    },
+    "color.vinyl-label-ring": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--color-vinyl-label-ring (color)"
+    },
+    "color.ink": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--ink (rgb)"
+    },
+    "color.shade": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--shade (rgb)"
+    },
+    "color.brand-rgb": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--brand-rgb (rgb)"
+    },
+    "color.warn-rgb": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--warn-rgb (rgb)"
+    },
+    "surface.menu": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--surface-menu (rgb)"
+    },
+    "surface.pop": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--surface-pop (rgb)"
+    },
+    "surface.drag": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--surface-drag (rgb)"
+    },
+    "surface.game": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--surface-game (rgb)"
+    },
+    "surface.tip": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--surface-tip (rgb)"
+    },
+    "effect.blur": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--glass-blur (length)"
+    },
+    "effect.glow-size": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--glow-size (length)"
+    },
+    "effect.glow-alpha": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--glow-alpha (percent)"
+    },
+    "accent.album-mix": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--bg-strength (number)"
+    },
+    "shape.radius": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--radius (length)"
+    },
+    "shape.k": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--shape-k (number)"
+    },
+    "shape.radius-circle": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--radius-circle (length)"
+    },
+    "shape.radius-pill": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--radius-pill (length)"
+    },
+    "font.body": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--font (font)"
+    },
+    "font.mono": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--font-mono (font)"
+    },
+    "font.console": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "description": "--font-console (font)"
+    }
+   },
+   "additionalProperties": false
+  },
+  "modes": {
+   "type": "object",
+   "properties": {
+    "light": {
+     "type": "object",
+     "properties": {
+      "color.bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--bg (color)"
+      },
+      "color.text": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--text (color)"
+      },
+      "color.text-dim": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--text-dim (color)"
+      },
+      "color.text-strong": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-text-strong (color)"
+      },
+      "color.text-soft": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-text-soft (color)"
+      },
+      "color.text-muted": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-text-muted (color)"
+      },
+      "color.surface": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glass-bg (color)"
+      },
+      "color.border": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glass-border (color)"
+      },
+      "color.brand": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--brand (color)"
+      },
+      "color.on-accent": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--on-accent (color)"
+      },
+      "color.knob": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-knob (color)"
+      },
+      "color.focus": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-focus (color)"
+      },
+      "color.placeholder": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-placeholder (color)"
+      },
+      "color.media-bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-media-bg (color)"
+      },
+      "color.danger": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-danger (color)"
+      },
+      "color.danger-bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-danger-bg (color)"
+      },
+      "color.danger-soft": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-danger-soft (color)"
+      },
+      "color.error-text": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-error-text (color)"
+      },
+      "color.warn": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-warn (color)"
+      },
+      "color.warn-soft": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-warn-soft (color)"
+      },
+      "color.ok": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-ok (color)"
+      },
+      "color.select-bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-select-bg (color)"
+      },
+      "color.mini-solid": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-mini-solid (color)"
+      },
+      "color.vinyl-groove": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-vinyl-groove (color)"
+      },
+      "color.vinyl-label-ring": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-vinyl-label-ring (color)"
+      },
+      "color.ink": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--ink (rgb)"
+      },
+      "color.shade": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--shade (rgb)"
+      },
+      "color.brand-rgb": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--brand-rgb (rgb)"
+      },
+      "color.warn-rgb": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--warn-rgb (rgb)"
+      },
+      "surface.menu": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-menu (rgb)"
+      },
+      "surface.pop": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-pop (rgb)"
+      },
+      "surface.drag": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-drag (rgb)"
+      },
+      "surface.game": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-game (rgb)"
+      },
+      "surface.tip": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-tip (rgb)"
+      },
+      "effect.blur": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glass-blur (length)"
+      },
+      "effect.glow-size": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glow-size (length)"
+      },
+      "effect.glow-alpha": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glow-alpha (percent)"
+      },
+      "accent.album-mix": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--bg-strength (number)"
+      },
+      "shape.radius": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--radius (length)"
+      },
+      "shape.k": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--shape-k (number)"
+      },
+      "shape.radius-circle": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--radius-circle (length)"
+      },
+      "shape.radius-pill": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--radius-pill (length)"
+      },
+      "font.body": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--font (font)"
+      },
+      "font.mono": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--font-mono (font)"
+      },
+      "font.console": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--font-console (font)"
+      }
+     },
+     "additionalProperties": false
+    },
+    "dark": {
+     "type": "object",
+     "properties": {
+      "color.bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--bg (color)"
+      },
+      "color.text": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--text (color)"
+      },
+      "color.text-dim": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--text-dim (color)"
+      },
+      "color.text-strong": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-text-strong (color)"
+      },
+      "color.text-soft": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-text-soft (color)"
+      },
+      "color.text-muted": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-text-muted (color)"
+      },
+      "color.surface": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glass-bg (color)"
+      },
+      "color.border": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glass-border (color)"
+      },
+      "color.brand": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--brand (color)"
+      },
+      "color.on-accent": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--on-accent (color)"
+      },
+      "color.knob": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-knob (color)"
+      },
+      "color.focus": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-focus (color)"
+      },
+      "color.placeholder": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-placeholder (color)"
+      },
+      "color.media-bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-media-bg (color)"
+      },
+      "color.danger": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-danger (color)"
+      },
+      "color.danger-bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-danger-bg (color)"
+      },
+      "color.danger-soft": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-danger-soft (color)"
+      },
+      "color.error-text": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-error-text (color)"
+      },
+      "color.warn": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-warn (color)"
+      },
+      "color.warn-soft": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-warn-soft (color)"
+      },
+      "color.ok": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-ok (color)"
+      },
+      "color.select-bg": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-select-bg (color)"
+      },
+      "color.mini-solid": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-mini-solid (color)"
+      },
+      "color.vinyl-groove": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-vinyl-groove (color)"
+      },
+      "color.vinyl-label-ring": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--color-vinyl-label-ring (color)"
+      },
+      "color.ink": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--ink (rgb)"
+      },
+      "color.shade": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--shade (rgb)"
+      },
+      "color.brand-rgb": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--brand-rgb (rgb)"
+      },
+      "color.warn-rgb": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--warn-rgb (rgb)"
+      },
+      "surface.menu": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-menu (rgb)"
+      },
+      "surface.pop": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-pop (rgb)"
+      },
+      "surface.drag": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-drag (rgb)"
+      },
+      "surface.game": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-game (rgb)"
+      },
+      "surface.tip": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--surface-tip (rgb)"
+      },
+      "effect.blur": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glass-blur (length)"
+      },
+      "effect.glow-size": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glow-size (length)"
+      },
+      "effect.glow-alpha": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--glow-alpha (percent)"
+      },
+      "accent.album-mix": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--bg-strength (number)"
+      },
+      "shape.radius": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--radius (length)"
+      },
+      "shape.k": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--shape-k (number)"
+      },
+      "shape.radius-circle": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--radius-circle (length)"
+      },
+      "shape.radius-pill": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--radius-pill (length)"
+      },
+      "font.body": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--font (font)"
+      },
+      "font.mono": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--font-mono (font)"
+      },
+      "font.console": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "description": "--font-console (font)"
+      }
+     },
+     "additionalProperties": false
+    }
+   },
+   "additionalProperties": false
+  },
+  "accent": {
+   "type": "object",
+   "properties": {
+    "mode": {
+     "enum": [
+      "album",
+      "fixed"
+     ]
+    },
+    "color": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    }
+   }
+  },
+  "fonts": {
+   "type": "array",
+   "maxItems": 20,
+   "items": {
+    "type": "object",
+    "required": [
+     "family",
+     "src"
+    ],
+    "properties": {
+     "family": {
+      "type": "string"
+     },
+     "src": {
+      "type": "string"
+     },
+     "weight": {
+      "type": [
+       "string",
+       "number"
+      ]
+     },
+     "style": {
+      "enum": [
+       "normal",
+       "italic"
+      ]
+     }
+    }
+   }
+  },
+  "css": {
+   "type": "string",
+   "description": "A CSS file in the package (512 KB at most)"
+  },
+  "layout": {
+   "type": "object",
+   "properties": {
+    "home": {
+     "type": "object",
+     "required": [
+      "areas",
+      "place"
+     ],
+     "properties": {
+      "areas": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+      },
+      "columns": {
+       "type": "string",
+       "description": "grid-template-columns, e.g. \"300px 1fr\""
+      },
+      "rows": {
+       "type": "string",
+       "description": "grid-template-rows"
+      },
+      "place": {
+       "type": "object",
+       "additionalProperties": {
+        "anyOf": [
+         {
+          "enum": [
+           "sidebar",
+           "search",
+           "tracklist",
+           "nowplaying",
+           "art",
+           "info",
+           "player",
+           "progress",
+           "volume",
+           "lyrics",
+           "spacer"
+          ]
+         },
+         {
+          "type": "string",
+          "pattern": "^slot:[a-z0-9-]{1,30}$"
+         }
+        ]
+       }
+      },
+      "below": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "object",
+        "required": [
+         "areas",
+         "place"
+        ],
+        "properties": {
+         "areas": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+         },
+         "columns": {
+          "type": "string",
+          "description": "grid-template-columns, e.g. \"300px 1fr\""
+         },
+         "rows": {
+          "type": "string",
+          "description": "grid-template-rows"
+         },
+         "place": {
+          "type": "object",
+          "additionalProperties": {
+           "anyOf": [
+            {
+             "enum": [
+              "sidebar",
+              "search",
+              "tracklist",
+              "nowplaying",
+              "art",
+              "info",
+              "player",
+              "progress",
+              "volume",
+              "lyrics",
+              "spacer"
+             ]
+            },
+            {
+             "type": "string",
+             "pattern": "^slot:[a-z0-9-]{1,30}$"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "additionalProperties": false
+  },
+  "parts": {
+   "type": "object",
+   "properties": {
+    "player": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "panel",
+        "compact",
+        "text"
+       ]
+      }
+     }
+    },
+    "progress": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "wave",
+        "line",
+        "blocks",
+        "ascii",
+        "none"
+       ]
+      }
+     }
+    },
+    "tracklist": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "rows",
+        "dense",
+        "table",
+        "text"
+       ]
+      }
+     }
+    },
+    "nav": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "icons",
+        "text"
+       ]
+      }
+     }
+    },
+    "art": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "cover",
+        "round",
+        "vinyl",
+        "none"
+       ]
+      }
+     }
+    },
+    "lyrics": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "karaoke",
+        "plain",
+        "ticker"
+       ]
+      }
+     }
+    },
+    "titlebar": {
+     "type": "object",
+     "properties": {
+      "variant": {
+       "enum": [
+        "full",
+        "minimal",
+        "hidden"
+       ]
+      }
+     }
+    }
+   },
+   "additionalProperties": false
+  },
+  "strings": {
+   "type": "object",
+   "properties": {
+    "brand": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Voltage"
+    },
+    "nav.settings": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Settings"
+    },
+    "nav.explore": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Explore"
+    },
+    "nav.stats": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Listening stats"
+    },
+    "nav.mini": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Mini player"
+    },
+    "window.minimize": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Minimize"
+    },
+    "window.maximize": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Maximize"
+    },
+    "tab.search": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Results"
+    },
+    "tab.library": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Library"
+    },
+    "tab.queue": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Queue"
+    },
+    "search.placeholder": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Search songs, artists, albums (Ctrl+F)"
+    },
+    "empty.search": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Type a song, artist or album and press Enter."
+    },
+    "empty.queue": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Play a song to start a queue."
+    },
+    "search.busy": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Searching…"
+    },
+    "player.prev": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Previous"
+    },
+    "player.play": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Play / pause"
+    },
+    "player.next": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Next"
+    },
+    "player.shuffle": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Shuffle"
+    },
+    "player.repeat": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Repeat"
+    },
+    "player.mute": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Mute (M)"
+    },
+    "player.unmute": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Unmute (M)"
+    },
+    "nowplaying.idle": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Nothing playing"
+    },
+    "nowplaying.lyrics": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Show lyrics"
+    },
+    "nowplaying.cover": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Show cover"
+    },
+    "nowplaying.fullscreen": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Full-screen player (F)"
+    },
+    "nowplaying.radio": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: More like this (replaces what's up next)"
+    },
+    "time.loading": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Loading…"
+    },
+    "lyrics.loading": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Loading lyrics…"
+    },
+    "lyrics.instrumental": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Instrumental"
+    },
+    "lyrics.none": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: No lyrics found for this song."
+    },
+    "view.explore": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Explore"
+    },
+    "view.settings": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Settings"
+    },
+    "view.stats": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Your listening"
+    },
+    "library.liked": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Liked songs"
+    },
+    "library.recent": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Recently played"
+    }
+   },
+   "additionalProperties": false
+  },
+  "icons": {
+   "type": "object",
+   "properties": {
+    "play": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "check": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "pause": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "next": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "prev": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "close": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "block": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "min": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "max": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "mini": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "expand": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "gear": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "back": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "add": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "heart": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "list": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "thumbUp": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "thumbDown": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "moon": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "volUp": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "volOff": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "save": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "grid": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "spark": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "down": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "share": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "link": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "refresh": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "lyrics": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "shuffle": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "repeat": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "queueAdd": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "playNext": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "person": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "history": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "edit": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "dupes": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "fullscreen": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "chart": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "explore": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "video": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "download": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "speaker": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "radio": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "trash": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    },
+    "search": {
+     "anyOf": [
+      {
+       "type": "string",
+       "pattern": "\\.(svg|png|webp)$"
+      },
+      {
+       "type": "object",
+       "required": [
+        "text"
+       ],
+       "properties": {
+        "text": {
+         "type": "string",
+         "maxLength": 8
+        }
+       }
+      }
+     ]
+    }
+   },
+   "additionalProperties": false
+  },
+  "sounds": {
+   "type": "object",
+   "properties": {
+    "click": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "hover": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "navigate": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "open": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "close": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "play": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "pause": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "skip": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "like": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "notify": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "error": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
+    }
+   },
+   "additionalProperties": false
+  },
+  "overlay": {
+   "type": "boolean"
+  },
+  "plugin": {
+   "type": "string",
+   "pattern": "^[a-z0-9-]{1,40}$"
+  }
+ },
+ "additionalProperties": false
+}
