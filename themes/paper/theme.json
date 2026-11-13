@@ -1,0 +1,86 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "paper",
+  "name": "Paper",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "light",
+  "description": "Black ink on newsprint: a blackletter masthead, big serif headlines, halftone covers, ruled columns. No glass, no glow.",
+  "fonts": [
+    {
+      "family": "Playfair Display",
+      "src": "assets/playfair/PlayfairDisplay.ttf",
+      "weight": "400 900"
+    },
+    {
+      "family": "UnifrakturMaguntia",
+      "src": "assets/unifraktur/UnifrakturMaguntia-Book.ttf"
+    }
+  ],
+  "tokens": {
+    "color.bg": "#f1ece1",
+    "color.text": "#161412",
+    "color.text-dim": "#4d4740",
+    "color.text-strong": "#000000",
+    "color.text-soft": "#2a2622",
+    "color.text-muted": "#3d3832",
+    "color.surface": "#f7f3ea",
+    "color.border": "rgba(22, 20, 18, .85)",
+    "color.ink": "#161412",
+    "color.shade": "#5a5248",
+    "color.knob": "#f1ece1",
+    "color.focus": "#161412",
+    "color.placeholder": "#ddd6c8",
+    "color.select-bg": "#e3dccd",
+    "color.mini-solid": "#f1ece1",
+    "color.media-bg": "#e6e0d3",
+    "surface.menu": "#f7f3ea",
+    "surface.pop": "#f7f3ea",
+    "surface.drag": "#efe9dc",
+    "surface.game": "#f1ece1",
+    "surface.tip": "#f7f3ea",
+    "color.danger": "#a3201a",
+    "color.error-text": "#a3201a",
+    "color.ok": "#2c5e1a",
+    "color.warn": "#7a4a00",
+    "color.brand": "#161412",
+    "color.on-accent": "#f1ece1",
+    "effect.blur": "0px",
+    "effect.glow-size": "0px",
+    "effect.glow-alpha": "0%",
+    "accent.album-mix": "0",
+    "shape.radius": "0px",
+    "shape.roundness": "0"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#161412"
+  },
+  "parts": {
+    "tracklist": {
+      "variant": "table"
+    },
+    "progress": {
+      "variant": "line"
+    },
+    "art": {
+      "variant": "cover"
+    }
+  },
+  "supports": {
+    "background": [
+      "black"
+    ]
+  },
+  "strings": {
+    "nowplaying.idle": "Stop the presses: nothing is playing",
+    "empty.queue": "No stories filed yet. Queue a song.",
+    "empty.search": "Search the archives",
+    "library.liked": "Clippings",
+    "explore.fromLiked": "From your clippings",
+    "nav.stats": "The almanac",
+    "note.liked": "Clipped"
+  },
+  "css": "theme.css"
+}

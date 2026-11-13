@@ -1,0 +1,37 @@
+/* the backdrop: a dark olive map grid with a vignette, never the album's colours */
+[data-part="background"] { background-color: #0b0e08 !important; opacity: 1 !important;
+  background-image: radial-gradient(120% 100% at 50% 40%, transparent 40%, rgb(0 0 0 / .7)), linear-gradient(rgb(160 180 110 / .07) 1px, transparent 1px), linear-gradient(90deg, rgb(160 180 110 / .07) 1px, transparent 1px) !important;
+  background-size: auto, 48px 48px, 48px 48px !important; }
+
+/* lettering: stencil headings, mono readouts */
+[data-part="titlebar.brand"], [data-part="info.title"], .for-you-title, [data-part="explore.shelf"] h2 { font-family: "Black Ops One", "Bahnschrift", sans-serif; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
+[data-part="titlebar.brand"] { color: #ffb000; }
+[data-part="info.title"] { color: #f4f7e8; text-shadow: 0 0 10px rgb(255 176 0 / .25); }
+[data-part="progress.time"], [data-part="tracklist.row.time"], [data-part="search"], [data-part="tracklist.tabs"], [data-part="info"] { font-family: "Share Tech Mono", Consolas, monospace; }
+
+/* corner brackets on every panel */
+[data-part="sidebar"], [data-part="nowplaying"], [data-part="dialog"], [data-part="menu"], [data-part="explore.card"] { background-image: linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000); background-size: 16px 2px, 2px 16px, 16px 2px, 2px 16px, 16px 2px, 2px 16px, 16px 2px, 2px 16px; background-position: left top, left top, right top, right top, left bottom, left bottom, right bottom, right bottom; background-repeat: no-repeat; }
+
+/* the playing row: an amber target marker */
+[data-part="tracklist.row"][data-state~="active"] { background-color: rgb(255 176 0 / .12) !important; box-shadow: inset 3px 0 0 #ffb000; }
+
+/* progress: a compass tape (ticks every 10 px, a long one every 50) */
+[data-part="progress"] { position: relative; }
+[data-part="progress.bar"] { background-image: linear-gradient(90deg, rgb(255 176 0 / .55) 0 1px, transparent 1px), linear-gradient(90deg, rgb(223 228 207 / .28) 0 1px, transparent 1px);
+  background-size: 50px 12px, 10px 6px; background-repeat: repeat-x; background-position: 0 50%, 0 50%; }
+
+/* covers: a thin amber frame and a scan line */
+[data-part="art"] img { outline: 1px solid rgb(255 176 0 / .5); outline-offset: 4px; filter: saturate(.75) contrast(1.05); }
+
+/* buttons: square, amber play */
+[data-part="player.button.play"] { border-radius: 3px !important; background-color: #ffb000 !important; color: #1a1200 !important; box-shadow: 0 0 0 2px #0b0e08, 0 0 0 3px #ffb000 !important; }
+
+/* nothing playing: a blinking NO SIGNAL */
+[data-part="nowplaying.idle"] .logo { font-family: "Black Ops One", sans-serif; color: #ffb000; letter-spacing: .1em; text-transform: uppercase; }
+[data-part="nowplaying.idle"] p { font-family: "Share Tech Mono", monospace; text-transform: uppercase; letter-spacing: .14em; color: #dfe4cf; animation: hud-blink 1.2s steps(2) infinite; }
+@keyframes hud-blink { 50% { opacity: .3; } }
+
+/* the mini player: a HUD strip for over games */
+.lay-view-mini { font-family: "Share Tech Mono", Consolas, monospace; text-transform: uppercase; letter-spacing: .04em; }
+.lay-view-mini [data-cell="art"] img { outline: 1px solid #ffb000; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { [data-part="nowplaying.idle"] p { animation: none; } }

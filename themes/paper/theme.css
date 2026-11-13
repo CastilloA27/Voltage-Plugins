@@ -1,0 +1,29 @@
+/* the masthead and the headlines */
+[data-part="titlebar"] { border-bottom: 3px double #161412; }
+[data-part="titlebar.brand"] { font-family: "UnifrakturMaguntia", "Old English Text MT", serif; font-size: 24px; letter-spacing: 0; color: #000; text-transform: none; }
+[data-part="info.title"], .for-you-title, [data-part="explore.shelf"] h2, [data-part="explore.shelf"] h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 900; letter-spacing: -.01em; color: #000; }
+[data-part="info.title"] { font-size: 34px; line-height: 1.05; }
+[data-part="info"] { font-family: "Playfair Display", Georgia, serif; font-style: italic; }
+[data-part="info"] [data-part="info.title"] { font-style: normal; }
+[data-part="tracklist.row.title"] { font-family: "Playfair Display", Georgia, serif; font-weight: 700; }
+[data-part="tracklist.row.artist"], [data-part="tracklist.row.time"] { color: #3d3832; opacity: 1; }
+[data-part="lyrics.line"] { font-family: "Playfair Display", Georgia, serif; }
+
+/* columns: ruled boxes with a hard offset shadow, like paste-up on a light table */
+[data-part="sidebar"], [data-part="nowplaying"], [data-part="dialog"], [data-part="menu"] {
+  background-color: #f7f3ea !important; border: 1.5px solid #161412 !important; box-shadow: 5px 5px 0 #161412 !important; }
+[data-part="tracklist.row"] { border-bottom: 1px dotted rgb(22 20 18 / .45); }
+[data-part="tracklist.row"][data-state~="active"] { background-color: #161412 !important; }
+[data-part="tracklist.row"][data-state~="active"], [data-part="tracklist.row"][data-state~="active"] * { color: #f1ece1 !important; }
+
+/* halftone covers: grey ink through a dot screen (a mask on the picture itself: full ink on the dots, lighter between) */
+[data-part="art"] img, [data-part="tracklist.row"] img, [data-part="explore.card"] img { filter: grayscale(1) contrast(1.25) brightness(1.05); }
+[data-part="art"] img { border: 1.5px solid #161412;
+  -webkit-mask-image: radial-gradient(circle, #000 0 1.3px, rgb(0 0 0 / .62) 1.9px); -webkit-mask-size: 4px 4px;
+  mask-image: radial-gradient(circle, #000 0 1.3px, rgb(0 0 0 / .62) 1.9px); mask-size: 4px 4px; }
+
+/* the player: ink buttons */
+[data-part="player.button.play"] { background-color: #161412 !important; color: #f1ece1 !important; box-shadow: none !important; }
+[data-part="progress.bar"] { filter: grayscale(1); }
+[data-part="nowplaying.idle"] .logo { font-family: "UnifrakturMaguntia", serif; font-size: 56px; color: #000; text-shadow: none; }
+[data-part="nowplaying.idle"] p { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 16px; border-top: 1px solid #161412; border-bottom: 1px solid #161412; padding: 4px 18px; }

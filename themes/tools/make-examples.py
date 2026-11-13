@@ -466,3 +466,128 @@ write('jackpot', {
 """, files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.svg': arcane_svg, 'assets/coin.svg': coin_svg, 'assets/bulbs-h.svg': bulbs_h, 'assets/bulbs-v.svg': bulbs_v,
             'assets/reel.wav': tone('reel'), 'assets/bell.wav': tone('bell'), 'assets/coin.wav': tone('coin'), 'assets/tick.wav': tone('tick'),
             'CREDITS.md': '# Credits\n\n- Font: Bungee by the Bungee Project Authors (David Jonathan Ross), SIL Open Font License 1.1 (assets/bungee/OFL.txt).\n- Reel symbols: the \"arcane tech\" slot symbol pack, provided by the Voltage author (2026-11-12).\n- Coins and sounds: made for Voltage, CC0.\n- Purely a look: no betting, credits or odds.\n'})
+
+# ── 8. paper: black ink on newsprint. A blackletter masthead, big serif headlines, halftone covers, ruled columns,
+#    no glass and no glow (docs/review-round-14.md > Paper). Fonts: Playfair Display + UnifrakturMaguntia (OFL).
+INK, PAPER = '#161412', '#f1ece1'
+write('paper', {
+    'id': 'paper', 'name': 'Paper', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'light',
+    'description': 'Black ink on newsprint: a blackletter masthead, big serif headlines, halftone covers, ruled columns. No glass, no glow.',
+    'fonts': [{'family': 'Playfair Display', 'src': 'assets/playfair/PlayfairDisplay.ttf', 'weight': '400 900'},
+              {'family': 'UnifrakturMaguntia', 'src': 'assets/unifraktur/UnifrakturMaguntia-Book.ttf'}],
+    'tokens': {'color.bg': PAPER, 'color.text': INK, 'color.text-dim': '#4d4740', 'color.text-strong': '#000000',
+               'color.text-soft': '#2a2622', 'color.text-muted': '#3d3832', 'color.surface': '#f7f3ea',
+               'color.border': 'rgba(22, 20, 18, .85)', 'color.ink': INK, 'color.shade': '#5a5248', 'color.knob': PAPER,
+               'color.focus': INK, 'color.placeholder': '#ddd6c8', 'color.select-bg': '#e3dccd', 'color.mini-solid': PAPER,
+               'color.media-bg': '#e6e0d3', 'surface.menu': '#f7f3ea', 'surface.pop': '#f7f3ea', 'surface.drag': '#efe9dc',
+               'surface.game': PAPER, 'surface.tip': '#f7f3ea', 'color.danger': '#a3201a', 'color.error-text': '#a3201a',
+               'color.ok': '#2c5e1a', 'color.warn': '#7a4a00', 'color.brand': INK, 'color.on-accent': PAPER,
+               'effect.blur': '0px', 'effect.glow-size': '0px', 'effect.glow-alpha': '0%', 'accent.album-mix': '0',
+               'shape.radius': '0px', 'shape.roundness': '0'},
+    'accent': {'mode': 'fixed', 'color': INK},
+    'parts': {'tracklist': {'variant': 'table'}, 'progress': {'variant': 'line'}, 'art': {'variant': 'cover'}},
+    # the page is the background: the album's colours, a blurred cover or a video behind newsprint don't belong
+    'supports': {'background': ['black']},
+    'strings': {'nowplaying.idle': 'Stop the presses: nothing is playing', 'empty.queue': 'No stories filed yet. Queue a song.',
+                'empty.search': 'Search the archives', 'library.liked': 'Clippings', 'explore.fromLiked': 'From your clippings',
+                'nav.stats': 'The almanac', 'note.liked': 'Clipped'},
+}, css=r"""
+/* the masthead and the headlines */
+[data-part="titlebar"] { border-bottom: 3px double #161412; }
+[data-part="titlebar.brand"] { font-family: "UnifrakturMaguntia", "Old English Text MT", serif; font-size: 24px; letter-spacing: 0; color: #000; text-transform: none; }
+[data-part="info.title"], .for-you-title, [data-part="explore.shelf"] h2, [data-part="explore.shelf"] h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 900; letter-spacing: -.01em; color: #000; }
+[data-part="info.title"] { font-size: 34px; line-height: 1.05; }
+[data-part="info"] { font-family: "Playfair Display", Georgia, serif; font-style: italic; }
+[data-part="info"] [data-part="info.title"] { font-style: normal; }
+[data-part="tracklist.row.title"] { font-family: "Playfair Display", Georgia, serif; font-weight: 700; }
+[data-part="tracklist.row.artist"], [data-part="tracklist.row.time"] { color: #3d3832; opacity: 1; }
+[data-part="lyrics.line"] { font-family: "Playfair Display", Georgia, serif; }
+
+/* columns: ruled boxes with a hard offset shadow, like paste-up on a light table */
+[data-part="sidebar"], [data-part="nowplaying"], [data-part="dialog"], [data-part="menu"] {
+  background-color: #f7f3ea !important; border: 1.5px solid #161412 !important; box-shadow: 5px 5px 0 #161412 !important; }
+[data-part="tracklist.row"] { border-bottom: 1px dotted rgb(22 20 18 / .45); }
+[data-part="tracklist.row"][data-state~="active"] { background-color: #161412 !important; }
+[data-part="tracklist.row"][data-state~="active"], [data-part="tracklist.row"][data-state~="active"] * { color: #f1ece1 !important; }
+
+/* halftone covers: grey ink through a dot screen (a mask on the picture itself: full ink on the dots, lighter between) */
+[data-part="art"] img, [data-part="tracklist.row"] img, [data-part="explore.card"] img { filter: grayscale(1) contrast(1.25) brightness(1.05); }
+[data-part="art"] img { border: 1.5px solid #161412;
+  -webkit-mask-image: radial-gradient(circle, #000 0 1.3px, rgb(0 0 0 / .62) 1.9px); -webkit-mask-size: 4px 4px;
+  mask-image: radial-gradient(circle, #000 0 1.3px, rgb(0 0 0 / .62) 1.9px); mask-size: 4px 4px; }
+
+/* the player: ink buttons */
+[data-part="player.button.play"] { background-color: #161412 !important; color: #f1ece1 !important; box-shadow: none !important; }
+[data-part="progress.bar"] { filter: grayscale(1); }
+[data-part="nowplaying.idle"] .logo { font-family: "UnifrakturMaguntia", serif; font-size: 56px; color: #000; text-shadow: none; }
+[data-part="nowplaying.idle"] p { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 16px; border-top: 1px solid #161412; border-bottom: 1px solid #161412; padding: 4px 18px; }
+""", files={**ofl('playfair', 'PlayfairDisplay.ttf'), **ofl('unifraktur', 'UnifrakturMaguntia-Book.ttf'),
+            'CREDITS.md': '# Credits\n\n- Fonts: Playfair Display by the Playfair Display Project Authors (Claus Eggers Sorensen), and UnifrakturMaguntia by j. \'mach\' wust and Peter Wiegel; both SIL Open Font License 1.1 (assets/playfair/OFL.txt, assets/unifraktur/OFL.txt).\n- Everything else: made for Voltage, CC0.\n'})
+
+PANEL_BRACKETS = 'background-image: linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000), linear-gradient(#ffb000, #ffb000); background-size: 16px 2px, 2px 16px, 16px 2px, 2px 16px, 16px 2px, 2px 16px, 16px 2px, 2px 16px; background-position: left top, left top, right top, right top, left bottom, left bottom, right bottom, right bottom; background-repeat: no-repeat;'
+WINDOW_BRACKETS = 'background-image: linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)), linear-gradient(rgb(255 176 0 / .8), rgb(255 176 0 / .8)); background-size: 34px 3px, 3px 34px, 34px 3px, 3px 34px, 34px 3px, 3px 34px, 34px 3px, 3px 34px; background-position: left top, left top, right top, right top, left bottom, left bottom, right bottom, right bottom; background-repeat: no-repeat;'
+# ── 9. tactical: a gamer HUD. Olive and amber, corner brackets on every panel, a stencil font, a compass-tape progress
+#    bar, "uplink" wording, the mini player as a HUD strip for over games (docs/review-round-14.md > Tactical).
+#    Fonts: Black Ops One + Share Tech Mono (OFL).
+write('tactical', {
+    'id': 'tactical', 'name': 'Tactical', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'description': 'A gamer HUD: olive and amber, corner brackets on every panel, a stencil font, a compass-tape progress bar, the mini player as a HUD strip.',
+    'fonts': [{'family': 'Black Ops One', 'src': 'assets/blackops/BlackOpsOne-Regular.ttf'},
+              {'family': 'Share Tech Mono', 'src': 'assets/sharetech/ShareTechMono-Regular.ttf'}],
+    'tokens': {'color.bg': '#0b0e08', 'color.text': '#dfe4cf', 'color.text-dim': '#a3ad8c', 'color.text-strong': '#f4f7e8',
+               'color.text-soft': '#cfd6ba', 'color.text-muted': '#b7c09f', 'color.surface': 'rgba(22, 28, 15, .84)',
+               'color.border': 'rgba(255, 176, 0, .22)', 'color.brand': '#ffb000', 'color.on-accent': '#1a1200', 'color.knob': '#ffcf5a',
+               'color.select-bg': '#2a3218', 'surface.menu': '#141a0d', 'surface.pop': '#161d0f', 'surface.tip': '#141a0d',
+               'effect.blur': '4px', 'effect.glow-size': '8px', 'effect.glow-alpha': '35%', 'accent.album-mix': '0',
+               'shape.radius': '2px', 'shape.roundness': '0.2'},
+    'accent': {'mode': 'fixed', 'color': '#ffb000'},
+    'parts': {'progress': {'variant': 'line'}, 'tracklist': {'variant': 'dense'}},
+    # its own grid backdrop: album colours, a blurred cover or a video behind the HUD clash with it
+    'supports': {'background': ['gradient']},
+    'strings': {'nowplaying.idle': 'No signal. Awaiting uplink', 'empty.queue': 'Queue empty. Awaiting orders.',
+                'empty.search': 'Enter search coordinates', 'library.liked': 'Commendations', 'explore.fromLiked': 'From your commendations',
+                'nav.stats': 'Debrief', 'note.liked': 'Target marked', 'player.next': 'Advance', 'player.prev': 'Fall back'},
+    'sounds': {'click': 'assets/tick.wav', 'navigate': 'assets/blip.wav', 'skip': 'assets/hum.wav'},
+    'layout': {'mini': {'areas': ['art meta ctl'], 'columns': '48px 1fr auto', 'place': {'art': 'art', 'meta': 'info', 'ctl': 'player'}}},
+}, css=r"""
+/* the backdrop: a dark olive map grid with a vignette, never the album's colours */
+[data-part="background"] { background-color: #0b0e08 !important; opacity: 1 !important;
+  background-image: radial-gradient(120% 100% at 50% 40%, transparent 40%, rgb(0 0 0 / .7)), linear-gradient(rgb(160 180 110 / .07) 1px, transparent 1px), linear-gradient(90deg, rgb(160 180 110 / .07) 1px, transparent 1px) !important;
+  background-size: auto, 48px 48px, 48px 48px !important; }
+
+/* lettering: stencil headings, mono readouts */
+[data-part="titlebar.brand"], [data-part="info.title"], .for-you-title, [data-part="explore.shelf"] h2 { font-family: "Black Ops One", "Bahnschrift", sans-serif; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
+[data-part="titlebar.brand"] { color: #ffb000; }
+[data-part="info.title"] { color: #f4f7e8; text-shadow: 0 0 10px rgb(255 176 0 / .25); }
+[data-part="progress.time"], [data-part="tracklist.row.time"], [data-part="search"], [data-part="tracklist.tabs"], [data-part="info"] { font-family: "Share Tech Mono", Consolas, monospace; }
+
+/* corner brackets on every panel */
+[data-part="sidebar"], [data-part="nowplaying"], [data-part="dialog"], [data-part="menu"], [data-part="explore.card"] { __PANEL__ }
+
+/* the playing row: an amber target marker */
+[data-part="tracklist.row"][data-state~="active"] { background-color: rgb(255 176 0 / .12) !important; box-shadow: inset 3px 0 0 #ffb000; }
+
+/* progress: a compass tape (ticks every 10 px, a long one every 50) */
+[data-part="progress"] { position: relative; }
+[data-part="progress.bar"] { background-image: linear-gradient(90deg, rgb(255 176 0 / .55) 0 1px, transparent 1px), linear-gradient(90deg, rgb(223 228 207 / .28) 0 1px, transparent 1px);
+  background-size: 50px 12px, 10px 6px; background-repeat: repeat-x; background-position: 0 50%, 0 50%; }
+
+/* covers: a thin amber frame and a scan line */
+[data-part="art"] img { outline: 1px solid rgb(255 176 0 / .5); outline-offset: 4px; filter: saturate(.75) contrast(1.05); }
+
+/* buttons: square, amber play */
+[data-part="player.button.play"] { border-radius: 3px !important; background-color: #ffb000 !important; color: #1a1200 !important; box-shadow: 0 0 0 2px #0b0e08, 0 0 0 3px #ffb000 !important; }
+
+/* nothing playing: a blinking NO SIGNAL */
+[data-part="nowplaying.idle"] .logo { font-family: "Black Ops One", sans-serif; color: #ffb000; letter-spacing: .1em; text-transform: uppercase; }
+[data-part="nowplaying.idle"] p { font-family: "Share Tech Mono", monospace; text-transform: uppercase; letter-spacing: .14em; color: #dfe4cf; animation: hud-blink 1.2s steps(2) infinite; }
+@keyframes hud-blink { 50% { opacity: .3; } }
+
+/* the mini player: a HUD strip for over games */
+.lay-view-mini { font-family: "Share Tech Mono", Consolas, monospace; text-transform: uppercase; letter-spacing: .04em; }
+.lay-view-mini [data-cell="art"] img { outline: 1px solid #ffb000; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { [data-part="nowplaying.idle"] p { animation: none; } }
+""".replace('__PANEL__', PANEL_BRACKETS),
+files={**ofl('blackops', 'BlackOpsOne-Regular.ttf'), **ofl('sharetech', 'ShareTechMono-Regular.ttf'),
+       'assets/tick.wav': tone('tick'), 'assets/blip.wav': tone('blip'), 'assets/hum.wav': tone('hum'),
+       'CREDITS.md': '# Credits\n\n- Fonts: Black Ops One by the Black-Ops Project Authors, and Share Tech Mono by Carrois Type Design (Ralph du Carrois); both SIL Open Font License 1.1 (assets/blackops/OFL.txt, assets/sharetech/OFL.txt).\n- Sounds: made for Voltage, CC0.\n'})

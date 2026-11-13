@@ -1,0 +1,90 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "tactical",
+  "name": "Tactical",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "dark",
+  "description": "A gamer HUD: olive and amber, corner brackets on every panel, a stencil font, a compass-tape progress bar, the mini player as a HUD strip.",
+  "fonts": [
+    {
+      "family": "Black Ops One",
+      "src": "assets/blackops/BlackOpsOne-Regular.ttf"
+    },
+    {
+      "family": "Share Tech Mono",
+      "src": "assets/sharetech/ShareTechMono-Regular.ttf"
+    }
+  ],
+  "tokens": {
+    "color.bg": "#0b0e08",
+    "color.text": "#dfe4cf",
+    "color.text-dim": "#a3ad8c",
+    "color.text-strong": "#f4f7e8",
+    "color.text-soft": "#cfd6ba",
+    "color.text-muted": "#b7c09f",
+    "color.surface": "rgba(22, 28, 15, .84)",
+    "color.border": "rgba(255, 176, 0, .22)",
+    "color.brand": "#ffb000",
+    "color.on-accent": "#1a1200",
+    "color.knob": "#ffcf5a",
+    "color.select-bg": "#2a3218",
+    "surface.menu": "#141a0d",
+    "surface.pop": "#161d0f",
+    "surface.tip": "#141a0d",
+    "effect.blur": "4px",
+    "effect.glow-size": "8px",
+    "effect.glow-alpha": "35%",
+    "accent.album-mix": "0",
+    "shape.radius": "2px",
+    "shape.roundness": "0.2"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#ffb000"
+  },
+  "parts": {
+    "progress": {
+      "variant": "line"
+    },
+    "tracklist": {
+      "variant": "dense"
+    }
+  },
+  "supports": {
+    "background": [
+      "gradient"
+    ]
+  },
+  "strings": {
+    "nowplaying.idle": "No signal. Awaiting uplink",
+    "empty.queue": "Queue empty. Awaiting orders.",
+    "empty.search": "Enter search coordinates",
+    "library.liked": "Commendations",
+    "explore.fromLiked": "From your commendations",
+    "nav.stats": "Debrief",
+    "note.liked": "Target marked",
+    "player.next": "Advance",
+    "player.prev": "Fall back"
+  },
+  "sounds": {
+    "click": "assets/tick.wav",
+    "navigate": "assets/blip.wav",
+    "skip": "assets/hum.wav"
+  },
+  "layout": {
+    "mini": {
+      "areas": [
+        "art meta ctl"
+      ],
+      "columns": "48px 1fr auto",
+      "place": {
+        "art": "art",
+        "meta": "info",
+        "ctl": "player"
+      }
+    }
+  },
+  "css": "theme.css"
+}
