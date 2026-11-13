@@ -80,8 +80,8 @@
         "prog prog prog prog prog prog prog",
         "ctl ctl ctl ctl ctl vol vol"
       ],
-      "columns": "1fr repeat(5, 180px) 1fr",
-      "rows": "auto 540px 48px 96px",
+      "columns": "1fr repeat(5, var(--reel)) 1fr",
+      "rows": "auto calc(var(--reel) * 3) 48px 96px",
       "place": {
         "back": "back",
         "info": "info",
@@ -100,17 +100,19 @@
       "below": {
         "1100px": {
           "areas": [
-            "back info video",
-            "r2 art r4",
-            "prog prog prog",
-            "ctl ctl vol"
+            "back info info info video",
+            "l r2 art r4 r",
+            "prog prog prog prog prog",
+            "ctl ctl ctl vol vol"
           ],
-          "columns": "1fr 180px 1fr",
-          "rows": "auto 540px 48px 96px",
+          "columns": "1fr repeat(3, var(--reel)) 1fr",
+          "rows": "auto calc(var(--reel) * 3) 48px 96px",
           "place": {
             "back": "back",
             "info": "info",
             "video": "video",
+            "l": "spacer",
+            "r": "spacer",
             "r2": "slot:reel2",
             "art": "art",
             "r4": "slot:reel4",

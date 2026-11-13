@@ -7,10 +7,18 @@ const RANK = ['common', 'rare', 'epic', 'legendary'];
 const rnd = (n) => Math.floor(Math.random() * n);
 const rollFor = (symbol) => (symbol + 7) % 8; // the roll that puts `symbol` in the middle row
 
-function rarityOf(plays) {
-  let r = plays >= 20 ? 3 : plays >= 10 ? 2 : plays >= 4 ? 1 : 0;
-  if (surprise && r < 3 && Math.random() < 0.06) r += 1; // a lucky spin
-  return RANK[r];
+// Popularity: YouTube's play count (Voltage 1.7.1+ sends it on 'track' when the song came with one)
+const viewTier = (v) => (typeof v !== 'number' ? 0 : v >= 1e9 ? 3 : v >= 1e8 ? 2 : v >= 1e7 ? 1 : 0);
+const playTier = (plays) => (plays >= 20 ? 3 : plays >= 10 ? 2 : plays >= 4 ? 1 : 0);
+
+// A real roll every time: the song's tier (your plays or its popularity, whichever is higher) is only the likeliest
+// outcome. 55% the tier itself, 30% one lower, 15% one higher with surprises on (a lucky spin).
+function rarityOf(plays, views) {
+  const tier = Math.max(playTier(plays), viewTier(views));
+  const r = Math.random();
+  let out = r < 0.55 ? tier : r < 0.85 ? tier - 1 : surprise ? tier + 1 : tier;
+  out = Math.min(3, Math.max(0, out));
+  return RANK[out];
 }
 
 // how many of the four reels match, by rarity: common = whatever the dice say
@@ -30,6 +38,6 @@ voltage.on('track', async (t) => {
   const key = `p:${t.id}`;
   const plays = ((await voltage.storage.get(key)) ?? 0) + 1;
   await voltage.storage.set(key, plays).catch(() => {}); // a few bytes per song; storage is 256 KB in all
-  const rarity = rarityOf(plays);
+  const rarity = rarityOf(plays, t.views);
   voltage.theme.rolls(rollsFor(rarity), rarity);
 });

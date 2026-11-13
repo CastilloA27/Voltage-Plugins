@@ -288,7 +288,7 @@ reel_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800"><defs
             '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e8d6b0"/></linearGradient></defs>'
             + ''.join(f'<g transform="translate(0 {i * TILE})">{tile(b)}</g>' for i, b in enumerate(SYMBOLS)) + '</svg>\n')
 coin_svg = SVG('<circle cx="32" cy="32" r="26" fill="#ffc21a" stroke="#a86a00" stroke-width="4"/><circle cx="32" cy="32" r="17" fill="none" stroke="#fff0a0" stroke-width="3"/><path d="M27 22h10v20H27z" fill="#d4af37"/>')
-REEL = 180  # px per symbol on the screen: 5 reels x 3 rows = 900 x 540
+REEL = 180  # the largest symbol size (--reel in the CSS shrinks it on short windows)
 write('jackpot', {
     'id': 'jackpot', 'name': 'Jackpot', 'version': '2.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
     'description': 'A video slot: a 5 x 3 symbol screen with the cover in the middle, reels that spin on every new song, paylines, coins and JACKPOT when you like a song.',
@@ -309,13 +309,13 @@ write('jackpot', {
     'layout': {
         'nowplaying': {
             'areas': ['back info info info info info video', 'l r1 r2 art r4 r5 r', 'prog prog prog prog prog prog prog', 'ctl ctl ctl ctl ctl vol vol'],
-            'columns': f'1fr repeat(5, {REEL}px) 1fr', 'rows': f'auto {REEL * 3}px 48px 96px',
+            'columns': '1fr repeat(5, var(--reel)) 1fr', 'rows': 'auto calc(var(--reel) * 3) 48px 96px',
             'place': {'back': 'back', 'info': 'info', 'video': 'video', 'l': 'spacer', 'r': 'spacer',
                       'r1': 'slot:reel1', 'r2': 'slot:reel2', 'art': 'art', 'r4': 'slot:reel4', 'r5': 'slot:reel5',
                       'prog': 'progress', 'ctl': 'player', 'vol': 'volume'},
-            'below': {'1100px': {'areas': ['back info video', 'r2 art r4', 'prog prog prog', 'ctl ctl vol'],
-                                 'columns': f'1fr {REEL}px 1fr', 'rows': f'auto {REEL * 3}px 48px 96px',
-                                 'place': {'back': 'back', 'info': 'info', 'video': 'video', 'r2': 'slot:reel2', 'art': 'art', 'r4': 'slot:reel4',
+            'below': {'1100px': {'areas': ['back info info info video', 'l r2 art r4 r', 'prog prog prog prog prog', 'ctl ctl ctl vol vol'],
+                                 'columns': '1fr repeat(3, var(--reel)) 1fr', 'rows': 'auto calc(var(--reel) * 3) 48px 96px',
+                                 'place': {'back': 'back', 'info': 'info', 'video': 'video', 'l': 'spacer', 'r': 'spacer', 'r2': 'slot:reel2', 'art': 'art', 'r4': 'slot:reel4',
                                            'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}}}},
         'mini': {'areas': ['art meta ctl'], 'columns': '64px 1fr auto', 'place': {'art': 'art', 'meta': 'info', 'ctl': 'player'}},
     },
@@ -329,24 +329,45 @@ write('jackpot', {
 [data-part="titlebar.brand"] { color: #00e5ff; text-shadow: 0 0 10px rgb(0 210 255 / .7); }
 [data-part="info.title"] { color: #ffd700; text-shadow: 0 0 14px rgb(112 0 255 / .8), 0 2px 0 #3a1d7a; }
 
+/* one symbol's size: 180 px, smaller on short windows so the whole cabinet fits (1366 x 768: ~146 px) */
+:root { --reel: clamp(96px, calc((100vh - 330px) / 3), 180px); }
 /* the screen: five reels of symbols (one strip image, each reel at its own offset); the cover is the centre symbol */
 .lay-view-nowplaying { column-gap: 0; }
 .lay-view-nowplaying [data-cell^="slot:reel"], .lay-view-nowplaying [data-cell="art"] {
   /* longhands: a shorthand mixing var() with other background properties doesn't survive the cleaner */
-  background-image: url("assets/reel.svg"); background-size: 180px 1440px; background-repeat: repeat-y; background-position-x: 0; background-position-y: var(--o); position: relative; overflow: hidden;
+  background-image: url("assets/reel.svg"); background-size: var(--reel) calc(var(--reel) * 8); background-repeat: repeat-y; background-position-x: 0; background-position-y: var(--o); position: relative; overflow: hidden;
   border-top: 5px solid #d4af37; border-bottom: 5px solid #d4af37;
   box-shadow: inset 0 26px 30px -10px rgb(0 0 0 / .75), inset 0 -26px 30px -10px rgb(0 0 0 / .75), inset -1px 0 0 #2c2350, 0 0 26px rgb(0 210 255 / .25); }
-.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * -180px); border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
-.lay-view-nowplaying [data-cell="slot:reel2"] { --o: calc(var(--roll-2, 3) * -180px); }
-.lay-view-nowplaying [data-cell="art"] { --o: calc(var(--roll-3, 5) * -180px); padding: 180px 0; display: block; }
-.lay-view-nowplaying [data-cell="slot:reel4"] { --o: calc(var(--roll-4, 2) * -180px); }
-.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * -180px); border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
-.lay-view-nowplaying [data-cell="art"] .art-part { display: block; width: 180px; height: 180px; }
-.lay-view-nowplaying [data-cell="art"] img { width: 180px !important; height: 180px !important; max-width: none; border-radius: 0; object-fit: cover;
+.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * var(--reel) * -1); border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
+.lay-view-nowplaying [data-cell="slot:reel2"] { --o: calc(var(--roll-2, 3) * var(--reel) * -1); }
+.lay-view-nowplaying [data-cell="art"] { --o: calc(var(--roll-3, 5) * var(--reel) * -1); padding: var(--reel) 0; display: block; }
+.lay-view-nowplaying [data-cell="slot:reel4"] { --o: calc(var(--roll-4, 2) * var(--reel) * -1); }
+.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * var(--reel) * -1); border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
+.lay-view-nowplaying [data-cell="art"] .art-part { display: block; width: var(--reel); height: var(--reel); }
+.lay-view-nowplaying [data-cell="art"] img { width: var(--reel) !important; height: var(--reel) !important; max-width: none; border-radius: 0; object-fit: cover;
   box-shadow: inset 0 0 0 4px #00d2ff, 0 0 24px rgb(0 210 255 / .6); }
 
+/* nothing playing: a dimmed reel strip drifts behind INSERT A SONG */
+[data-part="nowplaying.idle"] { position: relative; width: min(100%, 900px); padding: 40px 0; border-top: 5px solid #d4af37; border-bottom: 5px solid #d4af37; overflow: hidden;
+  background-image: url("assets/reel.svg"); background-size: 120px 960px; background-repeat: repeat; background-position: 0 0;
+  animation: idle-drift 24s linear infinite; }
+[data-part="nowplaying.idle"]::before { content: ""; position: absolute; inset: 0; background-color: rgb(7 6 26 / .78); }
+[data-part="nowplaying.idle"] > * { position: relative; }
+[data-part="nowplaying.idle"] .logo { font-family: "Bungee", sans-serif; color: #ffd700; text-shadow: 0 0 18px rgb(112 0 255 / .9), 0 3px 0 #3a1d7a; }
+[data-part="nowplaying.idle"] p { font-family: "Bungee", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #00e5ff; opacity: 1;
+  animation: idle-blink 1.4s steps(2) infinite; }
+@keyframes idle-drift { to { background-position: 0 960px; } }
+@keyframes idle-blink { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { [data-part="nowplaying.idle"], [data-part="nowplaying.idle"] p { animation: none; } }
+
+/* three reels under 1100 px: the gold frame closes on reels 2 and 4 */
+@media (max-width: 1100px) {
+  .lay-view-nowplaying [data-cell="slot:reel2"] { border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
+  .lay-view-nowplaying [data-cell="slot:reel4"] { border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
+}
+
 /* a new song: the five reels spin and stop left to right */
-@keyframes spin-reel { from { background-position-y: calc(var(--o) - 2880px); filter: blur(2px); } 85% { filter: blur(0); } to { background-position-y: var(--o); } }
+@keyframes spin-reel { from { background-position-y: calc(var(--o) - var(--reel) * 16); filter: blur(2px); } 85% { filter: blur(0); } to { background-position-y: var(--o); } }
 @keyframes spin-cover { 0% { transform: translateY(-140%); filter: blur(5px); } 75% { transform: translateY(5%); filter: blur(0); } 100% { transform: none; } }
 :root[data-event="track-change"] [data-cell^="slot:reel"], :root[data-event="skip"] [data-cell^="slot:reel"], :root[data-event="previous"] [data-cell^="slot:reel"],
 :root[data-event="track-change"] [data-cell="art"], :root[data-event="skip"] [data-cell="art"], :root[data-event="previous"] [data-cell="art"] { animation: spin-reel .5s cubic-bezier(.15, .7, .3, 1) both; }
@@ -365,11 +386,11 @@ write('jackpot', {
 /* marquee bulbs around the window, chasing */
 [data-part="overlay"] {
   background:
-    radial-gradient(circle, #e8fdff 0 3px, #00d2ff 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
+    radial-gradient(circle, #e8fdff 0 3px, #00d2ff 4px, transparent 6px) 0 25px / 26px 14px repeat-x, /* the top row runs under the title bar (36 px), clear of the logo and buttons */
     radial-gradient(circle, #f6e8ff 0 3px, #b26bff 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
   animation: bulbs 1.2s steps(2) infinite;
 }
-@keyframes bulbs { to { background-position: 26px 4px, 39px calc(100% - 4px); } }
+@keyframes bulbs { to { background-position: 26px 25px, 39px calc(100% - 4px); } }
 [data-part="overlay"]::before { content: ""; position: absolute; inset: -20% 0 0; background: url("assets/coin.svg") 0 0 / 46px 46px; opacity: 0;
   -webkit-mask: linear-gradient(transparent, #000 20%, #000 70%, transparent); mask: linear-gradient(transparent, #000 20%, #000 70%, transparent); }
 :root[data-event="like"] [data-part="overlay"]::before { animation: coins 1.2s linear; }

@@ -10,6 +10,8 @@ declare namespace Voltage {
     radio?: boolean;
     /** Voltage 1.6.1+ ('track' event): 'pick' the user chose it, 'next' the user skipped to it, 'auto' it followed on */
     how?: 'pick' | 'next' | 'auto';
+    /** Voltage 1.7.1+ ('track' event): YouTube's play count when the song came with one (search results, most radios), else null */
+    views?: number | null;
   }
   interface Palette { accent: string; c1: string; c2: string; onAccent: string; idle: boolean }
   interface ThemeTokens {
