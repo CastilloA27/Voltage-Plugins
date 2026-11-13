@@ -238,6 +238,22 @@ For about 1.2 seconds after something happens, `<html>` carries `data-event`: `t
 **Rolls:** on every new song `--roll-1` ... `--roll-5` on `<html>` get fresh random whole numbers 0-7, e.g. for slot
 reels: `background-position-y: calc(var(--roll-1) * -100px)` (see the Jackpot theme).
 
+## Holiday hello
+
+On a holiday Voltage plays a short hello the first time its window opens that day (Settings > Appearance > Holiday surprises).
+While it shows, `<html>` has `data-holiday="<id>"` and the hello sits in `[data-part="holiday"]`: the logo (`.hol-logo`),
+the greeting (`.hol-greeting`), a line under it (`.hol-sub`), the particles (`.hol-p`), a row of lights (`.hol-row-item`) and
+the menorah (`.hol-menorah`). Your tokens and fonts already apply; restyle it or replace its keyframes:
+
+```css
+:root[data-holiday="halloween"] .hol-greeting { font-family: "Bungee", sans-serif; color: #ff8a00; }
+[data-part="holiday"] .hol-logo { letter-spacing: .2em; }
+```
+
+Ids: `new-year`, `lunar-new-year`, `valentine`, `st-patrick`, `easter`, `eid-al-fitr`, `mothers-day`, `music-day`, `juneteenth`,
+`fathers-day`, `independence`, `halloween`, `dia-de-muertos`, `diwali`, `thanksgiving`, `hanukkah`, `christmas`,
+`new-years-eve`, `voltage-birthday`, `your-birthday`. `"holidays": false` in theme.json turns them off while your theme is on.
+
 ## Behaviour: a companion plugin
 
 A theme has no code. For anything that moves on its own or reacts (an ASCII visualizer for a terminal theme, a radio dial),
