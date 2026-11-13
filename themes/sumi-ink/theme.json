@@ -1,0 +1,140 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "sumi-ink",
+  "name": "Sumi Ink",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "light",
+  "description": "Watery black ink on washi: lyrics written down a hanging scroll, the cover in a brushed enso, ink-wash mountains, a red hanko seal.",
+  "fonts": [
+    {
+      "family": "Yuji Syuku",
+      "src": "assets/yujisyuku/YujiSyuku-Regular.ttf"
+    }
+  ],
+  "tokens": {
+    "color.bg": "#f4efe4",
+    "color.text": "#141414",
+    "color.text-dim": "#4a4640",
+    "color.text-strong": "#000000",
+    "color.text-soft": "#26231f",
+    "color.text-muted": "#3b3732",
+    "color.surface": "rgba(248, 244, 235, .78)",
+    "color.border": "rgba(20, 20, 20, .16)",
+    "color.ink": "#141414",
+    "color.shade": "#5c564d",
+    "color.knob": "#f4efe4",
+    "color.focus": "#141414",
+    "color.placeholder": "#e2dccf",
+    "color.select-bg": "#e6dfd0",
+    "color.mini-solid": "#f4efe4",
+    "color.media-bg": "#e9e3d6",
+    "surface.menu": "#f8f4eb",
+    "surface.pop": "#f8f4eb",
+    "surface.drag": "#efe9dc",
+    "surface.game": "#f4efe4",
+    "surface.tip": "#f8f4eb",
+    "color.danger": "#b7282e",
+    "color.error-text": "#a3201a",
+    "color.ok": "#2c5e1a",
+    "color.warn": "#7a4a00",
+    "color.brand": "#141414",
+    "color.on-accent": "#f4efe4",
+    "effect.blur": "6px",
+    "effect.glow-size": "0px",
+    "effect.glow-alpha": "0%",
+    "accent.album-mix": "0",
+    "shape.radius": "4px",
+    "shape.roundness": "0.4"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#141414"
+  },
+  "parts": {
+    "progress": {
+      "variant": "line"
+    },
+    "tracklist": {
+      "variant": "dense"
+    }
+  },
+  "supports": {
+    "background": [
+      "gradient"
+    ]
+  },
+  "strings": {
+    "nowplaying.idle": "Silence. The page is empty",
+    "empty.queue": "An empty scroll. Queue a song.",
+    "empty.search": "Search",
+    "library.liked": "Treasured",
+    "explore.fromLiked": "From what you treasure",
+    "note.liked": "Kept"
+  },
+  "sounds": {
+    "like": "assets/chime.wav"
+  },
+  "overlay": true,
+  "layout": {
+    "home": {
+      "areas": [
+        "lyr art list",
+        "lyr info list",
+        "lyr prog list",
+        "lyr bar list"
+      ],
+      "columns": "minmax(180px, 280px) 1fr minmax(280px, 340px)",
+      "rows": "minmax(0, 1fr) auto 36px 72px",
+      "place": {
+        "lyr": "lyrics",
+        "art": "art",
+        "info": "info",
+        "prog": "progress",
+        "bar": "player",
+        "list": "sidebar"
+      },
+      "below": {
+        "1000px": {
+          "areas": [
+            "art list",
+            "info list",
+            "prog list",
+            "bar list"
+          ],
+          "columns": "1fr minmax(260px, 320px)",
+          "rows": "minmax(0, 1fr) auto 36px 72px",
+          "place": {
+            "art": "art",
+            "info": "info",
+            "prog": "progress",
+            "bar": "player",
+            "list": "sidebar"
+          }
+        }
+      }
+    },
+    "nowplaying": {
+      "areas": [
+        "back info video",
+        "lyr art .",
+        "prog prog prog",
+        "ctl ctl vol"
+      ],
+      "columns": "1fr minmax(0, 460px) 1fr",
+      "rows": "auto minmax(0, 1fr) 40px 88px",
+      "place": {
+        "back": "back",
+        "info": "info",
+        "video": "video",
+        "lyr": "lyrics",
+        "art": "art",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    }
+  },
+  "css": "theme.css"
+}

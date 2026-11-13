@@ -1,0 +1,50 @@
+/* washi and ink-wash mountains, never the album's colours */
+[data-part="background"] { background-color: #f4efe4 !important; opacity: 1 !important;
+  background-image: url("assets/mountains.svg"), radial-gradient(90% 70% at 70% 20%, rgb(255 255 255 / .55), transparent 70%) !important;
+  background-size: 100% 46%, auto !important; background-position: left bottom, 0 0 !important; background-repeat: no-repeat !important; }
+
+/* brush lettering */
+[data-part="titlebar.brand"], [data-part="info.title"], [data-part="lyrics.line"], .for-you-title, [data-part="tracklist.row.title"], [data-part="nowplaying.idle"] {
+  font-family: "Yuji Syuku", "Yu Mincho", "MS Mincho", serif; }
+[data-part="titlebar.brand"] { font-size: 18px; letter-spacing: .08em; padding-left: 30px;
+  background-image: url("assets/hanko.svg"); background-repeat: no-repeat; background-size: 24px 24px; background-position: left center; }
+[data-part="info.title"] { font-size: 30px; padding-bottom: 12px; color: #000;
+  background-image: url("assets/stroke.svg"); background-repeat: no-repeat; background-size: 100% 12px; background-position: center bottom; }
+
+/* the centre column is one open composition on the paper: no boxes, no blur */
+.lay-art, .lay-info, .lay-progress, .lay-player, .lay-view-nowplaying .lay-area:not(.lay-lyrics) { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+[data-part="titlebar.brand"] { color: #141414; opacity: 1; }
+[data-part="tracklist.row.artist"], [data-part="tracklist.row.time"] { color: #3b3732; opacity: 1; }
+/* panels: rice paper, no hard edges */
+[data-part="sidebar"], [data-part="nowplaying"] { box-shadow: 0 10px 30px rgb(60 50 30 / .08) !important; }
+[data-part="tracklist.row"][data-state~="active"] { background-color: transparent !important;
+  background-image: url("assets/wash.svg"); background-size: 100% 100%; background-repeat: no-repeat; }
+
+/* the cover inside a brushed enso, the photo in ink tones */
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0;
+  background-image: url("assets/enso.svg"); background-repeat: no-repeat; background-position: center; background-size: contain; }
+.lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; }
+.lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 80% !important; max-height: 80% !important; aspect-ratio: 1; object-fit: cover; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { border-radius: 50% !important; filter: grayscale(1) sepia(.15) contrast(1.08);
+  box-shadow: 0 0 0 6px rgb(244 239 228 / .9) !important; }
+
+/* the hanging scroll: the lyrics written top to bottom, right to left */
+.lay-lyrics, .lay-view-nowplaying [data-cell="lyrics"] { min-height: 0; display: flex; justify-content: center; padding: 14px 6px;
+  border-left: 1px solid rgb(20 20 20 / .2); border-right: 1px solid rgb(20 20 20 / .2);
+  background-image: linear-gradient(#3a2a1c, #3a2a1c), linear-gradient(#3a2a1c, #3a2a1c); background-size: 100% 6px, 100% 6px; background-position: top, bottom; background-repeat: no-repeat; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { writing-mode: vertical-rl; width: 100% !important; height: 100% !important; max-height: none;
+  padding: 8px 45% !important; text-align: start; line-height: 1.9; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font-size: 19px; margin: 0 5px; color: #141414; opacity: .5; }
+.lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { opacity: 1; font-size: 22px; }
+
+/* a like: an ink drop blooms */
+[data-part="overlay"]::after { content: ""; position: absolute; left: 50%; top: 50%; width: 360px; height: 360px; margin: -180px 0 0 -180px;
+  background-image: url("assets/blot.svg"); background-size: contain; background-repeat: no-repeat; opacity: 0; transform: scale(.2); }
+:root[data-event="like"] [data-part="overlay"]::after { animation: ink-bloom 1.2s ease-out; }
+@keyframes ink-bloom { 0% { opacity: 0; transform: scale(.2); } 25% { opacity: .55; transform: scale(1); } 100% { opacity: 0; transform: scale(1.5); } }
+@media (prefers-reduced-motion: reduce) { :root[data-event="like"] [data-part="overlay"]::after { animation: none; } }
+
+/* the player: an ink play button */
+[data-part="player.button.play"] { background-color: #141414 !important; color: #f4efe4 !important; box-shadow: none !important; }
+[data-part="nowplaying.idle"] { background-image: url("assets/enso.svg"); background-repeat: no-repeat; background-position: center top; background-size: 120px; padding-top: 130px; }
+[data-part="nowplaying.idle"] .logo { color: #141414; text-shadow: none; }

@@ -591,3 +591,118 @@ write('tactical', {
 files={**ofl('blackops', 'BlackOpsOne-Regular.ttf'), **ofl('sharetech', 'ShareTechMono-Regular.ttf'),
        'assets/tick.wav': tone('tick'), 'assets/blip.wav': tone('blip'), 'assets/hum.wav': tone('hum'),
        'CREDITS.md': '# Credits\n\n- Fonts: Black Ops One by the Black-Ops Project Authors, and Share Tech Mono by Carrois Type Design (Ralph du Carrois); both SIL Open Font License 1.1 (assets/blackops/OFL.txt, assets/sharetech/OFL.txt).\n- Sounds: made for Voltage, CC0.\n'})
+
+# ── 10. sumi-ink: watery black ink on washi, Japanese-inspired (the user, 2026-11-12). A hanging-scroll layout: the
+#     lyrics written top to bottom, right to left on the left; the cover in a brushed enso; the list on the right.
+#     Ink-wash mountains behind, a red hanko seal, an ink drop that blooms on a like. Font: Yuji Syuku (OFL, with kana
+#     and kanji, so Japanese lyrics are brushed too). All art drawn here (CC0).
+BRUSH = ('<filter id="brush" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="3" seed="4"/>'
+         '<feDisplacementMap in="SourceGraphic" scale="7" xChannelSelector="R" yChannelSelector="G"/></filter>'
+         '<filter id="bleed"><feGaussianBlur stdDeviation="3"/></filter>')
+enso_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs>' + BRUSH + '</defs>'
+            '<path d="M128 26 A78 78 0 1 0 176 86" fill="none" stroke="#141414" stroke-width="22" stroke-linecap="round" opacity=".14" filter="url(#bleed)"/>'
+            '<path d="M128 26 A78 78 0 1 0 176 86" fill="none" stroke="#141414" stroke-width="12" stroke-linecap="round" opacity=".9" filter="url(#brush)"/>'
+            '<path d="M170 70 Q176 84 174 98" fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round" opacity=".55" filter="url(#brush)"/></svg>' + chr(10))
+mountains_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500" preserveAspectRatio="none"><defs>' + BRUSH +
+                 '<filter id="mist"><feGaussianBlur stdDeviation="10"/></filter><linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">'
+                 '<stop offset="0" stop-color="#141414" stop-opacity="1"/><stop offset="1" stop-color="#141414" stop-opacity="0"/></linearGradient></defs>'
+                 '<path d="M0 300 L120 210 L210 260 L330 150 L470 250 L560 200 L700 280 L820 190 L960 260 L1080 170 L1220 250 L1340 200 L1460 260 L1600 220 V500 H0Z" fill="url(#fade)" opacity=".07" filter="url(#mist)"/>'
+                 '<path d="M0 360 L160 280 L260 330 L420 230 L560 320 L690 270 L860 350 L1000 260 L1150 340 L1290 280 L1440 330 L1600 290 V500 H0Z" fill="url(#fade)" opacity=".11" filter="url(#mist)"/>'
+                 '<path d="M0 430 L200 360 L330 400 L500 330 L640 410 L800 370 L960 420 L1120 350 L1300 410 L1460 380 L1600 400 V500 H0Z" fill="url(#fade)" opacity=".16" filter="url(#brush)"/></svg>' + chr(10))
+hanko_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs>' + BRUSH + '</defs>'
+             '<rect x="6" y="6" width="52" height="52" rx="7" fill="#b7282e" filter="url(#brush)"/>'
+             '<rect x="11" y="11" width="42" height="42" rx="4" fill="none" stroke="#f4efe4" stroke-width="2" opacity=".8"/>'
+             '<text x="32" y="44" text-anchor="middle" font-family="Yu Mincho, MS Mincho, serif" font-size="32" font-weight="700" fill="#f4efe4">' + chr(0x97F3) + '</text></svg>' + chr(10))
+stroke_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 40" preserveAspectRatio="none"><defs>' + BRUSH + '</defs>'
+              '<path d="M8 24 C80 14 200 12 300 18 S380 26 392 20" fill="none" stroke="#141414" stroke-width="9" stroke-linecap="round" opacity=".85" filter="url(#brush)"/></svg>' + chr(10))
+wash_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" preserveAspectRatio="none"><defs>' + BRUSH + '<filter id="soft"><feGaussianBlur stdDeviation="4"/></filter></defs>'
+            '<path d="M6 30 C60 8 340 6 394 28 C340 54 60 54 6 30Z" fill="#141414" opacity=".14" filter="url(#soft)"/></svg>' + chr(10))
+blot_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs>' + BRUSH + '<filter id="wet"><feGaussianBlur stdDeviation="6"/></filter></defs>'
+            '<circle cx="100" cy="100" r="70" fill="#141414" opacity=".25" filter="url(#wet)"/><circle cx="100" cy="100" r="46" fill="#141414" opacity=".85" filter="url(#brush)"/>'
+            '<circle cx="160" cy="62" r="8" fill="#141414" opacity=".7" filter="url(#brush)"/><circle cx="44" cy="150" r="5" fill="#141414" opacity=".6" filter="url(#brush)"/></svg>' + chr(10))
+SUMI_HOME = {
+    'areas': ['lyr art list', 'lyr info list', 'lyr prog list', 'lyr bar list'],
+    'columns': 'minmax(180px, 280px) 1fr minmax(280px, 340px)', 'rows': 'minmax(0, 1fr) auto 36px 72px',
+    'place': {'lyr': 'lyrics', 'art': 'art', 'info': 'info', 'prog': 'progress', 'bar': 'player', 'list': 'sidebar'},
+    'below': {'1000px': {'areas': ['art list', 'info list', 'prog list', 'bar list'], 'columns': '1fr minmax(260px, 320px)', 'rows': 'minmax(0, 1fr) auto 36px 72px',
+                         'place': {'art': 'art', 'info': 'info', 'prog': 'progress', 'bar': 'player', 'list': 'sidebar'}}}}
+write('sumi-ink', {
+    'id': 'sumi-ink', 'name': 'Sumi Ink', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'light',
+    'description': 'Watery black ink on washi: lyrics written down a hanging scroll, the cover in a brushed enso, ink-wash mountains, a red hanko seal.',
+    'fonts': [{'family': 'Yuji Syuku', 'src': 'assets/yujisyuku/YujiSyuku-Regular.ttf'}],
+    'tokens': {'color.bg': '#f4efe4', 'color.text': '#141414', 'color.text-dim': '#4a4640', 'color.text-strong': '#000000',
+               'color.text-soft': '#26231f', 'color.text-muted': '#3b3732', 'color.surface': 'rgba(248, 244, 235, .78)',
+               'color.border': 'rgba(20, 20, 20, .16)', 'color.ink': '#141414', 'color.shade': '#5c564d', 'color.knob': '#f4efe4',
+               'color.focus': '#141414', 'color.placeholder': '#e2dccf', 'color.select-bg': '#e6dfd0', 'color.mini-solid': '#f4efe4',
+               'color.media-bg': '#e9e3d6', 'surface.menu': '#f8f4eb', 'surface.pop': '#f8f4eb', 'surface.drag': '#efe9dc',
+               'surface.game': '#f4efe4', 'surface.tip': '#f8f4eb', 'color.danger': '#b7282e', 'color.error-text': '#a3201a',
+               'color.ok': '#2c5e1a', 'color.warn': '#7a4a00', 'color.brand': '#141414', 'color.on-accent': '#f4efe4',
+               'effect.blur': '6px', 'effect.glow-size': '0px', 'effect.glow-alpha': '0%', 'accent.album-mix': '0',
+               'shape.radius': '4px', 'shape.roundness': '0.4'},
+    'accent': {'mode': 'fixed', 'color': '#141414'},
+    'parts': {'progress': {'variant': 'line'}, 'tracklist': {'variant': 'dense'}},
+    'supports': {'background': ['gradient']},
+    'strings': {'nowplaying.idle': 'Silence. The page is empty', 'empty.queue': 'An empty scroll. Queue a song.', 'empty.search': 'Search',
+                'library.liked': 'Treasured', 'explore.fromLiked': 'From what you treasure', 'note.liked': 'Kept'},
+    'sounds': {'like': 'assets/chime.wav'},
+    'overlay': True,
+    'layout': {'home': SUMI_HOME,
+               'nowplaying': {'areas': ['back info video', 'lyr art .', 'prog prog prog', 'ctl ctl vol'],
+                              'columns': '1fr minmax(0, 460px) 1fr', 'rows': 'auto minmax(0, 1fr) 40px 88px',
+                              'place': {'back': 'back', 'info': 'info', 'video': 'video', 'lyr': 'lyrics', 'art': 'art',
+                                        'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}}},
+}, css=r"""
+/* washi and ink-wash mountains, never the album's colours */
+[data-part="background"] { background-color: #f4efe4 !important; opacity: 1 !important;
+  background-image: url("assets/mountains.svg"), radial-gradient(90% 70% at 70% 20%, rgb(255 255 255 / .55), transparent 70%) !important;
+  background-size: 100% 46%, auto !important; background-position: left bottom, 0 0 !important; background-repeat: no-repeat !important; }
+
+/* brush lettering */
+[data-part="titlebar.brand"], [data-part="info.title"], [data-part="lyrics.line"], .for-you-title, [data-part="tracklist.row.title"], [data-part="nowplaying.idle"] {
+  font-family: "Yuji Syuku", "Yu Mincho", "MS Mincho", serif; }
+[data-part="titlebar.brand"] { font-size: 18px; letter-spacing: .08em; padding-left: 30px;
+  background-image: url("assets/hanko.svg"); background-repeat: no-repeat; background-size: 24px 24px; background-position: left center; }
+[data-part="info.title"] { font-size: 30px; padding-bottom: 12px; color: #000;
+  background-image: url("assets/stroke.svg"); background-repeat: no-repeat; background-size: 100% 12px; background-position: center bottom; }
+
+/* the centre column is one open composition on the paper: no boxes, no blur */
+.lay-art, .lay-info, .lay-progress, .lay-player, .lay-view-nowplaying .lay-area:not(.lay-lyrics) { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+[data-part="titlebar.brand"] { color: #141414; opacity: 1; }
+[data-part="tracklist.row.artist"], [data-part="tracklist.row.time"] { color: #3b3732; opacity: 1; }
+/* panels: rice paper, no hard edges */
+[data-part="sidebar"], [data-part="nowplaying"] { box-shadow: 0 10px 30px rgb(60 50 30 / .08) !important; }
+[data-part="tracklist.row"][data-state~="active"] { background-color: transparent !important;
+  background-image: url("assets/wash.svg"); background-size: 100% 100%; background-repeat: no-repeat; }
+
+/* the cover inside a brushed enso, the photo in ink tones */
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0;
+  background-image: url("assets/enso.svg"); background-repeat: no-repeat; background-position: center; background-size: contain; }
+.lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; }
+.lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 80% !important; max-height: 80% !important; aspect-ratio: 1; object-fit: cover; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { border-radius: 50% !important; filter: grayscale(1) sepia(.15) contrast(1.08);
+  box-shadow: 0 0 0 6px rgb(244 239 228 / .9) !important; }
+
+/* the hanging scroll: the lyrics written top to bottom, right to left */
+.lay-lyrics, .lay-view-nowplaying [data-cell="lyrics"] { min-height: 0; display: flex; justify-content: center; padding: 14px 6px;
+  border-left: 1px solid rgb(20 20 20 / .2); border-right: 1px solid rgb(20 20 20 / .2);
+  background-image: linear-gradient(#3a2a1c, #3a2a1c), linear-gradient(#3a2a1c, #3a2a1c); background-size: 100% 6px, 100% 6px; background-position: top, bottom; background-repeat: no-repeat; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { writing-mode: vertical-rl; width: 100% !important; height: 100% !important; max-height: none;
+  padding: 8px 45% !important; text-align: start; line-height: 1.9; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font-size: 19px; margin: 0 5px; color: #141414; opacity: .5; }
+.lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { opacity: 1; font-size: 22px; }
+
+/* a like: an ink drop blooms */
+[data-part="overlay"]::after { content: ""; position: absolute; left: 50%; top: 50%; width: 360px; height: 360px; margin: -180px 0 0 -180px;
+  background-image: url("assets/blot.svg"); background-size: contain; background-repeat: no-repeat; opacity: 0; transform: scale(.2); }
+:root[data-event="like"] [data-part="overlay"]::after { animation: ink-bloom 1.2s ease-out; }
+@keyframes ink-bloom { 0% { opacity: 0; transform: scale(.2); } 25% { opacity: .55; transform: scale(1); } 100% { opacity: 0; transform: scale(1.5); } }
+@media (prefers-reduced-motion: reduce) { :root[data-event="like"] [data-part="overlay"]::after { animation: none; } }
+
+/* the player: an ink play button */
+[data-part="player.button.play"] { background-color: #141414 !important; color: #f4efe4 !important; box-shadow: none !important; }
+[data-part="nowplaying.idle"] { background-image: url("assets/enso.svg"); background-repeat: no-repeat; background-position: center top; background-size: 120px; padding-top: 130px; }
+[data-part="nowplaying.idle"] .logo { color: #141414; text-shadow: none; }
+""", files={**ofl('yujisyuku', 'YujiSyuku-Regular.ttf'), 'assets/enso.svg': enso_svg, 'assets/mountains.svg': mountains_svg,
+            'assets/hanko.svg': hanko_svg, 'assets/stroke.svg': stroke_svg, 'assets/wash.svg': wash_svg, 'assets/blot.svg': blot_svg,
+            'assets/chime.wav': tone('chime'),
+            'CREDITS.md': '# Credits\n\n- Font: Yuji Syuku by the Yuji Project Authors (Kinuta Font Factory), SIL Open Font License 1.1 (assets/yujisyuku/OFL.txt).\n- Ink art and sounds: made for Voltage, CC0.\n'})
