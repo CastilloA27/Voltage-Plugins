@@ -1,0 +1,3 @@
+[data-part="view.home"] { gap: 8px; }
+[data-part="tracklist"] { background: rgb(255 255 255 / .03); border-radius: 8px; }
+[data-part="art"] img { border-radius: 6px; }

@@ -7,7 +7,8 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 
 | Part | States | In |
 |---|---|---|
-| `{info.part}` |  | src/ThemeLayer.jsx |
+| `${info.part}` |  | src/ThemeLayer.jsx |
+| `${p}` |  | src/theme.js |
 | `app` | `discovery` `gaming` `idle` `mini` `offline` `paused` `playing` | src/App.jsx |
 | `art` |  | src/Players.jsx |
 | `background` |  | src/App.jsx |
@@ -69,4 +70,4 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `window.maximize` |  | src/App.jsx |
 | `window.minimize` |  | src/App.jsx |
 
-61 parts.
+62 parts.

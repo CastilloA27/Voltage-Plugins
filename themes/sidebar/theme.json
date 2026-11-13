@@ -1,0 +1,79 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "sidebar",
+  "name": "Sidebar",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "dark",
+  "description": "Search and tabs down the left, the song list as a table in the middle, art and the player in a bar along the bottom.",
+  "tokens": {
+    "color.bg": "#121212",
+    "color.surface": "rgba(24, 24, 24, .9)",
+    "color.border": "rgba(255, 255, 255, .06)",
+    "effect.blur": "0px",
+    "effect.glow-size": "0px",
+    "effect.glow-alpha": "0%",
+    "accent.album-mix": "0.25",
+    "shape.radius": "8px"
+  },
+  "accent": {
+    "mode": "album"
+  },
+  "parts": {
+    "tracklist": {
+      "variant": "table"
+    },
+    "titlebar": {
+      "variant": "minimal"
+    },
+    "player": {
+      "variant": "compact"
+    },
+    "progress": {
+      "variant": "line"
+    }
+  },
+  "layout": {
+    "home": {
+      "areas": [
+        "search list",
+        "art list",
+        "info list",
+        "side list",
+        "prog prog",
+        "bar bar"
+      ],
+      "columns": "300px 1fr",
+      "rows": "auto auto auto 1fr 36px 64px",
+      "place": {
+        "search": "search",
+        "list": "tracklist",
+        "art": "art",
+        "info": "info",
+        "side": "spacer",
+        "bar": "player",
+        "prog": "progress"
+      },
+      "below": {
+        "800px": {
+          "areas": [
+            "search",
+            "list",
+            "prog",
+            "bar"
+          ],
+          "columns": "1fr",
+          "rows": "auto 1fr 36px 64px",
+          "place": {
+            "search": "search",
+            "list": "tracklist",
+            "bar": "player",
+            "prog": "progress"
+          }
+        }
+      }
+    }
+  },
+  "css": "theme.css"
+}

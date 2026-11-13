@@ -1,0 +1,92 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "crt-green",
+  "name": "CRT green",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "dark",
+  "fonts": [
+    {
+      "family": "Volt Pixel",
+      "src": "assets/volt-pixel.ttf"
+    }
+  ],
+  "description": "Green phosphor on a curved tube: vignette, scanlines, a faint flicker, terse tab names and relay clicks.",
+  "tokens": {
+    "color.bg": "#020f05",
+    "color.text": "#5dff7a",
+    "color.text-dim": "#2fa648",
+    "color.text-strong": "#a8ffb6",
+    "color.text-soft": "#7dff94",
+    "color.text-muted": "#49d964",
+    "color.surface": "#03170a",
+    "color.border": "#1f6b30",
+    "color.brand": "#5dff7a",
+    "color.brand-rgb": "93 255 122",
+    "color.on-accent": "#020f05",
+    "color.knob": "#5dff7a",
+    "color.ink": "93 255 122",
+    "color.select-bg": "#0b3a17",
+    "color.focus": "#a8ffb6",
+    "surface.menu": "3 20 9",
+    "surface.pop": "3 24 10",
+    "surface.tip": "3 20 9",
+    "effect.blur": "0px",
+    "effect.glow-size": "8px",
+    "effect.glow-alpha": "45%",
+    "accent.album-mix": "0",
+    "shape.radius": "0px",
+    "shape.k": "0",
+    "font.mono": "\"Volt Pixel\", \"Cascadia Mono\", monospace",
+    "font.body": "\"Volt Pixel\", \"Cascadia Mono\", monospace"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#5dff7a"
+  },
+  "parts": {
+    "nav": {
+      "variant": "text"
+    },
+    "tracklist": {
+      "variant": "dense"
+    },
+    "progress": {
+      "variant": "blocks"
+    },
+    "player": {
+      "variant": "text"
+    },
+    "art": {
+      "variant": "cover"
+    }
+  },
+  "strings": {
+    "brand": "VOLT-OS 1.0",
+    "nav.settings": "SYS",
+    "nav.explore": "MAP",
+    "nav.stats": "STAT",
+    "nav.mini": "MINI",
+    "tab.search": "SCAN",
+    "tab.library": "DATA",
+    "tab.queue": "RADIO",
+    "search.placeholder": "ENTER QUERY",
+    "empty.search": "NO SIGNAL. ENTER A QUERY.",
+    "empty.queue": "RADIO: NO STATIONS QUEUED",
+    "search.busy": "SCANNING...",
+    "player.prev": "<PREV",
+    "player.play": "PLAY",
+    "player.next": "NEXT>",
+    "nowplaying.idle": "STANDBY"
+  },
+  "sounds": {
+    "click": "assets/tick.wav",
+    "navigate": "assets/hum.wav",
+    "play": "assets/blip.wav",
+    "pause": "assets/blip.wav",
+    "error": "assets/hum.wav"
+  },
+  "overlay": true,
+  "css": "theme.css"
+}

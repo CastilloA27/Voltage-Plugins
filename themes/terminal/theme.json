@@ -1,0 +1,112 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "terminal",
+  "name": "Terminal",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "dark",
+  "description": "A text-only UI: a pixel font, square corners, no glass or glow, ASCII progress, command-style labels.",
+  "fonts": [
+    {
+      "family": "Volt Pixel",
+      "src": "assets/volt-pixel.ttf"
+    }
+  ],
+  "tokens": {
+    "color.bg": "#0c0c0c",
+    "color.text": "#d0d0d0",
+    "color.text-dim": "#8a8a8a",
+    "color.text-strong": "#ffffff",
+    "color.text-soft": "#e0e0e0",
+    "color.text-muted": "#b0b0b0",
+    "color.surface": "#0c0c0c",
+    "color.border": "#3a3a3a",
+    "color.brand": "#5fd7ff",
+    "color.brand-rgb": "95 215 255",
+    "color.on-accent": "#0c0c0c",
+    "color.knob": "#d0d0d0",
+    "color.select-bg": "#1e3a44",
+    "surface.menu": "12 12 12",
+    "surface.pop": "16 16 16",
+    "surface.tip": "12 12 12",
+    "effect.blur": "0px",
+    "effect.glow-size": "0px",
+    "effect.glow-alpha": "0%",
+    "accent.album-mix": "0",
+    "shape.radius": "0px",
+    "shape.k": "0",
+    "font.body": "\"Cascadia Mono\", Consolas, monospace",
+    "font.mono": "\"Cascadia Mono\", Consolas, monospace"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#5fd7ff"
+  },
+  "parts": {
+    "nav": {
+      "variant": "text"
+    },
+    "tracklist": {
+      "variant": "text"
+    },
+    "progress": {
+      "variant": "ascii"
+    },
+    "player": {
+      "variant": "text"
+    },
+    "art": {
+      "variant": "none"
+    }
+  },
+  "strings": {
+    "brand": "voltage@pc:~$",
+    "nav.settings": "config",
+    "nav.explore": "explore",
+    "nav.stats": "stats",
+    "nav.mini": "mini",
+    "tab.search": "grep",
+    "tab.library": "ls ~/music",
+    "tab.queue": "cat queue",
+    "search.placeholder": "search --all  (ctrl+f)",
+    "empty.search": "usage: type a song, artist or album, press enter",
+    "empty.queue": "queue: empty. play something.",
+    "search.busy": "searching...",
+    "player.prev": "[prev]",
+    "player.play": "[play]",
+    "player.next": "[next]",
+    "nowplaying.idle": "idle: nothing playing"
+  },
+  "icons": {
+    "min": {
+      "text": "_"
+    },
+    "max": {
+      "text": "[ ]"
+    },
+    "close": {
+      "text": "x"
+    },
+    "play": {
+      "text": ">"
+    },
+    "pause": {
+      "text": "||"
+    },
+    "next": {
+      "text": ">>"
+    },
+    "prev": {
+      "text": "<<"
+    },
+    "heart": {
+      "text": "<3"
+    },
+    "search": {
+      "text": "/"
+    }
+  },
+  "overlay": true,
+  "css": "theme.css"
+}

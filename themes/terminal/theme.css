@@ -1,0 +1,8 @@
+[data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Volt Pixel", monospace; letter-spacing: .04em; }
+[data-part="titlebar.brand"] { font-size: 16px; color: var(--accent); text-shadow: none; }
+[data-part="titlebar.brand"]::after { content: "_"; margin-left: 2px; animation: term-blink 1.06s steps(1) infinite; }
+@keyframes term-blink { 50% { opacity: 0; } }
+[data-part="info.title"] { font-size: 24px; }
+[data-part="tracklist.row"][data-state~="active"] { background: rgb(95 215 255 / .14); }
+[data-part="tracklist.row"][data-state~="active"] [data-part="tracklist.row.title"]::before { content: "> "; color: var(--accent); }
+[data-part="overlay"] { background: repeating-linear-gradient(0deg, rgb(0 0 0 / .18) 0 1px, transparent 1px 3px); }

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "frosted-light",
+  "name": "Frosted light",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "system",
+  "description": "Frosted glass in light or dark, following Windows' setting; a red accent, a big cover, the player as a bar.",
+  "tokens": {
+    "effect.blur": "30px",
+    "effect.glow-size": "0px",
+    "effect.glow-alpha": "0%",
+    "accent.album-mix": "0.4",
+    "shape.radius": "12px",
+    "color.brand": "#e0334d",
+    "color.brand-rgb": "224 51 77",
+    "color.on-accent": "#ffffff"
+  },
+  "modes": {
+    "light": {
+      "color.bg": "#f4f2f5",
+      "color.text": "#1d1b20",
+      "color.text-dim": "#5f5a66",
+      "color.text-strong": "#0d0c0f",
+      "color.text-soft": "#2a272e",
+      "color.text-muted": "#45414b",
+      "color.surface": "rgba(255, 255, 255, .62)",
+      "color.border": "rgba(20, 16, 28, .09)",
+      "color.ink": "20 16 28",
+      "color.shade": "120 110 130",
+      "color.knob": "#ffffff",
+      "color.focus": "#1d1b20",
+      "color.placeholder": "#e4e1e8",
+      "color.select-bg": "#f3d7dc",
+      "color.mini-solid": "#f4f2f5",
+      "color.media-bg": "#e9e6ec",
+      "surface.menu": "250 249 251",
+      "surface.pop": "252 251 253",
+      "surface.drag": "245 243 247",
+      "surface.game": "244 242 245",
+      "surface.tip": "250 249 251",
+      "color.danger": "#c62828",
+      "color.error-text": "#b3261e",
+      "color.ok": "#1e7d3a",
+      "color.warn": "#9a5b00",
+      "color.brand": "#b8233c",
+      "color.brand-rgb": "184 35 60"
+    },
+    "dark": {
+      "color.bg": "#151417",
+      "color.surface": "rgba(40, 38, 44, .6)",
+      "color.border": "rgba(255, 255, 255, .08)"
+    }
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#e0334d"
+  },
+  "parts": {
+    "player": {
+      "variant": "compact"
+    },
+    "progress": {
+      "variant": "line"
+    },
+    "tracklist": {
+      "variant": "dense"
+    }
+  },
+  "layout": {
+    "home": {
+      "areas": [
+        "list art",
+        "list info",
+        "prog prog",
+        "bar bar"
+      ],
+      "columns": "minmax(300px, 380px) 1fr",
+      "rows": "1fr auto 36px 72px",
+      "place": {
+        "list": "sidebar",
+        "art": "art",
+        "info": "info",
+        "prog": "progress",
+        "bar": "player"
+      },
+      "below": {
+        "900px": {
+          "areas": [
+            "list",
+            "prog",
+            "bar"
+          ],
+          "columns": "1fr",
+          "rows": "1fr 36px 72px",
+          "place": {
+            "list": "sidebar",
+            "prog": "progress",
+            "bar": "player"
+          }
+        }
+      }
+    }
+  },
+  "css": "theme.css"
+}

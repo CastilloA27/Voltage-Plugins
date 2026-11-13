@@ -1,0 +1,62 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "pastel-goth",
+  "name": "Pastel goth",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "dark",
+  "description": "Pink and lilac on black, a rounded font, round covers, little bats, stars and bows around the window.",
+  "fonts": [
+    {
+      "family": "Volt Round",
+      "src": "assets/volt-round.ttf"
+    }
+  ],
+  "tokens": {
+    "color.bg": "#120914",
+    "color.text": "#ffe6f4",
+    "color.text-dim": "#d8a9cc",
+    "color.text-strong": "#fff4fb",
+    "color.text-soft": "#ffd9ee",
+    "color.text-muted": "#e9bfe0",
+    "color.surface": "rgba(42, 16, 48, .55)",
+    "color.border": "rgba(255, 154, 213, .22)",
+    "color.brand": "#ff9ad5",
+    "color.brand-rgb": "255 154 213",
+    "color.on-accent": "#2a0f2a",
+    "color.knob": "#ffc7e8",
+    "color.select-bg": "#3a1840",
+    "surface.menu": "30 12 34",
+    "surface.pop": "34 14 38",
+    "surface.tip": "30 12 34",
+    "effect.blur": "18px",
+    "effect.glow-size": "16px",
+    "effect.glow-alpha": "45%",
+    "accent.album-mix": "0.35",
+    "shape.radius": "22px",
+    "shape.k": "1.6"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#ff9ad5"
+  },
+  "parts": {
+    "art": {
+      "variant": "round"
+    },
+    "progress": {
+      "variant": "line"
+    }
+  },
+  "strings": {
+    "empty.queue": "nothing queued yet... play something cute",
+    "nowplaying.idle": "shhh, nothing playing",
+    "empty.search": "search for something spooky (or sweet)"
+  },
+  "icons": {
+    "heart": "assets/bow.svg"
+  },
+  "overlay": true,
+  "css": "theme.css"
+}

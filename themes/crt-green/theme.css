@@ -1,0 +1,10 @@
+[data-part="app"] { text-shadow: 0 0 4px rgb(93 255 122 / .55); }
+[data-part="art"] img { filter: grayscale(1) sepia(1) hue-rotate(70deg) saturate(3) brightness(.8) contrast(1.2); }
+[data-part="overlay"] {
+  background:
+    radial-gradient(ellipse at center, transparent 58%, rgb(0 0 0 / .55) 100%),
+    repeating-linear-gradient(0deg, rgb(0 0 0 / .28) 0 1px, transparent 1px 3px);
+  animation: crt-flicker 4.5s infinite;
+}
+@keyframes crt-flicker { 0%, 100% { opacity: 1; } 47% { opacity: .96; } 48% { opacity: .9; } 49% { opacity: .97; } }
+@media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }

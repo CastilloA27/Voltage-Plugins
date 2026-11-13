@@ -1,0 +1,4 @@
+[data-part="art"] { display: flex; align-items: center; justify-content: center; }
+[data-part="art"] img { box-shadow: 0 24px 60px rgb(var(--shade) / .35); border-radius: 12px; }
+[data-part="info.title"] { font-weight: 700; }
+html[data-appearance="light"] [data-part="tracklist.row.artist"], html[data-appearance="light"] [data-part="tracklist.row.time"] { color: rgb(var(--ink) / .72); }

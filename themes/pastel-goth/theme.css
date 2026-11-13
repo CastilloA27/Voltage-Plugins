@@ -1,0 +1,13 @@
+[data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Volt Round", "Segoe UI", sans-serif; letter-spacing: .05em; }
+[data-part="titlebar.brand"] { font-size: 16px; color: #ff9ad5; text-shadow: 0 0 12px rgb(255 154 213 / .6); }
+[data-part="info.title"] { font-size: 24px; }
+[data-part="tracklist.row"][data-state~="active"] { background: rgb(255 154 213 / .14); }
+[data-part="overlay"] {
+  background:
+    url("assets/bat.svg") no-repeat left 50% top 2px / 44px,
+    url("assets/star.svg") no-repeat left calc(50% + 40px) top 6px / 12px,
+    url("assets/star.svg") no-repeat left calc(50% - 38px) top 14px / 9px,
+    url("assets/bow.svg") no-repeat right 14px bottom 10px / 38px;
+  opacity: .85;
+}
+[data-part="nowplaying.idle"] { background: url("assets/skull.svg") no-repeat center top / 72px; padding-top: 84px; }
