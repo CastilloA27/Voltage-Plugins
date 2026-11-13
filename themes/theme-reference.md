@@ -65,9 +65,13 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `lyrics` | `karaoke`, `plain`, `ticker` |
 | `titlebar` | `full`, `minimal`, `hidden` |
 
-## Layout: parts a home layout can place (`"layout": {"home": {"place": {...}}}`)
+## Layout: the views and the parts each can place (`"layout": {"<view>": {"place": {...}}}`, plus `slot:<name>`)
 
-`sidebar`, `search`, `tracklist`, `nowplaying`, `art`, `info`, `player`, `progress`, `volume`, `lyrics`, `spacer`
+| View | Parts |
+|---|---|
+| `home` | `sidebar`, `search`, `tracklist`, `nowplaying`, `art`, `info`, `player`, `progress`, `volume`, `lyrics`, `spacer` |
+| `nowplaying` | `art`, `info`, `lyrics`, `progress`, `player`, `volume`, `back`, `video`, `spacer` |
+| `mini` | `art`, `info`, `player`, `progress`, `volume`, `expand`, `spacer` |
 
 ## Strings (`"strings"`: plain text, 60 characters at most)
 

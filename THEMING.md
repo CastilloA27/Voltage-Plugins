@@ -139,7 +139,16 @@ Parts you can place: `sidebar` (search + tabs + list), `search`, `tracklist` (ta
 shows twice); a part you don't place isn't shown (its keyboard shortcuts still work). `below` gives another layout for
 windows up to that width. **A layout must show the song list and a way to play**, or Voltage keeps its own layout (so a
 theme can't lock you out of your music). Without `nowplaying`, the `player` cell also carries the volume, Play on (the
-output picker), radio and the full-screen button, so nothing is lost. Today only `home` can be laid out.
+output picker), radio and the full-screen button, so nothing is lost.
+
+**The full player and the mini player** can be laid out the same way: `"layout": {"nowplaying": {...}, "mini": {...}}`.
+Their parts: `art`, `info`, `lyrics` (full player), `progress`, `player`, `volume`, `back` / `video` (full player), `expand`
+(mini, back to the full window), `spacer`, `slot:<name>`. Each must have `player`; if you don't place `back` / `expand`, a
+small one floats in a corner. A theme's mini layout replaces the mini-player skin while the theme is on.
+
+```json
+"mini": { "areas": ["art meta ctl"], "columns": "56px 1fr auto", "place": { "art": "art", "meta": "info", "ctl": "player" } }
+```
 
 ## Variants
 

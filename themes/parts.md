@@ -23,12 +23,14 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `lyrics` |  | src/Players.jsx |
 | `lyrics.line` | `active` `past` | src/Players.jsx |
 | `menu` |  | src/Modals.jsx |
+| `mini.button.expand` |  | src/Layout.jsx |
 | `nav` |  | src/App.jsx |
 | `nav.item.explore` | `active` | src/App.jsx |
 | `nav.item.mini` |  | src/App.jsx |
 | `nav.item.settings` | `active` | src/App.jsx |
 | `nav.item.stats` | `active` | src/App.jsx |
 | `nowplaying` |  | src/Players.jsx |
+| `nowplaying.button.back` |  | src/Layout.jsx |
 | `nowplaying.button.fullscreen` |  | src/Players.jsx |
 | `nowplaying.button.lyrics` | `active` | src/Players.jsx |
 | `nowplaying.button.radio` |  | src/Players.jsx |
@@ -60,6 +62,7 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `tracklist.row.title` |  | src/Library.jsx |
 | `tracklist.tab.<name>` | `active` | src/App.jsx |
 | `tracklist.tabs` |  | src/App.jsx |
+| `view.<name>` |  | src/Layout.jsx |
 | `view.explore` |  | src/Explore.jsx |
 | `view.home` |  | src/App.jsx, src/Layout.jsx |
 | `view.mini` |  | src/Players.jsx |
@@ -71,4 +74,4 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `window.maximize` |  | src/App.jsx |
 | `window.minimize` |  | src/App.jsx |
 
-63 parts.
+66 parts.

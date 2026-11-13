@@ -1126,7 +1126,10 @@
            "progress",
            "volume",
            "lyrics",
-           "spacer"
+           "spacer",
+           "back",
+           "video",
+           "expand"
           ]
          },
          {
@@ -1176,7 +1179,228 @@
               "progress",
               "volume",
               "lyrics",
-              "spacer"
+              "spacer",
+              "back",
+              "video",
+              "expand"
+             ]
+            },
+            {
+             "type": "string",
+             "pattern": "^slot:[a-z0-9-]{1,30}$"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "nowplaying": {
+     "type": "object",
+     "required": [
+      "areas",
+      "place"
+     ],
+     "properties": {
+      "areas": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+      },
+      "columns": {
+       "type": "string",
+       "description": "grid-template-columns, e.g. \"300px 1fr\""
+      },
+      "rows": {
+       "type": "string",
+       "description": "grid-template-rows"
+      },
+      "place": {
+       "type": "object",
+       "additionalProperties": {
+        "anyOf": [
+         {
+          "enum": [
+           "sidebar",
+           "search",
+           "tracklist",
+           "nowplaying",
+           "art",
+           "info",
+           "player",
+           "progress",
+           "volume",
+           "lyrics",
+           "spacer",
+           "back",
+           "video",
+           "expand"
+          ]
+         },
+         {
+          "type": "string",
+          "pattern": "^slot:[a-z0-9-]{1,30}$"
+         }
+        ]
+       }
+      },
+      "below": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "object",
+        "required": [
+         "areas",
+         "place"
+        ],
+        "properties": {
+         "areas": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+         },
+         "columns": {
+          "type": "string",
+          "description": "grid-template-columns, e.g. \"300px 1fr\""
+         },
+         "rows": {
+          "type": "string",
+          "description": "grid-template-rows"
+         },
+         "place": {
+          "type": "object",
+          "additionalProperties": {
+           "anyOf": [
+            {
+             "enum": [
+              "sidebar",
+              "search",
+              "tracklist",
+              "nowplaying",
+              "art",
+              "info",
+              "player",
+              "progress",
+              "volume",
+              "lyrics",
+              "spacer",
+              "back",
+              "video",
+              "expand"
+             ]
+            },
+            {
+             "type": "string",
+             "pattern": "^slot:[a-z0-9-]{1,30}$"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "mini": {
+     "type": "object",
+     "required": [
+      "areas",
+      "place"
+     ],
+     "properties": {
+      "areas": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+      },
+      "columns": {
+       "type": "string",
+       "description": "grid-template-columns, e.g. \"300px 1fr\""
+      },
+      "rows": {
+       "type": "string",
+       "description": "grid-template-rows"
+      },
+      "place": {
+       "type": "object",
+       "additionalProperties": {
+        "anyOf": [
+         {
+          "enum": [
+           "sidebar",
+           "search",
+           "tracklist",
+           "nowplaying",
+           "art",
+           "info",
+           "player",
+           "progress",
+           "volume",
+           "lyrics",
+           "spacer",
+           "back",
+           "video",
+           "expand"
+          ]
+         },
+         {
+          "type": "string",
+          "pattern": "^slot:[a-z0-9-]{1,30}$"
+         }
+        ]
+       }
+      },
+      "below": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "object",
+        "required": [
+         "areas",
+         "place"
+        ],
+        "properties": {
+         "areas": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+         },
+         "columns": {
+          "type": "string",
+          "description": "grid-template-columns, e.g. \"300px 1fr\""
+         },
+         "rows": {
+          "type": "string",
+          "description": "grid-template-rows"
+         },
+         "place": {
+          "type": "object",
+          "additionalProperties": {
+           "anyOf": [
+            {
+             "enum": [
+              "sidebar",
+              "search",
+              "tracklist",
+              "nowplaying",
+              "art",
+              "info",
+              "player",
+              "progress",
+              "volume",
+              "lyrics",
+              "spacer",
+              "back",
+              "video",
+              "expand"
              ]
             },
             {
