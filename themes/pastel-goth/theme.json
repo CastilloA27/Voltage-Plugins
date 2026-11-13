@@ -57,6 +57,64 @@
   "icons": {
     "heart": "assets/bow.svg"
   },
+  "layout": {
+    "home": {
+      "areas": [
+        "art info info",
+        "art bar vol",
+        "art prog prog",
+        "list list list"
+      ],
+      "columns": "minmax(220px, 38%) 1fr 270px",
+      "rows": "minmax(0, 1fr) 72px 36px minmax(0, 1.2fr)",
+      "place": {
+        "art": "art",
+        "info": "info",
+        "bar": "player",
+        "vol": "volume",
+        "prog": "progress",
+        "list": "sidebar"
+      },
+      "below": {
+        "800px": {
+          "areas": [
+            "info",
+            "bar",
+            "prog",
+            "list"
+          ],
+          "columns": "1fr",
+          "rows": "auto 72px 36px minmax(0, 1fr)",
+          "place": {
+            "info": "info",
+            "bar": "player",
+            "prog": "progress",
+            "list": "sidebar"
+          }
+        }
+      }
+    },
+    "nowplaying": {
+      "areas": [
+        "back . video",
+        ". art .",
+        ". info .",
+        "prog prog prog",
+        "ctl ctl vol"
+      ],
+      "columns": "1fr minmax(0, 440px) 1fr",
+      "rows": "auto minmax(0, 1fr) auto 36px 88px",
+      "place": {
+        "back": "back",
+        "video": "video",
+        "art": "art",
+        "info": "info",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    }
+  },
   "overlay": true,
   "css": "theme.css"
 }

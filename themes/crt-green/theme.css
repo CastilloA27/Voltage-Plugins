@@ -8,3 +8,14 @@
 }
 @keyframes crt-flicker { 0%, 100% { opacity: 1; } 47% { opacity: .96; } 48% { opacity: .9; } 49% { opacity: .97; } }
 @media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
+
+/* teletext: the header bar inverted, the cells as plain screen areas */
+.lay-area { border-radius: 0 !important; border-color: #1f6b30 !important; }
+.lay-area.lay-info, .lay-view-nowplaying .lay-area[data-cell="info"] { background-color: #5dff7a !important; border-color: #5dff7a !important; text-align: left; padding: 6px 14px; }
+.lay-info *, .lay-view-nowplaying [data-cell="info"] * { color: #020f05 !important; text-shadow: none !important; }
+.lay-info .btn, .lay-view-nowplaying [data-cell="info"] .btn { border-color: #020f05 !important; background-color: transparent !important; }
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 12px; overflow: hidden; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; aspect-ratio: 1; object-fit: contain; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 30% 10px !important; text-align: left; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { text-transform: uppercase; letter-spacing: .04em; font-size: 14px; }

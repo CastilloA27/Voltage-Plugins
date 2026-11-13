@@ -11,3 +11,12 @@
   opacity: .85;
 }
 [data-part="nowplaying.idle"] { background: url("assets/skull.svg") no-repeat center top / 72px; padding-top: 84px; }
+/* the locket: the round cover with a lilac ring, the song beside it */
+.lay-art, .lay-info, .lay-player, .lay-progress, .lay-volume { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+.lay-volume { display: flex; align-items: center; }
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 24px; overflow: hidden; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: min(42vh, 32vw) !important; max-width: 100% !important; aspect-ratio: 1; object-fit: cover; border-radius: 50% !important;
+  box-shadow: 0 0 0 6px #120914, 0 0 0 9px #d9b3ff, 0 0 30px rgb(255 154 213 / .45) !important; }
+.lay-info { align-self: end; text-align: left; }
+.lay-info [data-part="info.title"] { font-size: clamp(26px, 3.4vw, 46px); }

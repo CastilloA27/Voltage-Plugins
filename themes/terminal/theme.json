@@ -106,6 +106,62 @@
       "text": "/"
     }
   },
+  "layout": {
+    "home": {
+      "areas": [
+        "list info",
+        "list lyr",
+        "prog prog",
+        "bar bar"
+      ],
+      "columns": "1fr 1fr",
+      "rows": "auto minmax(0, 1fr) 32px 52px",
+      "place": {
+        "list": "sidebar",
+        "info": "info",
+        "lyr": "lyrics",
+        "prog": "progress",
+        "bar": "player"
+      },
+      "below": {
+        "900px": {
+          "areas": [
+            "list",
+            "info",
+            "prog",
+            "bar"
+          ],
+          "columns": "1fr",
+          "rows": "minmax(0, 1fr) auto 32px 52px",
+          "place": {
+            "list": "sidebar",
+            "info": "info",
+            "prog": "progress",
+            "bar": "player"
+          }
+        }
+      }
+    },
+    "nowplaying": {
+      "areas": [
+        "back info video",
+        "lyr lyr lyr",
+        "prog prog prog",
+        "ctl ctl vol"
+      ],
+      "columns": "56px 1fr 56px",
+      "rows": "auto minmax(0, 1fr) 32px 64px",
+      "place": {
+        "back": "back",
+        "info": "info",
+        "video": "video",
+        "lyr": "lyrics",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    }
+  },
   "overlay": true,
   "css": "theme.css"
 }

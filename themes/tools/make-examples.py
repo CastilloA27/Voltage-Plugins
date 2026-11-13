@@ -115,6 +115,15 @@ write('terminal', {
                 'nowplaying.idle': 'idle: nothing playing'},
     'icons': {'min': {'text': '_'}, 'max': {'text': '[ ]'}, 'close': {'text': 'x'}, 'play': {'text': '>'}, 'pause': {'text': '||'},
               'next': {'text': '>>'}, 'prev': {'text': '<<'}, 'heart': {'text': '<3'}, 'search': {'text': '/'}},
+    'layout': {
+        # tmux: the list in the left pane, now playing and the lyrics stacked on the right, a status bar along the bottom
+        'home': {'areas': ['list info', 'list lyr', 'prog prog', 'bar bar'], 'columns': '1fr 1fr', 'rows': 'auto minmax(0, 1fr) 32px 52px',
+                 'place': {'list': 'sidebar', 'info': 'info', 'lyr': 'lyrics', 'prog': 'progress', 'bar': 'player'},
+                 'below': {'900px': {'areas': ['list', 'info', 'prog', 'bar'], 'columns': '1fr', 'rows': 'minmax(0, 1fr) auto 32px 52px',
+                                     'place': {'list': 'sidebar', 'info': 'info', 'prog': 'progress', 'bar': 'player'}}}},
+        'nowplaying': {'areas': ['back info video', 'lyr lyr lyr', 'prog prog prog', 'ctl ctl vol'], 'columns': '56px 1fr 56px',
+                       'rows': 'auto minmax(0, 1fr) 32px 64px',
+                       'place': {'back': 'back', 'info': 'info', 'video': 'video', 'lyr': 'lyrics', 'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}}},
     'overlay': True,
 }, css='''
 [data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Volt Pixel", monospace; letter-spacing: .04em; }
@@ -125,6 +134,18 @@ write('terminal', {
 [data-part="tracklist.row"][data-state~="active"] { background: rgb(95 215 255 / .14); }
 [data-part="tracklist.row"][data-state~="active"] [data-part="tracklist.row.title"]::before { content: "> "; color: var(--accent); }
 [data-part="overlay"] { background: repeating-linear-gradient(0deg, rgb(0 0 0 / .18) 0 1px, transparent 1px 3px); }
+/* tmux panes: thin borders, a title on each, a status bar */
+.lay-area { border: 1px solid #3a3a3a !important; border-radius: 0 !important; position: relative; padding-top: 22px; }
+.lay-area::before { position: absolute; top: 3px; left: 8px; font: 12px "Cascadia Mono", Consolas, monospace; color: #8a8a8a; }
+.lay-sidebar::before { content: "[0] ls ~/music"; }
+.lay-info::before, .lay-view-nowplaying [data-cell="info"]::before { content: "[1] now-playing"; }
+.lay-lyrics::before, .lay-view-nowplaying [data-cell="lyrics"]::before { content: "[2] less lyrics.txt"; }
+.lay-progress, .lay-player, .lay-volume { padding-top: 0; }
+.lay-player, .lay-view-nowplaying [data-cell="player"] { background-color: #1e3a44 !important; border-color: #1e3a44 !important; }
+.lay-info, .lay-view-nowplaying [data-cell="info"] { text-align: left; padding-left: 12px; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 20% 12px !important; text-align: left; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font: 14px/1.6 "Cascadia Mono", Consolas, monospace; }
+.lay-lyrics [data-part="lyrics.line"][data-state~="active"]::before, .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"]::before { content: "> "; color: var(--accent); }
 ''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/LICENSE.txt': CC0})
 
 # ── 3. crt-green: an original green-phosphor terminal (a vault-computer feel, nothing copied) ──
@@ -146,6 +167,17 @@ write('crt-green', {
                 'empty.search': 'NO SIGNAL. ENTER A QUERY.', 'empty.queue': 'RADIO: NO STATIONS QUEUED',
                 'search.busy': 'SCANNING...', 'player.prev': '<PREV', 'player.play': 'PLAY', 'player.next': 'NEXT>', 'nowplaying.idle': 'STANDBY'},
     'sounds': {'click': 'assets/tick.wav', 'navigate': 'assets/hum.wav', 'play': 'assets/blip.wav', 'pause': 'assets/blip.wav', 'error': 'assets/hum.wav'},
+    'layout': {
+        # a teletext page: an inverted header with the song, the list on the left, the picture and the lyrics on the right
+        'home': {'areas': ['info info', 'list art', 'list lyr', 'prog prog', 'bar bar'], 'columns': '1fr minmax(240px, 34%)',
+                 'rows': 'auto minmax(0, 1fr) minmax(0, 1fr) 36px 60px',
+                 'place': {'info': 'info', 'list': 'sidebar', 'art': 'art', 'lyr': 'lyrics', 'prog': 'progress', 'bar': 'player'},
+                 'below': {'900px': {'areas': ['info', 'list', 'prog', 'bar'], 'columns': '1fr', 'rows': 'auto minmax(0, 1fr) 36px 60px',
+                                     'place': {'info': 'info', 'list': 'sidebar', 'prog': 'progress', 'bar': 'player'}}}},
+        'nowplaying': {'areas': ['back info info video', 'art art lyr lyr', 'prog prog prog prog', 'ctl ctl vol vol'],
+                       'columns': '56px 1fr 1fr 56px', 'rows': 'auto minmax(0, 1fr) 40px 80px',
+                       'place': {'back': 'back', 'info': 'info', 'video': 'video', 'art': 'art', 'lyr': 'lyrics',
+                                 'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}}},
     'overlay': True,
 }, css='''
 
@@ -159,6 +191,17 @@ write('crt-green', {
 }
 @keyframes crt-flicker { 0%, 100% { opacity: 1; } 47% { opacity: .96; } 48% { opacity: .9; } 49% { opacity: .97; } }
 @media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
+
+/* teletext: the header bar inverted, the cells as plain screen areas */
+.lay-area { border-radius: 0 !important; border-color: #1f6b30 !important; }
+.lay-area.lay-info, .lay-view-nowplaying .lay-area[data-cell="info"] { background-color: #5dff7a !important; border-color: #5dff7a !important; text-align: left; padding: 6px 14px; }
+.lay-info *, .lay-view-nowplaying [data-cell="info"] * { color: #020f05 !important; text-shadow: none !important; }
+.lay-info .btn, .lay-view-nowplaying [data-cell="info"] .btn { border-color: #020f05 !important; background-color: transparent !important; }
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 12px; overflow: hidden; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; aspect-ratio: 1; object-fit: contain; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 30% 10px !important; text-align: left; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { text-transform: uppercase; letter-spacing: .04em; font-size: 14px; }
 ''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/LICENSE.txt': CC0, 'assets/tick.wav': tone('tick'), 'assets/blip.wav': tone('blip'), 'assets/hum.wav': tone('hum')})
 
 # ── 4. pastel-goth: pink / lilac on black, a rounded font, little bats, stars and bows (original art) ──
@@ -179,6 +222,16 @@ write('pastel-goth', {
     'parts': {'art': {'variant': 'round'}, 'progress': {'variant': 'line'}},
     'strings': {'empty.queue': 'nothing queued yet... play something cute', 'nowplaying.idle': 'shhh, nothing playing', 'empty.search': 'search for something spooky (or sweet)'},
     'icons': {'heart': 'assets/bow.svg'},
+    'layout': {
+        # a locket: the round cover large on the left, the song and the controls beside it, the list across the bottom
+        'home': {'areas': ['art info info', 'art bar vol', 'art prog prog', 'list list list'], 'columns': 'minmax(220px, 38%) 1fr 270px',
+                 'rows': 'minmax(0, 1fr) 72px 36px minmax(0, 1.2fr)',
+                 'place': {'art': 'art', 'info': 'info', 'bar': 'player', 'vol': 'volume', 'prog': 'progress', 'list': 'sidebar'},
+                 'below': {'800px': {'areas': ['info', 'bar', 'prog', 'list'], 'columns': '1fr', 'rows': 'auto 72px 36px minmax(0, 1fr)',
+                                     'place': {'info': 'info', 'bar': 'player', 'prog': 'progress', 'list': 'sidebar'}}}},
+        'nowplaying': {'areas': ['back . video', '. art .', '. info .', 'prog prog prog', 'ctl ctl vol'], 'columns': '1fr minmax(0, 440px) 1fr',
+                       'rows': 'auto minmax(0, 1fr) auto 36px 88px',
+                       'place': {'back': 'back', 'video': 'video', 'art': 'art', 'info': 'info', 'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}}},
     'overlay': True,
 }, css='''
 [data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Fredoka", "Segoe UI", sans-serif; font-weight: 600; letter-spacing: .02em; }
@@ -194,6 +247,15 @@ write('pastel-goth', {
   opacity: .85;
 }
 [data-part="nowplaying.idle"] { background: url("assets/skull.svg") no-repeat center top / 72px; padding-top: 84px; }
+/* the locket: the round cover with a lilac ring, the song beside it */
+.lay-art, .lay-info, .lay-player, .lay-progress, .lay-volume { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+.lay-volume { display: flex; align-items: center; }
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 24px; overflow: hidden; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: min(42vh, 32vw) !important; max-width: 100% !important; aspect-ratio: 1; object-fit: cover; border-radius: 50% !important;
+  box-shadow: 0 0 0 6px #120914, 0 0 0 9px #d9b3ff, 0 0 30px rgb(255 154 213 / .45) !important; }
+.lay-info { align-self: end; text-align: left; }
+.lay-info [data-part="info.title"] { font-size: clamp(26px, 3.4vw, 46px); }
 ''', files={**ofl('fredoka', 'Fredoka.ttf'), 'CREDITS.md': '# Credits\n\n- Font: Fredoka by the Fredoka Project Authors, SIL Open Font License 1.1 (assets/fredoka/OFL.txt).\n- Art: made for Voltage, CC0.\n', 'assets/bat.svg': bat, 'assets/star.svg': star, 'assets/bow.svg': bow, 'assets/skull.svg': skull})
 
 # ── 5. sidebar: the streaming-app shape (library left, the song list centre, the player as a bar along the bottom) ──

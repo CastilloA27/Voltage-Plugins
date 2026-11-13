@@ -6,3 +6,15 @@
 [data-part="tracklist.row"][data-state~="active"] { background: rgb(95 215 255 / .14); }
 [data-part="tracklist.row"][data-state~="active"] [data-part="tracklist.row.title"]::before { content: "> "; color: var(--accent); }
 [data-part="overlay"] { background: repeating-linear-gradient(0deg, rgb(0 0 0 / .18) 0 1px, transparent 1px 3px); }
+/* tmux panes: thin borders, a title on each, a status bar */
+.lay-area { border: 1px solid #3a3a3a !important; border-radius: 0 !important; position: relative; padding-top: 22px; }
+.lay-area::before { position: absolute; top: 3px; left: 8px; font: 12px "Cascadia Mono", Consolas, monospace; color: #8a8a8a; }
+.lay-sidebar::before { content: "[0] ls ~/music"; }
+.lay-info::before, .lay-view-nowplaying [data-cell="info"]::before { content: "[1] now-playing"; }
+.lay-lyrics::before, .lay-view-nowplaying [data-cell="lyrics"]::before { content: "[2] less lyrics.txt"; }
+.lay-progress, .lay-player, .lay-volume { padding-top: 0; }
+.lay-player, .lay-view-nowplaying [data-cell="player"] { background-color: #1e3a44 !important; border-color: #1e3a44 !important; }
+.lay-info, .lay-view-nowplaying [data-cell="info"] { text-align: left; padding-left: 12px; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 20% 12px !important; text-align: left; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font: 14px/1.6 "Cascadia Mono", Consolas, monospace; }
+.lay-lyrics [data-part="lyrics.line"][data-state~="active"]::before, .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"]::before { content: "> "; color: var(--accent); }

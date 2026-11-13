@@ -86,6 +86,65 @@
     "pause": "assets/blip.wav",
     "error": "assets/hum.wav"
   },
+  "layout": {
+    "home": {
+      "areas": [
+        "info info",
+        "list art",
+        "list lyr",
+        "prog prog",
+        "bar bar"
+      ],
+      "columns": "1fr minmax(240px, 34%)",
+      "rows": "auto minmax(0, 1fr) minmax(0, 1fr) 36px 60px",
+      "place": {
+        "info": "info",
+        "list": "sidebar",
+        "art": "art",
+        "lyr": "lyrics",
+        "prog": "progress",
+        "bar": "player"
+      },
+      "below": {
+        "900px": {
+          "areas": [
+            "info",
+            "list",
+            "prog",
+            "bar"
+          ],
+          "columns": "1fr",
+          "rows": "auto minmax(0, 1fr) 36px 60px",
+          "place": {
+            "info": "info",
+            "list": "sidebar",
+            "prog": "progress",
+            "bar": "player"
+          }
+        }
+      }
+    },
+    "nowplaying": {
+      "areas": [
+        "back info info video",
+        "art art lyr lyr",
+        "prog prog prog prog",
+        "ctl ctl vol vol"
+      ],
+      "columns": "56px 1fr 1fr 56px",
+      "rows": "auto minmax(0, 1fr) 40px 80px",
+      "place": {
+        "back": "back",
+        "info": "info",
+        "video": "video",
+        "art": "art",
+        "lyr": "lyrics",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    }
+  },
   "overlay": true,
   "css": "theme.css"
 }
