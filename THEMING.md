@@ -13,12 +13,16 @@ Reference (generated from Voltage's code, so it's always exact): [`themes/theme-
 
 ## Examples
 
-Six complete themes in [`themes/`](themes/), each a folder you can install or copy: `voltage-starter` (Voltage's own look with
+Ten complete themes in [`themes/`](themes/), each a folder you can install or copy: `voltage-starter` (Voltage's own look with
 every value written out: the best starting point), `terminal` (text only: pixel font, ASCII progress, renamed labels,
 scanlines), `crt-green` (green phosphor, vignette, flicker, click sounds), `pastel-goth` (rounded font, round covers,
-decorations in the overlay), `sidebar` (a different layout: song table in the middle, player bar along the bottom) and
-`frosted-light` (follows Windows' light / dark setting). Their fonts, art and sounds are made by
-[`themes/tools/make-examples.py`](themes/tools/make-examples.py) and are CC0: reuse them freely.
+decorations in the overlay), `sidebar` (a different layout: song table in the middle, player bar along the bottom),
+`frosted-light` (follows Windows' light / dark setting), `jackpot` (a video slot: five reels with the cover as the centre
+symbol, random landings, a lever, marquee bulbs; works with the Reels plugin), `paper` (a newspaper front page: blackletter
+masthead, halftone cover, the lyrics as the article), `tactical` (a gamer HUD: brackets, a reticle over the cover, a comms
+log, a HUD mini strip) and `sumi-ink` (ink on washi: the lyrics down a hanging scroll in vertical writing, the cover in an
+enso). They're all made by [`themes/tools/make-examples.py`](themes/tools/make-examples.py); the art and sounds made there
+are CC0, the fonts are SIL OFL (each with its OFL.txt; see each theme's CREDITS.md).
 
 ## Your first theme in 10 minutes
 
