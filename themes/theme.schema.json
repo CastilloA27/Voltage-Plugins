@@ -1921,6 +1921,46 @@
      "maxLength": 60,
      "description": "Voltage: Added to {playlist}"
     },
+    "note.volume": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Volume {volume}%"
+    },
+    "note.noSuggestions": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: No new suggestions right now"
+    },
+    "note.savingTo": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Saving {count} songs to \"{playlist}\" in the background"
+    },
+    "note.addingTo": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Adding {count} songs to \"{playlist}\" in the background"
+    },
+    "note.recapCopied": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Recap card copied: paste it anywhere (Ctrl+V)"
+    },
+    "note.recapSaved": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Recap card saved to Pictures\\Voltage"
+    },
+    "note.themeSaved": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Theme \"{name}\" saved"
+    },
+    "note.lyricsDeleted": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Saved lyrics deleted ({count} song{s})"
+    },
     "note.queueReplaced": {
      "type": "string",
      "maxLength": 60,

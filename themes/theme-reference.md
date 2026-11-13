@@ -148,6 +148,14 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `note.playNext` | Playing next: {title} |
 | `note.addedQueue` | Added to queue: {title} |
 | `note.addedTo` | Added to {playlist} |
+| `note.volume` | Volume {volume}% |
+| `note.noSuggestions` | No new suggestions right now |
+| `note.savingTo` | Saving {count} songs to "{playlist}" in the background |
+| `note.addingTo` | Adding {count} songs to "{playlist}" in the background |
+| `note.recapCopied` | Recap card copied: paste it anywhere (Ctrl+V) |
+| `note.recapSaved` | Recap card saved to Pictures\Voltage |
+| `note.themeSaved` | Theme "{name}" saved |
+| `note.lyricsDeleted` | Saved lyrics deleted ({count} song{s}) |
 | `note.queueReplaced` | Queue replaced · Ctrl+Z to undo |
 | `note.sleepStopped` | Sleep timer: stopped after the song |
 | `note.miniGhost` | Mini player see-through: same hotkey to undo |
