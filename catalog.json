@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "seq": 6,
-  "expires": 1825870942,
-  "commit": "7635685cc3e1951d9cf0d1315b045dbef1430713",
+  "seq": 7,
+  "expires": 1826120405,
+  "commit": "69de8bf0b73d84c1be88a9c47691c42883b9c4cd",
   "data": {
     "fortnite": {
       "lobby": [
@@ -23,6 +23,26 @@
         "Show RespawnLoading"
       ],
       "eliminated": "[FortEliminationScreen"
+    },
+    "holidayDates": {
+      "_note": "Holiday hello (Voltage review round 14 > E2): dates Voltage can't compute exactly. Add a year here (MM-DD), rebuild and sign the catalog: no app release needed. Lunar New Year: checked against vclock / qppstudio / chinahighlights. Diwali (Lakshmi Puja): Drik Panchang; only years it lists.",
+      "lunarNewYear": {
+        "2026": "02-17",
+        "2027": "02-06",
+        "2028": "01-26",
+        "2029": "02-13",
+        "2030": "02-03",
+        "2031": "01-23",
+        "2032": "02-11",
+        "2033": "01-31",
+        "2034": "02-19",
+        "2035": "02-08"
+      },
+      "diwali": {
+        "2026": "11-08",
+        "2027": "10-29",
+        "2028": "10-17"
+      }
     }
   },
   "plugins": [
@@ -43,7 +63,7 @@
           "https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/autoeq",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/autoeq",
       "files": [
         {
           "name": "plugin.json",
@@ -71,7 +91,7 @@
           "https://itunes.apple.com/search"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/better-covers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/better-covers",
       "files": [
         {
           "name": "plugin.json",
@@ -100,7 +120,7 @@
           "discord.css"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/legcord-theme",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
@@ -131,7 +151,7 @@
           "https://lrclib.net/api/publish"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/lyrics-fixer",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/lyrics-fixer",
       "files": [
         {
           "name": "plugin.json",
@@ -163,7 +183,7 @@
           "https://c.y.qq.com/qqmusic/fcgi-bin/lyric_download.fcg"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/more-lyrics",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/more-lyrics",
       "files": [
         {
           "name": "plugin.json",
@@ -172,6 +192,30 @@
         {
           "name": "main.js",
           "sha256": "143bacc0e11515010c28aa32c1ca645a63eb61707df83d51e28b5211f8327c4d"
+        }
+      ]
+    },
+    {
+      "id": "reels",
+      "name": "Reels",
+      "version": "0.3.0",
+      "author": "Voltage",
+      "description": "For the Jackpot theme: every song gets a rarity (common, rare, epic, legendary) from how popular it is (YouTube plays) and how often you play it, rolled fresh every time, and the slot reels land to match: a legendary song lands a full line of WILDs. Purely a look: no betting, credits or odds.",
+      "minVoltage": "1.7.1",
+      "permissions": {
+        "capabilities": [
+          "ui.fx"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/reels",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "f106c73d392c230e638d9ad23cb77624344a0cb4fc7eef5c55973067a32a6c70"
+        },
+        {
+          "name": "main.js",
+          "sha256": "720b82cb56db8d5213b2e3a043bd0bf9e84cf490abc86e1292ff0ef3859d7fbf"
         }
       ]
     },
@@ -193,7 +237,7 @@
           "https://labs.api.listenbrainz.org/similar-artists/json"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/similar-artists",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/similar-artists",
       "files": [
         {
           "name": "plugin.json",
@@ -224,7 +268,7 @@
           "https://en.wikipedia.org/api/rest_v1/page/summary/"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/song-facts",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/song-facts",
       "files": [
         {
           "name": "plugin.json",
@@ -247,7 +291,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/streaks",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/streaks",
       "files": [
         {
           "name": "plugin.json",
@@ -272,7 +316,7 @@
           "playback.control"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/version-filter",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/version-filter",
       "files": [
         {
           "name": "plugin.json",
@@ -297,7 +341,7 @@
           "audio.level"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/visualizers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/visualizers",
       "files": [
         {
           "name": "plugin.json",
@@ -323,7 +367,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/7635685cc3e1951d9cf0d1315b045dbef1430713/voice-duck",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/voice-duck",
       "files": [
         {
           "name": "plugin.json",
@@ -332,6 +376,31 @@
         {
           "name": "main.js",
           "sha256": "5ac5522b53da748c82f98fc03e7819e97db145eb4e96b820d668a7e565d9362c"
+        }
+      ]
+    },
+    {
+      "id": "vu-meter",
+      "name": "VU meter",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "For the Studio theme: the meters' needles follow how loud the music is right now (Voltage's level meter, never the sound itself). Ballistics like a real VU meter: quick to rise, slower to fall.",
+      "minVoltage": "1.7.1",
+      "permissions": {
+        "capabilities": [
+          "audio.level",
+          "ui.fx"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/vu-meter",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "eb4180cc46963dec490edadbaf957078ba50c5fe3986f0ff556187dea765c688"
+        },
+        {
+          "name": "main.js",
+          "sha256": "0919a9f646f26db911455849edfdebb08912f042b3ef5bf34ff511ab5e647a5c"
         }
       ]
     }
