@@ -57,9 +57,9 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 
 | Part | Variants |
 |---|---|
-| `player` | `panel`, `compact`, `text` |
+| `player` | `panel`, `compact`, `text`, `bar` |
 | `progress` | `wave`, `line`, `blocks`, `ascii`, `none` |
-| `tracklist` | `rows`, `dense`, `table`, `text` |
+| `tracklist` | `rows`, `dense`, `table`, `text`, `cards` |
 | `nav` | `icons`, `text`, `tabs`, `sidebar` |
 | `art` | `cover`, `round`, `vinyl`, `none` |
 | `lyrics` | `karaoke`, `plain`, `ticker` |
@@ -69,7 +69,7 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 
 | View | Parts |
 |---|---|
-| `home` | `sidebar`, `search`, `tracklist`, `nowplaying`, `art`, `info`, `player`, `progress`, `volume`, `lyrics`, `spacer` |
+| `home` | `sidebar`, `search`, `tracklist`, `nowplaying`, `art`, `info`, `player`, `progress`, `volume`, `lyrics`, `titlebar`, `spacer` |
 | `nowplaying` | `art`, `info`, `lyrics`, `progress`, `player`, `volume`, `back`, `video`, `spacer` |
 | `mini` | `art`, `info`, `player`, `progress`, `volume`, `expand`, `spacer` |
 

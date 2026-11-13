@@ -9,13 +9,14 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 |---|---|---|
 | `${info.part}` |  | src/ThemeLayer.jsx |
 | `${p}` |  | src/theme.js |
-| `app` | `discovery` `gaming` `idle` `mini` `offline` `paused` `playing` | src/App.jsx |
+| `app` | `discovery` `gaming` `idle` `mini` `offline` `paused` `playing` | src/App.jsx, src/fx.js |
 | `art` |  | src/Players.jsx |
 | `background` |  | src/App.jsx |
 | `dialog` |  | src/Modals.jsx |
 | `explore.card` |  | src/Explore.jsx |
 | `explore.shelf` |  | src/Explore.jsx |
 | `frame` |  | src/App.jsx |
+| `holiday` |  | src/HolidayHello.jsx |
 | `info` |  | src/Players.jsx |
 | `info.title` |  | src/Players.jsx |
 | `layout.resize` |  | src/Layout.jsx |
@@ -53,6 +54,7 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `search` |  | src/Search.jsx |
 | `search-cell` |  | src/Layout.jsx |
 | `sidebar` | `no-search` | src/App.jsx |
+| `theme-store` |  | src/ThemeStore.jsx |
 | `titlebar` |  | src/App.jsx |
 | `titlebar.brand` |  | src/App.jsx |
 | `toast` | `error` `notice` | src/App.jsx |
@@ -77,4 +79,4 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `window.maximize` |  | src/App.jsx |
 | `window.minimize` |  | src/App.jsx |
 
-69 parts.
+71 parts.

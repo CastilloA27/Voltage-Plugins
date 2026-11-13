@@ -1133,6 +1133,7 @@
            "progress",
            "volume",
            "lyrics",
+           "titlebar",
            "spacer",
            "back",
            "video",
@@ -1193,6 +1194,7 @@
               "progress",
               "volume",
               "lyrics",
+              "titlebar",
               "spacer",
               "back",
               "video",
@@ -1256,6 +1258,7 @@
            "progress",
            "volume",
            "lyrics",
+           "titlebar",
            "spacer",
            "back",
            "video",
@@ -1316,6 +1319,7 @@
               "progress",
               "volume",
               "lyrics",
+              "titlebar",
               "spacer",
               "back",
               "video",
@@ -1379,6 +1383,7 @@
            "progress",
            "volume",
            "lyrics",
+           "titlebar",
            "spacer",
            "back",
            "video",
@@ -1439,6 +1444,7 @@
               "progress",
               "volume",
               "lyrics",
+              "titlebar",
               "spacer",
               "back",
               "video",
@@ -1470,7 +1476,8 @@
        "enum": [
         "panel",
         "compact",
-        "text"
+        "text",
+        "bar"
        ]
       }
      }
@@ -1497,7 +1504,8 @@
         "rows",
         "dense",
         "table",
-        "text"
+        "text",
+        "cards"
        ]
       }
      }

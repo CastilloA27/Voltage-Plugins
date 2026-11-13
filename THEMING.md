@@ -151,7 +151,7 @@ The home view is a grid. Name areas, give their sizes, and put a part in each:
 ```
 
 Parts you can place: `sidebar` (search + tabs + list), `search`, `tracklist` (tabs + list), `nowplaying`, `art`, `info`,
-`player`, `progress`, `volume`, `lyrics`, `spacer`, `slot:<name>`. A part placed on its own leaves Now Playing (it never
+`player`, `progress`, `volume`, `lyrics`, `titlebar` (the title bar with the window buttons, wherever you put it: along the bottom like a taskbar, say; other views keep the normal one), `spacer`, `slot:<name>`. A part placed on its own leaves Now Playing (it never
 shows twice); a part you don't place isn't shown (its keyboard shortcuts still work). `below` gives another layout for
 windows up to that width. `"resizable": ["nav"]` gives an area a drag handle on its inner edge (double-click resets it); the
 width is remembered per theme. It works for an area that is one whole column beside another, with `columns` written out
