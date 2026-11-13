@@ -154,6 +154,8 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 
 Example: `:root[data-event="like"] [data-part="art"] { animation: pop .6s; }`
 
+Rolls: on every new song `--roll-1` ... `--roll-5` on `<html>` get new random whole numbers 0-7 (for slot reels and the like): `background-position-y: calc(var(--roll-1) * -100px)`.
+
 ## Icons (`"icons"`: an svg / png / webp in the package, or `{"text": "..."}`)
 
 `play`, `check`, `pause`, `next`, `prev`, `close`, `block`, `min`, `max`, `mini`, `expand`, `gear`, `back`, `add`, `heart`, `list`, `thumbUp`, `thumbDown`, `moon`, `volUp`, `volOff`, `save`, `grid`, `spark`, `down`, `share`, `link`, `refresh`, `lyrics`, `shuffle`, `repeat`, `queueAdd`, `playNext`, `person`, `history`, `edit`, `dupes`, `fullscreen`, `chart`, `explore`, `video`, `download`, `speaker`, `radio`, `trash`, `search`

@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
   "id": "jackpot",
   "name": "Jackpot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "Voltage",
   "extends": "voltage",
   "appearance": "dark",
-  "description": "A slot cabinet: the cover in the reel window, reels that spin on every new song, marquee bulbs, JACKPOT when you like a song.",
+  "description": "A video slot: a 5 x 3 symbol screen with the cover in the middle, reels that spin on every new song, paylines, coins and JACKPOT when you like a song.",
   "fonts": [
     {
       "family": "Bungee",
@@ -52,9 +52,9 @@
     "library.liked": "Jackpots",
     "empty.queue": "Insert a song to play",
     "nowplaying.idle": "Insert a song",
-    "nav.stats": "Payout history",
+    "nav.stats": "Win history",
     "explore.fromLiked": "Your jackpots",
-    "note.liked": "JACKPOT!",
+    "note.liked": "BIG WIN!",
     "menu.playNow": "Spin it",
     "menu.playNext": "Spin next"
   },
@@ -69,23 +69,50 @@
   "layout": {
     "nowplaying": {
       "areas": [
-        "back info video",
-        "rl art rr",
-        "prog prog prog",
-        "ctl ctl vol"
+        "back info info info info info video",
+        "l r1 r2 art r4 r5 r",
+        "prog prog prog prog prog prog prog",
+        "ctl ctl ctl ctl ctl vol vol"
       ],
-      "columns": "1fr minmax(0, 440px) 1fr",
-      "rows": "auto minmax(0, 1fr) 48px 96px",
+      "columns": "1fr repeat(5, 180px) 1fr",
+      "rows": "auto 540px 48px 96px",
       "place": {
         "back": "back",
         "info": "info",
         "video": "video",
-        "rl": "slot:reel-left",
+        "l": "spacer",
+        "r": "spacer",
+        "r1": "slot:reel1",
+        "r2": "slot:reel2",
         "art": "art",
-        "rr": "slot:reel-right",
+        "r4": "slot:reel4",
+        "r5": "slot:reel5",
         "prog": "progress",
         "ctl": "player",
         "vol": "volume"
+      },
+      "below": {
+        "1100px": {
+          "areas": [
+            "back info video",
+            "r2 art r4",
+            "prog prog prog",
+            "ctl ctl vol"
+          ],
+          "columns": "1fr 180px 1fr",
+          "rows": "auto 540px 48px 96px",
+          "place": {
+            "back": "back",
+            "info": "info",
+            "video": "video",
+            "r2": "slot:reel2",
+            "art": "art",
+            "r4": "slot:reel4",
+            "prog": "progress",
+            "ctl": "player",
+            "vol": "volume"
+          }
+        }
       }
     },
     "mini": {

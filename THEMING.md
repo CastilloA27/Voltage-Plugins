@@ -194,6 +194,9 @@ For about 1.2 seconds after something happens, `<html>` carries `data-event`: `t
 @keyframes pop { 50% { transform: scale(1.06); } }
 ```
 
+**Rolls:** on every new song `--roll-1` ... `--roll-5` on `<html>` get fresh random whole numbers 0-7, e.g. for slot
+reels: `background-position-y: calc(var(--roll-1) * -100px)` (see the Jackpot theme).
+
 ## Behaviour: a companion plugin
 
 A theme has no code. For anything that moves on its own or reacts (an ASCII visualizer for a terminal theme, a radio dial),
