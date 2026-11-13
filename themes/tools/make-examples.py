@@ -198,7 +198,7 @@ write('crt-green', {
 .lay-info *, .lay-view-nowplaying [data-cell="info"] * { color: #020f05 !important; text-shadow: none !important; }
 .lay-info .btn, .lay-view-nowplaying [data-cell="info"] .btn { border-color: #020f05 !important; background-color: transparent !important; }
 .lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 12px; overflow: hidden; }
-.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; width: 100%; height: 100%; min-height: 0; }
 .lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; aspect-ratio: 1; object-fit: contain; }
 .lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 30% 10px !important; text-align: left; }
 .lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { text-transform: uppercase; letter-spacing: .04em; font-size: 14px; }
@@ -251,7 +251,7 @@ write('pastel-goth', {
 .lay-art, .lay-info, .lay-player, .lay-progress, .lay-volume { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
 .lay-volume { display: flex; align-items: center; }
 .lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 24px; overflow: hidden; }
-.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; width: 100%; height: 100%; min-height: 0; }
 .lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: min(42vh, 32vw) !important; max-width: 100% !important; aspect-ratio: 1; object-fit: cover; border-radius: 50% !important;
   box-shadow: 0 0 0 6px #120914, 0 0 0 9px #d9b3ff, 0 0 30px rgb(255 154 213 / .45) !important; }
 .lay-info { align-self: end; text-align: left; }
@@ -798,8 +798,9 @@ write('sumi-ink', {
 /* the cover inside a brushed enso, the photo in ink tones */
 .lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0;
   background-image: url("assets/enso.svg"); background-repeat: no-repeat; background-position: center; background-size: contain; }
-.lay-view-nowplaying [data-cell="art"] .art-part { display: grid; place-items: center; width: 100%; height: 100%; }
-.lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 80% !important; max-height: 80% !important; aspect-ratio: 1; object-fit: cover; }
+.lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; width: 100%; height: 100%; min-height: 0; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 80% !important; max-height: 80% !important; aspect-ratio: 1; object-fit: cover; }
+.lay-art { overflow: hidden; }
 .lay-art img, .lay-view-nowplaying [data-cell="art"] img { border-radius: 50% !important; filter: grayscale(1) sepia(.15) contrast(1.08);
   box-shadow: 0 0 0 6px rgb(244 239 228 / .9) !important; }
 
