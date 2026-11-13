@@ -258,7 +258,7 @@ the menorah (`.hol-menorah`). Your tokens and fonts already apply; restyle it or
 
 Ids: `new-year`, `lunar-new-year`, `valentine`, `st-patrick`, `easter`, `eid-al-fitr`, `mothers-day`, `music-day`, `juneteenth`,
 `fathers-day`, `independence`, `halloween`, `dia-de-muertos`, `diwali`, `thanksgiving`, `hanukkah`, `christmas`,
-`new-years-eve`, `voltage-birthday`, `your-birthday`. `"holidays": false` in theme.json turns them off while your theme is on.
+`new-years-eve`, `voltage-birthday`, `your-birthday`. `"holidays": false` in theme.json turns them off while your theme is on. With Theme sounds on, the hello plays your `holiday` sound (in `sounds`), or else your `notify` or `like` sound.
 
 ## Behaviour: a companion plugin
 

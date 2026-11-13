@@ -2896,6 +2896,10 @@
     "error": {
      "type": "string",
      "pattern": "\\.(ogg|wav|mp3)$"
+    },
+    "holiday": {
+     "type": "string",
+     "pattern": "\\.(ogg|wav|mp3)$"
     }
    },
    "additionalProperties": false
