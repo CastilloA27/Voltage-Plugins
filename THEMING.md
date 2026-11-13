@@ -197,9 +197,9 @@ Some parts can be drawn in different ways: `"parts": {"progress": {"variant": "a
 
 | Part | Variants (the first is Voltage's) |
 |---|---|
-| `player` | `panel`, `compact`, `text` (words instead of icons, from `strings`) |
+| `player` | `panel`, `compact`, `text` (words instead of icons, from `strings`), `bar` (a bar along the bottom, when your theme has no home layout of its own) |
 | `progress` | `wave`, `line`, `blocks`, `ascii` (`[######------] 1:23 / 3:14`), `none` |
-| `tracklist` | `rows`, `dense`, `table`, `text` (one monospace line per song) |
+| `tracklist` | `rows`, `dense`, `table`, `text` (one monospace line per song), `cards` (a grid of cover cards) |
 | `nav` | `icons`, `text` (in the title bar), `tabs` (labelled tabs beside the brand), `sidebar` (a rail down the left); tabs and the rail add Home |
 | `art` | `cover`, `round`, `vinyl` (round, spins while playing), `none` |
 | `lyrics` | `karaoke`, `plain`, `ticker` (only the current line) |
