@@ -1,0 +1,10 @@
+{
+  "id": "vu-meter",
+  "name": "VU meter",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "For the Studio theme: the meters' needles follow how loud the music is right now (Voltage's level meter, never the sound itself). Ballistics like a real VU meter: quick to rise, slower to fall.",
+  "main": "main.js",
+  "minVoltage": "1.7.1",
+  "permissions": { "capabilities": ["audio.level", "ui.fx"] }
+}
