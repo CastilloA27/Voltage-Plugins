@@ -1,23 +1,23 @@
 /* marquee lettering */
 [data-part="titlebar.brand"], [data-part="info.title"], .for-you-title { font-family: "Bungee", "Bahnschrift", sans-serif; letter-spacing: .04em; }
-[data-part="titlebar.brand"] { color: #ffcc33; text-shadow: 0 0 10px rgb(255 204 51 / .7); }
-[data-part="info.title"] { color: #ffd966; text-shadow: 0 0 12px rgb(255 190 40 / .75), 0 2px 0 #7a3b00; }
+[data-part="titlebar.brand"] { color: #00e5ff; text-shadow: 0 0 10px rgb(0 210 255 / .7); }
+[data-part="info.title"] { color: #ffd700; text-shadow: 0 0 14px rgb(112 0 255 / .8), 0 2px 0 #3a1d7a; }
 
 /* the screen: five reels of symbols (one strip image, each reel at its own offset); the cover is the centre symbol */
 .lay-view-nowplaying { column-gap: 0; }
 .lay-view-nowplaying [data-cell^="slot:reel"], .lay-view-nowplaying [data-cell="art"] {
   /* longhands: a shorthand mixing var() with other background properties doesn't survive the cleaner */
   background-image: url("assets/reel.svg"); background-size: 180px 1440px; background-repeat: repeat-y; background-position-x: 0; background-position-y: var(--o); position: relative; overflow: hidden;
-  border-top: 5px solid #e0a82e; border-bottom: 5px solid #e0a82e;
-  box-shadow: inset 0 26px 30px -10px rgb(0 0 0 / .75), inset 0 -26px 30px -10px rgb(0 0 0 / .75), inset -1px 0 0 #7a4a00, 0 0 26px rgb(255 190 40 / .25); }
-.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * -180px); border-radius: 16px 0 0 16px; border-left: 5px solid #e0a82e; }
+  border-top: 5px solid #d4af37; border-bottom: 5px solid #d4af37;
+  box-shadow: inset 0 26px 30px -10px rgb(0 0 0 / .75), inset 0 -26px 30px -10px rgb(0 0 0 / .75), inset -1px 0 0 #2c2350, 0 0 26px rgb(0 210 255 / .25); }
+.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * -180px); border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
 .lay-view-nowplaying [data-cell="slot:reel2"] { --o: calc(var(--roll-2, 3) * -180px); }
 .lay-view-nowplaying [data-cell="art"] { --o: calc(var(--roll-3, 5) * -180px); padding: 180px 0; display: block; }
 .lay-view-nowplaying [data-cell="slot:reel4"] { --o: calc(var(--roll-4, 2) * -180px); }
-.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * -180px); border-radius: 0 16px 16px 0; border-right: 5px solid #e0a82e; }
+.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * -180px); border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
 .lay-view-nowplaying [data-cell="art"] .art-part { display: block; width: 180px; height: 180px; }
 .lay-view-nowplaying [data-cell="art"] img { width: 180px !important; height: 180px !important; max-width: none; border-radius: 0; object-fit: cover;
-  box-shadow: inset 0 0 0 4px #ffcc33, 0 0 24px rgb(255 204 51 / .6); }
+  box-shadow: inset 0 0 0 4px #00d2ff, 0 0 24px rgb(0 210 255 / .6); }
 
 /* a new song: the five reels spin and stop left to right */
 @keyframes spin-reel { from { background-position-y: calc(var(--o) - 2880px); filter: blur(2px); } 85% { filter: blur(0); } to { background-position-y: var(--o); } }
@@ -32,15 +32,15 @@
 
 /* a like: the middle payline lights across all five reels, coins rain, BIG WIN */
 .lay-view-nowplaying [data-cell^="slot:reel"]::after, .lay-view-nowplaying [data-cell="art"]::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 3px); height: 6px;
-  background: linear-gradient(90deg, #ffe680, #ff9900, #ffe680); box-shadow: 0 0 14px 4px rgb(255 190 40 / .8); opacity: 0; pointer-events: none; }
+  background: linear-gradient(90deg, #00f2fe, #f093fb, #00f2fe); box-shadow: 0 0 14px 4px rgb(0 210 255 / .8); opacity: 0; pointer-events: none; }
 :root[data-event="like"] [data-cell^="slot:reel"]::after, :root[data-event="like"] [data-cell="art"]::after { animation: payline 1.2s ease-out; }
 @keyframes payline { 10%, 30%, 50%, 70% { opacity: 1; } 20%, 40%, 60% { opacity: .3; } 100% { opacity: 0; } }
 
 /* marquee bulbs around the window, chasing */
 [data-part="overlay"] {
   background:
-    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
-    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
+    radial-gradient(circle, #e8fdff 0 3px, #00d2ff 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
+    radial-gradient(circle, #f6e8ff 0 3px, #b26bff 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
   animation: bulbs 1.2s steps(2) infinite;
 }
 @keyframes bulbs { to { background-position: 26px 4px, 39px calc(100% - 4px); } }
@@ -49,7 +49,7 @@
 :root[data-event="like"] [data-part="overlay"]::before { animation: coins 1.2s linear; }
 @keyframes coins { 0% { opacity: 0; background-position: 0 -200px, 23px -120px; } 15% { opacity: .9; } 85% { opacity: .9; } 100% { opacity: 0; background-position: 0 600px, 23px 700px; } }
 [data-part="overlay"]::after { content: "BIG WIN"; position: absolute; inset: 0; display: grid; place-items: center; font: 900 min(13vw, 140px) "Bungee", sans-serif;
-  color: #ffd966; text-shadow: 0 0 30px #ff9900, 0 6px 0 #7a3b00; opacity: 0; }
+  color: #ffd700; text-shadow: 0 0 30px #7000ff, 0 0 60px #00d2ff, 0 6px 0 #3a1d7a; opacity: 0; }
 :root[data-event="like"] [data-part="overlay"]::after { animation: bigwin 1.2s ease-out; }
 :root[data-event="like"] [data-part="overlay"] { animation-duration: .25s; }
 @keyframes bigwin { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.08); } 35%, 60% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.15); } }
@@ -57,12 +57,12 @@
 
 /* progress: a bonus meter of bulbs */
 .prog-blocks { justify-content: space-between; }
-.prog-blocks i { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; background: #4a1a10; box-shadow: inset 0 0 3px rgb(0 0 0 / .8); }
-.prog-blocks i.on { background: radial-gradient(circle at 40% 35%, #fff6c8, #ffb800 60%, #b36b00); box-shadow: 0 0 8px #ffb800; }
+.prog-blocks i { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; background: #1b1440; box-shadow: inset 0 0 3px rgb(0 0 0 / .8); }
+.prog-blocks i.on { background: radial-gradient(circle at 40% 35%, #e8fdff, #00d2ff 60%, #0a4a7a); box-shadow: 0 0 8px #00d2ff; }
 /* arcade buttons: play (spin) green, next amber, previous red */
-[data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
-[data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
-[data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+[data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #c8fbff, #00d2ff 60%, #0a3f6e) !important; box-shadow: 0 0 0 4px #d4af37, 0 0 18px rgb(0 210 255 / .7) !important; color: #04101f !important; }
+[data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #e6c8ff, #7000ff 60%, #2a0a66) !important; color: #f4ecff !important; box-shadow: 0 0 0 3px #d4af37 !important; }
+[data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ffd0f4, #f093fb 55%, #6a1a6e) !important; color: #2a0626 !important; box-shadow: 0 0 0 3px #d4af37 !important; }
 /* rarity from the Reels companion plugin (data-rarity on html): a badge after the title, a lit payline on epic and up */
 :root[data-rarity="rare"] [data-part="info.title"]::after { content: "  ★ RARE"; color: #7fd4ff; font-size: .55em; }
 :root[data-rarity="epic"] [data-part="info.title"]::after { content: "  ★★ EPIC"; color: #d68cff; font-size: .55em; }
@@ -75,7 +75,7 @@
 .lay-view-nowplaying [data-area="r"]::before { content: ""; position: absolute; left: 18px; top: 18%; width: 12px; height: 200px; border-radius: 6px;
   background: linear-gradient(90deg, #9a9a9a, #f0f0f0 45%, #8a8a8a); transform-origin: 50% 100%; box-shadow: 0 0 0 2px #7a4a00; }
 .lay-view-nowplaying [data-area="r"]::after { content: ""; position: absolute; left: 4px; top: calc(18% - 30px); width: 40px; height: 40px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ff9a8a, #d0221a 55%, #5a0806); box-shadow: 0 4px 10px rgb(0 0 0 / .6); transform-origin: 24px 230px; }
+  background: radial-gradient(circle at 35% 30%, #e6c8ff, #7000ff 55%, #2a0a66); box-shadow: 0 4px 10px rgb(0 0 0 / .6); transform-origin: 24px 230px; }
 .lay-view-nowplaying [data-area="r"] { min-height: 260px; }
 @keyframes lever { 0% { transform: none; } 30% { transform: rotateX(70deg) scaleY(.35); } 100% { transform: none; } }
 @keyframes lever-ball { 0% { transform: none; } 30% { transform: translateY(150px); } 100% { transform: none; } }
@@ -83,9 +83,9 @@
 :root[data-event="skip"] [data-area="r"]::after, :root[data-event="track-change"] [data-area="r"]::after { animation: lever-ball .7s ease-in-out; }
 
 /* the home screen: the cover in a gold reel window, the playing row lit gold */
-[data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #e0a82e, 0 0 0 9px #5a1020, 0 0 30px rgb(255 190 40 / .45) !important; }
-[data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(255 204 51 / .22), transparent); box-shadow: inset 3px 0 0 #ffcc33; }
+[data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #d4af37, 0 0 0 9px #24174d, 0 0 30px rgb(0 210 255 / .45) !important; }
+[data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(0 210 255 / .2), transparent); box-shadow: inset 3px 0 0 #00d2ff; }
 /* the mini player is too small for marquee bulbs */
 [data-part="app"][data-state~="mini"] [data-part="overlay"] { background: none; animation: none; }
 /* the mini player: one reel window */
-.lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #e0a82e; padding: 4px; background: #2a0610; }
+.lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #d4af37; padding: 4px; background: #120d26; }

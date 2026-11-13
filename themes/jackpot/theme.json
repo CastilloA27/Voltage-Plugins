@@ -14,19 +14,19 @@
     }
   ],
   "tokens": {
-    "color.bg": "#12030a",
-    "color.text": "#fff4e0",
-    "color.text-dim": "#e8c9a0",
+    "color.bg": "#07061a",
+    "color.text": "#eef4ff",
+    "color.text-dim": "#a9b8e0",
     "color.text-strong": "#ffffff",
-    "color.surface": "rgba(52, 6, 16, .78)",
-    "color.border": "rgba(255, 204, 51, .38)",
-    "color.brand": "#ffcc33",
-    "color.on-accent": "#2a0a00",
-    "color.knob": "#ffe28a",
-    "color.select-bg": "#4a0c18",
-    "surface.menu": "#28050c",
-    "surface.pop": "#2e060e",
-    "surface.tip": "#28050c",
+    "color.surface": "rgba(20, 16, 48, .8)",
+    "color.border": "rgba(0, 210, 255, .35)",
+    "color.brand": "#00d2ff",
+    "color.on-accent": "#04101f",
+    "color.knob": "#9ff0ff",
+    "color.select-bg": "#24174d",
+    "surface.menu": "#120d26",
+    "surface.pop": "#141030",
+    "surface.tip": "#120d26",
     "effect.blur": "10px",
     "effect.glow-size": "16px",
     "effect.glow-alpha": "55%",
@@ -35,7 +35,7 @@
   },
   "accent": {
     "mode": "fixed",
-    "color": "#ffcc33"
+    "color": "#00d2ff"
   },
   "parts": {
     "progress": {

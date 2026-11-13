@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="metal-q" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff758c"/>
+      <stop offset="50%" stop-color="#ff7eb3"/>
+      <stop offset="100%" stop-color="#5c162e"/>
+    </linearGradient>
+  </defs>
+  <rect x="25" y="25" width="150" height="150" rx="24" fill="#141824" stroke="#2c354d" stroke-width="4"/>
+  <path d="M75 42 L125 42 L152 70 L152 125 L135 142 L155 160 L132 160 L118 148 L75 148 L48 120 L48 70 Z M82 68 L72 78 L72 112 L82 122 L118 122 L128 112 L128 78 L118 68 Z" fill="url(#metal-q)" stroke="#2b0915" stroke-width="4"/>
+  <circle cx="100" cy="95" r="10" fill="#ff2a6d"/>
+</svg>

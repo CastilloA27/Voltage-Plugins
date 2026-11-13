@@ -1,0 +1,25 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="compass-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#09192f"/>
+    </radialGradient>
+    <linearGradient id="gold-trim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff099"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#7a5c12"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer Ring & Bezel -->
+  <circle cx="100" cy="100" r="76" fill="url(#gold-trim)" stroke="#2b1e04" stroke-width="4"/>
+  <circle cx="100" cy="100" r="62" fill="url(#compass-bg)" stroke="#1b2a47" stroke-width="3"/>
+  <!-- Cardinal Points -->
+  <polygon points="100,20 110,42 90,42" fill="url(#gold-trim)"/>
+  <polygon points="100,180 110,158 90,158" fill="url(#gold-trim)"/>
+  <polygon points="20,100 42,90 42,110" fill="url(#gold-trim)"/>
+  <polygon points="180,100 158,90 158,110" fill="url(#gold-trim)"/>
+  <!-- Compass Needle -->
+  <polygon points="100,45 114,100 100,90 86,100" fill="#ff3b5c"/>
+  <polygon points="100,155 114,100 100,110 86,100" fill="#e2e8f0"/>
+  <circle cx="100" cy="100" r="10" fill="url(#gold-trim)" stroke="#1e293b" stroke-width="2"/>
+</svg>

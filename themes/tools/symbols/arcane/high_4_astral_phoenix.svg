@@ -1,0 +1,19 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fire-wing" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0844"/>
+      <stop offset="50%" stop-color="#ffb199"/>
+      <stop offset="100%" stop-color="#ffe600"/>
+    </linearGradient>
+  </defs>
+  <!-- Backing Aura -->
+  <circle cx="100" cy="105" r="72" fill="#2b0918" stroke="#ff5e62" stroke-width="3" stroke-dasharray="10 5"/>
+  <!-- Left & Right Stylized Wings -->
+  <path d="M95 115 C60 110, 25 80, 20 40 C45 55, 70 65, 92 85 Z" fill="url(#fire-wing)"/>
+  <path d="M105 115 C140 110, 175 80, 180 40 C155 55, 130 65, 108 85 Z" fill="url(#fire-wing)"/>
+  <!-- Lower Tail Feathers -->
+  <path d="M100 120 L75 175 L100 155 L125 175 Z" fill="#ff4b2b"/>
+  <!-- Phoenix Head & Crest -->
+  <path d="M100 35 L112 65 L100 125 L88 65 Z" fill="#ffe600" stroke="#7a0019" stroke-width="2"/>
+  <circle cx="100" cy="70" r="6" fill="#ffffff"/>
+</svg>

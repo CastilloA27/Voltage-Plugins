@@ -1,0 +1,22 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wild-frame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#4facfe"/>
+      <stop offset="100%" stop-color="#f093fb"/>
+    </linearGradient>
+    <linearGradient id="wild-text" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ff8c00"/>
+    </linearGradient>
+  </defs>
+  <!-- Octagonal Emblem -->
+  <polygon points="65,20 135,20 180,65 180,135 135,180 65,180 20,135 20,65" fill="#120d26" stroke="url(#wild-frame)" stroke-width="7"/>
+  <!-- Inner Energy Core -->
+  <polygon points="100,32 168,100 100,168 32,100" fill="#24174d" stroke="#00f2fe" stroke-width="2"/>
+  <circle cx="100" cy="100" r="35" fill="#7000ff" opacity="0.6"/>
+  <!-- Bold Banner & Typography -->
+  <rect x="14" y="76" width="172" height="48" rx="8" fill="#090514" stroke="#ffd700" stroke-width="3"/>
+  <text x="100" y="111" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="38" fill="url(#wild-text)" text-anchor="middle" letter-spacing="3">WILD</text>
+</svg>

@@ -265,27 +265,40 @@ SYMBOLS = [
     # gem
     '<path d="M30 30h40l14 16-34 38-34-38z" fill="#2fb7ff" stroke="#0a5a8a" stroke-width="3" stroke-linejoin="round"/><path d="M30 30l8 16h24l8-16M16 46h68M38 46l12 38 12-38" stroke="#0a5a8a" stroke-width="2" fill="none"/><path d="M36 34l-4 8" stroke="#d9f4ff" stroke-width="3"/>',
     # bar
-    '<rect x="16" y="36" width="68" height="28" rx="6" fill="#1b1b1b" stroke="#e0a82e" stroke-width="3"/><text x="50" y="58" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="#ffd966">BAR</text>',
+    '<rect x="16" y="36" width="68" height="28" rx="6" fill="#1b1b1b" stroke="#d4af37" stroke-width="3"/><text x="50" y="58" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="#ffd966">BAR</text>',
     # lemon
     '<ellipse cx="50" cy="52" rx="30" ry="22" fill="#ffe14a" stroke="#b39a00" stroke-width="3"/><path d="M20 52l-6-2M80 52l6-2" stroke="#b39a00" stroke-width="4" stroke-linecap="round"/><path d="M40 42c4-3 10-4 16-3" stroke="#fff6b8" stroke-width="4" fill="none" stroke-linecap="round"/>',
     # crown
-    '<path d="M18 70l-4-38 20 18 16-26 16 26 20-18-4 38z" fill="#ffc21a" stroke="#a86a00" stroke-width="3" stroke-linejoin="round"/><rect x="18" y="70" width="64" height="10" rx="3" fill="#e0a82e"/><circle cx="50" cy="58" r="6" fill="#d81b2a"/><circle cx="32" cy="62" r="4" fill="#2fb7ff"/><circle cx="68" cy="62" r="4" fill="#2fb7ff"/>',
+    '<path d="M18 70l-4-38 20 18 16-26 16 26 20-18-4 38z" fill="#ffc21a" stroke="#a86a00" stroke-width="3" stroke-linejoin="round"/><rect x="18" y="70" width="64" height="10" rx="3" fill="#d4af37"/><circle cx="50" cy="58" r="6" fill="#d81b2a"/><circle cx="32" cy="62" r="4" fill="#2fb7ff"/><circle cx="68" cy="62" r="4" fill="#2fb7ff"/>',
 ]
+# The user's "arcane tech" symbol pack (2026-11-12, themes/tools/symbols/arcane): 8 of its 11 on the strip; position 0 = WILD
+# (what the Reels plugin lands for a legendary song). Each file goes in as a nested <svg>, its ids prefixed so they can't clash.
+import re as _re
+ARCANE = ['special_wild', 'high_1_chrono_compass', 'high_2_aether_vial', 'high_3_void_gauntlet', 'high_4_astral_phoenix', 'special_scatter', 'low_a', 'low_k']
+def _nested(i, name):
+    src = (HERE / 'symbols' / 'arcane' / f'{name}.svg').read_text(encoding='utf-8')
+    src = _re.sub(r'<!--.*?-->', '', src, flags=_re.S)
+    inner = _re.sub(r'^\s*<svg[^>]*>|</svg>\s*$', '', src.strip())
+    inner = _re.sub(r'id="([^"]+)"', lambda m: f'id="s{i}-{m.group(1)}"', inner)
+    inner = _re.sub(r'url\(#([^)]+)\)', lambda m: f'url(#s{i}-{m.group(1)})', inner)
+    return (f'<g transform="translate(0 {i * 100})"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/>'
+            f'<svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">{inner}</svg></g>')
+arcane_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800">' + ''.join(_nested(i, n) for i, n in enumerate(ARCANE)) + '</svg>' + chr(10)
 reel_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800"><defs><linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">'
             '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e8d6b0"/></linearGradient></defs>'
             + ''.join(f'<g transform="translate(0 {i * TILE})">{tile(b)}</g>' for i, b in enumerate(SYMBOLS)) + '</svg>\n')
-coin_svg = SVG('<circle cx="32" cy="32" r="26" fill="#ffc21a" stroke="#a86a00" stroke-width="4"/><circle cx="32" cy="32" r="17" fill="none" stroke="#fff0a0" stroke-width="3"/><path d="M27 22h10v20H27z" fill="#e0a82e"/>')
+coin_svg = SVG('<circle cx="32" cy="32" r="26" fill="#ffc21a" stroke="#a86a00" stroke-width="4"/><circle cx="32" cy="32" r="17" fill="none" stroke="#fff0a0" stroke-width="3"/><path d="M27 22h10v20H27z" fill="#d4af37"/>')
 REEL = 180  # px per symbol on the screen: 5 reels x 3 rows = 900 x 540
 write('jackpot', {
     'id': 'jackpot', 'name': 'Jackpot', 'version': '2.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
     'description': 'A video slot: a 5 x 3 symbol screen with the cover in the middle, reels that spin on every new song, paylines, coins and JACKPOT when you like a song.',
     'fonts': [{'family': 'Bungee', 'src': 'assets/bungee/Bungee-Regular.ttf'}],
-    'tokens': {'color.bg': '#12030a', 'color.text': '#fff4e0', 'color.text-dim': '#e8c9a0', 'color.text-strong': '#ffffff',
-               'color.surface': 'rgba(52, 6, 16, .78)', 'color.border': 'rgba(255, 204, 51, .38)', 'color.brand': '#ffcc33',
-               'color.on-accent': '#2a0a00', 'color.knob': '#ffe28a', 'color.select-bg': '#4a0c18', 'surface.menu': '#28050c',
-               'surface.pop': '#2e060e', 'surface.tip': '#28050c', 'effect.blur': '10px', 'effect.glow-size': '16px', 'effect.glow-alpha': '55%',
+    'tokens': {'color.bg': '#07061a', 'color.text': '#eef4ff', 'color.text-dim': '#a9b8e0', 'color.text-strong': '#ffffff',
+               'color.surface': 'rgba(20, 16, 48, .8)', 'color.border': 'rgba(0, 210, 255, .35)', 'color.brand': '#00d2ff',
+               'color.on-accent': '#04101f', 'color.knob': '#9ff0ff', 'color.select-bg': '#24174d', 'surface.menu': '#120d26',
+               'surface.pop': '#141030', 'surface.tip': '#120d26', 'effect.blur': '10px', 'effect.glow-size': '16px', 'effect.glow-alpha': '55%',
                'accent.album-mix': '0.2', 'shape.radius': '18px'},
-    'accent': {'mode': 'fixed', 'color': '#ffcc33'},
+    'accent': {'mode': 'fixed', 'color': '#00d2ff'},
     'parts': {'progress': {'variant': 'blocks'}, 'art': {'variant': 'cover'}},
     'supports': {'background': ['cover', 'gradient', 'black']},  # a music video behind the cabinet fights the reels
     'strings': {'player.next': 'Spin', 'player.prev': 'Back', 'player.shuffle': 'Roll', 'library.liked': 'Jackpots',
@@ -309,24 +322,24 @@ write('jackpot', {
 }, css=r"""
 /* marquee lettering */
 [data-part="titlebar.brand"], [data-part="info.title"], .for-you-title { font-family: "Bungee", "Bahnschrift", sans-serif; letter-spacing: .04em; }
-[data-part="titlebar.brand"] { color: #ffcc33; text-shadow: 0 0 10px rgb(255 204 51 / .7); }
-[data-part="info.title"] { color: #ffd966; text-shadow: 0 0 12px rgb(255 190 40 / .75), 0 2px 0 #7a3b00; }
+[data-part="titlebar.brand"] { color: #00e5ff; text-shadow: 0 0 10px rgb(0 210 255 / .7); }
+[data-part="info.title"] { color: #ffd700; text-shadow: 0 0 14px rgb(112 0 255 / .8), 0 2px 0 #3a1d7a; }
 
 /* the screen: five reels of symbols (one strip image, each reel at its own offset); the cover is the centre symbol */
 .lay-view-nowplaying { column-gap: 0; }
 .lay-view-nowplaying [data-cell^="slot:reel"], .lay-view-nowplaying [data-cell="art"] {
   /* longhands: a shorthand mixing var() with other background properties doesn't survive the cleaner */
   background-image: url("assets/reel.svg"); background-size: 180px 1440px; background-repeat: repeat-y; background-position-x: 0; background-position-y: var(--o); position: relative; overflow: hidden;
-  border-top: 5px solid #e0a82e; border-bottom: 5px solid #e0a82e;
-  box-shadow: inset 0 26px 30px -10px rgb(0 0 0 / .75), inset 0 -26px 30px -10px rgb(0 0 0 / .75), inset -1px 0 0 #7a4a00, 0 0 26px rgb(255 190 40 / .25); }
-.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * -180px); border-radius: 16px 0 0 16px; border-left: 5px solid #e0a82e; }
+  border-top: 5px solid #d4af37; border-bottom: 5px solid #d4af37;
+  box-shadow: inset 0 26px 30px -10px rgb(0 0 0 / .75), inset 0 -26px 30px -10px rgb(0 0 0 / .75), inset -1px 0 0 #2c2350, 0 0 26px rgb(0 210 255 / .25); }
+.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * -180px); border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
 .lay-view-nowplaying [data-cell="slot:reel2"] { --o: calc(var(--roll-2, 3) * -180px); }
 .lay-view-nowplaying [data-cell="art"] { --o: calc(var(--roll-3, 5) * -180px); padding: 180px 0; display: block; }
 .lay-view-nowplaying [data-cell="slot:reel4"] { --o: calc(var(--roll-4, 2) * -180px); }
-.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * -180px); border-radius: 0 16px 16px 0; border-right: 5px solid #e0a82e; }
+.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * -180px); border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
 .lay-view-nowplaying [data-cell="art"] .art-part { display: block; width: 180px; height: 180px; }
 .lay-view-nowplaying [data-cell="art"] img { width: 180px !important; height: 180px !important; max-width: none; border-radius: 0; object-fit: cover;
-  box-shadow: inset 0 0 0 4px #ffcc33, 0 0 24px rgb(255 204 51 / .6); }
+  box-shadow: inset 0 0 0 4px #00d2ff, 0 0 24px rgb(0 210 255 / .6); }
 
 /* a new song: the five reels spin and stop left to right */
 @keyframes spin-reel { from { background-position-y: calc(var(--o) - 2880px); filter: blur(2px); } 85% { filter: blur(0); } to { background-position-y: var(--o); } }
@@ -341,15 +354,15 @@ write('jackpot', {
 
 /* a like: the middle payline lights across all five reels, coins rain, BIG WIN */
 .lay-view-nowplaying [data-cell^="slot:reel"]::after, .lay-view-nowplaying [data-cell="art"]::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - 3px); height: 6px;
-  background: linear-gradient(90deg, #ffe680, #ff9900, #ffe680); box-shadow: 0 0 14px 4px rgb(255 190 40 / .8); opacity: 0; pointer-events: none; }
+  background: linear-gradient(90deg, #00f2fe, #f093fb, #00f2fe); box-shadow: 0 0 14px 4px rgb(0 210 255 / .8); opacity: 0; pointer-events: none; }
 :root[data-event="like"] [data-cell^="slot:reel"]::after, :root[data-event="like"] [data-cell="art"]::after { animation: payline 1.2s ease-out; }
 @keyframes payline { 10%, 30%, 50%, 70% { opacity: 1; } 20%, 40%, 60% { opacity: .3; } 100% { opacity: 0; } }
 
 /* marquee bulbs around the window, chasing */
 [data-part="overlay"] {
   background:
-    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
-    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
+    radial-gradient(circle, #e8fdff 0 3px, #00d2ff 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
+    radial-gradient(circle, #f6e8ff 0 3px, #b26bff 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
   animation: bulbs 1.2s steps(2) infinite;
 }
 @keyframes bulbs { to { background-position: 26px 4px, 39px calc(100% - 4px); } }
@@ -358,7 +371,7 @@ write('jackpot', {
 :root[data-event="like"] [data-part="overlay"]::before { animation: coins 1.2s linear; }
 @keyframes coins { 0% { opacity: 0; background-position: 0 -200px, 23px -120px; } 15% { opacity: .9; } 85% { opacity: .9; } 100% { opacity: 0; background-position: 0 600px, 23px 700px; } }
 [data-part="overlay"]::after { content: "BIG WIN"; position: absolute; inset: 0; display: grid; place-items: center; font: 900 min(13vw, 140px) "Bungee", sans-serif;
-  color: #ffd966; text-shadow: 0 0 30px #ff9900, 0 6px 0 #7a3b00; opacity: 0; }
+  color: #ffd700; text-shadow: 0 0 30px #7000ff, 0 0 60px #00d2ff, 0 6px 0 #3a1d7a; opacity: 0; }
 :root[data-event="like"] [data-part="overlay"]::after { animation: bigwin 1.2s ease-out; }
 :root[data-event="like"] [data-part="overlay"] { animation-duration: .25s; }
 @keyframes bigwin { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.08); } 35%, 60% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.15); } }
@@ -366,12 +379,12 @@ write('jackpot', {
 
 /* progress: a bonus meter of bulbs */
 .prog-blocks { justify-content: space-between; }
-.prog-blocks i { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; background: #4a1a10; box-shadow: inset 0 0 3px rgb(0 0 0 / .8); }
-.prog-blocks i.on { background: radial-gradient(circle at 40% 35%, #fff6c8, #ffb800 60%, #b36b00); box-shadow: 0 0 8px #ffb800; }
+.prog-blocks i { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; background: #1b1440; box-shadow: inset 0 0 3px rgb(0 0 0 / .8); }
+.prog-blocks i.on { background: radial-gradient(circle at 40% 35%, #e8fdff, #00d2ff 60%, #0a4a7a); box-shadow: 0 0 8px #00d2ff; }
 /* arcade buttons: play (spin) green, next amber, previous red */
-[data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
-[data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
-[data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+[data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #c8fbff, #00d2ff 60%, #0a3f6e) !important; box-shadow: 0 0 0 4px #d4af37, 0 0 18px rgb(0 210 255 / .7) !important; color: #04101f !important; }
+[data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #e6c8ff, #7000ff 60%, #2a0a66) !important; color: #f4ecff !important; box-shadow: 0 0 0 3px #d4af37 !important; }
+[data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ffd0f4, #f093fb 55%, #6a1a6e) !important; color: #2a0626 !important; box-shadow: 0 0 0 3px #d4af37 !important; }
 /* rarity from the Reels companion plugin (data-rarity on html): a badge after the title, a lit payline on epic and up */
 :root[data-rarity="rare"] [data-part="info.title"]::after { content: "  ★ RARE"; color: #7fd4ff; font-size: .55em; }
 :root[data-rarity="epic"] [data-part="info.title"]::after { content: "  ★★ EPIC"; color: #d68cff; font-size: .55em; }
@@ -384,7 +397,7 @@ write('jackpot', {
 .lay-view-nowplaying [data-area="r"]::before { content: ""; position: absolute; left: 18px; top: 18%; width: 12px; height: 200px; border-radius: 6px;
   background: linear-gradient(90deg, #9a9a9a, #f0f0f0 45%, #8a8a8a); transform-origin: 50% 100%; box-shadow: 0 0 0 2px #7a4a00; }
 .lay-view-nowplaying [data-area="r"]::after { content: ""; position: absolute; left: 4px; top: calc(18% - 30px); width: 40px; height: 40px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ff9a8a, #d0221a 55%, #5a0806); box-shadow: 0 4px 10px rgb(0 0 0 / .6); transform-origin: 24px 230px; }
+  background: radial-gradient(circle at 35% 30%, #e6c8ff, #7000ff 55%, #2a0a66); box-shadow: 0 4px 10px rgb(0 0 0 / .6); transform-origin: 24px 230px; }
 .lay-view-nowplaying [data-area="r"] { min-height: 260px; }
 @keyframes lever { 0% { transform: none; } 30% { transform: rotateX(70deg) scaleY(.35); } 100% { transform: none; } }
 @keyframes lever-ball { 0% { transform: none; } 30% { transform: translateY(150px); } 100% { transform: none; } }
@@ -392,12 +405,12 @@ write('jackpot', {
 :root[data-event="skip"] [data-area="r"]::after, :root[data-event="track-change"] [data-area="r"]::after { animation: lever-ball .7s ease-in-out; }
 
 /* the home screen: the cover in a gold reel window, the playing row lit gold */
-[data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #e0a82e, 0 0 0 9px #5a1020, 0 0 30px rgb(255 190 40 / .45) !important; }
-[data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(255 204 51 / .22), transparent); box-shadow: inset 3px 0 0 #ffcc33; }
+[data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #d4af37, 0 0 0 9px #24174d, 0 0 30px rgb(0 210 255 / .45) !important; }
+[data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(0 210 255 / .2), transparent); box-shadow: inset 3px 0 0 #00d2ff; }
 /* the mini player is too small for marquee bulbs */
 [data-part="app"][data-state~="mini"] [data-part="overlay"] { background: none; animation: none; }
 /* the mini player: one reel window */
-.lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #e0a82e; padding: 4px; background: #2a0610; }
-""", files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.svg': reel_svg, 'assets/coin.svg': coin_svg,
+.lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #d4af37; padding: 4px; background: #120d26; }
+""", files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.svg': arcane_svg, 'assets/coin.svg': coin_svg,
             'assets/reel.wav': tone('reel'), 'assets/bell.wav': tone('bell'), 'assets/coin.wav': tone('coin'), 'assets/tick.wav': tone('tick'),
-            'CREDITS.md': '# Credits\n\n- Font: Bungee by the Bungee Project Authors (David Jonathan Ross), SIL Open Font License 1.1 (assets/bungee/OFL.txt).\n- Symbols, coins and sounds: made for Voltage, CC0.\n- Purely a look: no betting, credits or odds.\n'})
+            'CREDITS.md': '# Credits\n\n- Font: Bungee by the Bungee Project Authors (David Jonathan Ross), SIL Open Font License 1.1 (assets/bungee/OFL.txt).\n- Reel symbols: the \"arcane tech\" slot symbol pack, provided by the Voltage author (2026-11-12).\n- Coins and sounds: made for Voltage, CC0.\n- Purely a look: no betting, credits or odds.\n'})

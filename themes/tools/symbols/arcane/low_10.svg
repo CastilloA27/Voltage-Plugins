@@ -1,0 +1,17 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="metal-10" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b9bb4"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#4a5462"/>
+    </linearGradient>
+    <filter id="glow-10"><feGaussianBlur stdDeviation="3" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+  </defs>
+  <rect x="25" y="25" width="150" height="150" rx="24" fill="#141824" stroke="#2c354d" stroke-width="4"/>
+  <!-- '1' -->
+  <path d="M55 60 L75 48 L75 152 L55 152 Z" fill="url(#metal-10)" stroke="#1e2436" stroke-width="3"/>
+  <!-- '0' Hexagonal -->
+  <path d="M115 48 L145 48 L160 70 L160 130 L145 152 L115 152 L100 130 L100 70 Z M120 72 L120 128 L140 128 L140 72 Z" fill="url(#metal-10)" stroke="#1e2436" stroke-width="3"/>
+  <!-- Core Accent -->
+  <circle cx="130" cy="100" r="5" fill="#00f0ff" filter="url(#glow-10)"/>
+</svg>

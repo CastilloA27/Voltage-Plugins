@@ -1,0 +1,20 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="armor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#434343"/>
+      <stop offset="50%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <radialGradient id="void-gem" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff80ff"/>
+      <stop offset="60%" stop-color="#9d00ff"/>
+      <stop offset="100%" stop-color="#3b0066"/>
+    </radialGradient>
+  </defs>
+  <!-- Gauntlet Silhouette -->
+  <path d="M65 170 L55 110 L40 85 L55 70 L70 85 L70 40 L85 35 L88 75 L96 30 L112 30 L112 75 L122 38 L137 42 L132 85 L150 75 L160 90 L142 125 L132 170 Z" fill="url(#armor-grad)" stroke="#d4af37" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Knuckle Plates -->
+  <path d="M68 85 L132 85" stroke="#d4af37" stroke-width="5"/>
+  <!-- Embedded Arcane Core -->
+  <polygon points="100,98 118,118 100,145 82,118" fill="url(#void-gem)" stroke="#ffffff" stroke-width="2"/>
+</svg>

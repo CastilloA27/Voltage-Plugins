@@ -1,1 +1,151 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800"><defs><linearGradient id="shine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e8d6b0"/></linearGradient></defs><g transform="translate(0 0)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><path d="M28 24h46v10L50 80H36l22-44H28z" fill="#d81b2a" stroke="#7a0010" stroke-width="3" stroke-linejoin="round"/></g></g><g transform="translate(0 100)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><path d="M50 22c-6 14-16 26-22 34M50 22c4 14 10 24 18 32" stroke="#2f7d1f" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M50 22c8-6 18-6 24 0-8 4-16 4-24 0z" fill="#3fa52a"/><circle cx="30" cy="64" r="14" fill="#c4122a"/><circle cx="68" cy="62" r="14" fill="#c4122a"/><circle cx="25" cy="59" r="4" fill="#ff8a95"/><circle cx="63" cy="57" r="4" fill="#ff8a95"/></g></g><g transform="translate(0 200)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><path d="M50 16c-16 0-24 14-24 30v14l-8 10h64l-8-10V46c0-16-8-30-24-30z" fill="#ffc21a" stroke="#a86a00" stroke-width="3"/><circle cx="50" cy="78" r="7" fill="#a86a00"/><path d="M38 34c2-6 6-9 11-10" stroke="#fff3b0" stroke-width="4" fill="none" stroke-linecap="round"/></g></g><g transform="translate(0 300)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><path d="M50 14l10 24 26 2-20 17 7 25-23-14-23 14 7-25-20-17 26-2z" fill="#ffd400" stroke="#b37a00" stroke-width="3" stroke-linejoin="round"/></g></g><g transform="translate(0 400)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><path d="M30 30h40l14 16-34 38-34-38z" fill="#2fb7ff" stroke="#0a5a8a" stroke-width="3" stroke-linejoin="round"/><path d="M30 30l8 16h24l8-16M16 46h68M38 46l12 38 12-38" stroke="#0a5a8a" stroke-width="2" fill="none"/><path d="M36 34l-4 8" stroke="#d9f4ff" stroke-width="3"/></g></g><g transform="translate(0 500)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><rect x="16" y="36" width="68" height="28" rx="6" fill="#1b1b1b" stroke="#e0a82e" stroke-width="3"/><text x="50" y="58" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="20" fill="#ffd966">BAR</text></g></g><g transform="translate(0 600)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><ellipse cx="50" cy="52" rx="30" ry="22" fill="#ffe14a" stroke="#b39a00" stroke-width="3"/><path d="M20 52l-6-2M80 52l6-2" stroke="#b39a00" stroke-width="4" stroke-linecap="round"/><path d="M40 42c4-3 10-4 16-3" stroke="#fff6b8" stroke-width="4" fill="none" stroke-linecap="round"/></g></g><g transform="translate(0 700)"><g><rect width="100" height="100" fill="#fff6e2"/><rect x="3" y="3" width="94" height="94" rx="10" fill="url(#shine)" opacity=".5"/><path d="M18 70l-4-38 20 18 16-26 16 26 20-18-4 38z" fill="#ffc21a" stroke="#a86a00" stroke-width="3" stroke-linejoin="round"/><rect x="18" y="70" width="64" height="10" rx="3" fill="#e0a82e"/><circle cx="50" cy="58" r="6" fill="#d81b2a"/><circle cx="32" cy="62" r="4" fill="#2fb7ff"/><circle cx="68" cy="62" r="4" fill="#2fb7ff"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 800"><g transform="translate(0 0)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="s0-wild-frame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#4facfe"/>
+      <stop offset="100%" stop-color="#f093fb"/>
+    </linearGradient>
+    <linearGradient id="s0-wild-text" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#ff8c00"/>
+    </linearGradient>
+  </defs>
+  
+  <polygon points="65,20 135,20 180,65 180,135 135,180 65,180 20,135 20,65" fill="#120d26" stroke="url(#s0-wild-frame)" stroke-width="7"/>
+  
+  <polygon points="100,32 168,100 100,168 32,100" fill="#24174d" stroke="#00f2fe" stroke-width="2"/>
+  <circle cx="100" cy="100" r="35" fill="#7000ff" opacity="0.6"/>
+  
+  <rect x="14" y="76" width="172" height="48" rx="8" fill="#090514" stroke="#ffd700" stroke-width="3"/>
+  <text x="100" y="111" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="38" fill="url(#s0-wild-text)" text-anchor="middle" letter-spacing="3">WILD</text>
+</svg></g><g transform="translate(0 100)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="s1-compass-bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#09192f"/>
+    </radialGradient>
+    <linearGradient id="s1-gold-trim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff099"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#7a5c12"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="76" fill="url(#s1-gold-trim)" stroke="#2b1e04" stroke-width="4"/>
+  <circle cx="100" cy="100" r="62" fill="url(#s1-compass-bg)" stroke="#1b2a47" stroke-width="3"/>
+  
+  <polygon points="100,20 110,42 90,42" fill="url(#s1-gold-trim)"/>
+  <polygon points="100,180 110,158 90,158" fill="url(#s1-gold-trim)"/>
+  <polygon points="20,100 42,90 42,110" fill="url(#s1-gold-trim)"/>
+  <polygon points="180,100 158,90 158,110" fill="url(#s1-gold-trim)"/>
+  
+  <polygon points="100,45 114,100 100,90 86,100" fill="#ff3b5c"/>
+  <polygon points="100,155 114,100 100,110 86,100" fill="#e2e8f0"/>
+  <circle cx="100" cy="100" r="10" fill="url(#s1-gold-trim)" stroke="#1e293b" stroke-width="2"/>
+</svg></g><g transform="translate(0 200)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="s2-potion-liq" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38ef7d"/>
+      <stop offset="100%" stop-color="#11998e"/>
+    </linearGradient>
+    <linearGradient id="s2-brass-cap" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b8860b"/>
+      <stop offset="50%" stop-color="#ffe875"/>
+      <stop offset="100%" stop-color="#8b6508"/>
+    </linearGradient>
+  </defs>
+  
+  <polygon points="82,55 118,55 155,115 130,170 70,170 45,115" fill="#16222a" stroke="#64dfdf" stroke-width="4" stroke-linejoin="round"/>
+  
+  <polygon points="60,115 140,115 123,160 77,160" fill="url(#s2-potion-liq)"/>
+  
+  <circle cx="90" cy="140" r="5" fill="#ffffff" opacity="0.7"/>
+  <circle cx="112" cy="130" r="3" fill="#ffffff" opacity="0.8"/>
+  <circle cx="100" cy="148" r="4" fill="#ffffff" opacity="0.6"/>
+  
+  <rect x="85" y="38" width="30" height="17" fill="url(#s2-brass-cap)" rx="3"/>
+  <polygon points="88,22 112,22 108,38 92,38" fill="#5eead4"/>
+  
+  <path d="M62 112 L84 65" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+</svg></g><g transform="translate(0 300)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="s3-armor-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#434343"/>
+      <stop offset="50%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <radialGradient id="s3-void-gem" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff80ff"/>
+      <stop offset="60%" stop-color="#9d00ff"/>
+      <stop offset="100%" stop-color="#3b0066"/>
+    </radialGradient>
+  </defs>
+  
+  <path d="M65 170 L55 110 L40 85 L55 70 L70 85 L70 40 L85 35 L88 75 L96 30 L112 30 L112 75 L122 38 L137 42 L132 85 L150 75 L160 90 L142 125 L132 170 Z" fill="url(#s3-armor-grad)" stroke="#d4af37" stroke-width="4" stroke-linejoin="round"/>
+  
+  <path d="M68 85 L132 85" stroke="#d4af37" stroke-width="5"/>
+  
+  <polygon points="100,98 118,118 100,145 82,118" fill="url(#s3-void-gem)" stroke="#ffffff" stroke-width="2"/>
+</svg></g><g transform="translate(0 400)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="s4-fire-wing" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0844"/>
+      <stop offset="50%" stop-color="#ffb199"/>
+      <stop offset="100%" stop-color="#ffe600"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="105" r="72" fill="#2b0918" stroke="#ff5e62" stroke-width="3" stroke-dasharray="10 5"/>
+  
+  <path d="M95 115 C60 110, 25 80, 20 40 C45 55, 70 65, 92 85 Z" fill="url(#s4-fire-wing)"/>
+  <path d="M105 115 C140 110, 175 80, 180 40 C155 55, 130 65, 108 85 Z" fill="url(#s4-fire-wing)"/>
+  
+  <path d="M100 120 L75 175 L100 155 L125 175 Z" fill="#ff4b2b"/>
+  
+  <path d="M100 35 L112 65 L100 125 L88 65 Z" fill="#ffe600" stroke="#7a0019" stroke-width="2"/>
+  <circle cx="100" cy="70" r="6" fill="#ffffff"/>
+</svg></g><g transform="translate(0 500)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="s5-portal-vortex" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#00ff87"/>
+      <stop offset="75%" stop-color="#60efff"/>
+      <stop offset="100%" stop-color="#001a11"/>
+    </radialGradient>
+    <linearGradient id="s5-scatter-text" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#00ff87"/>
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="95" r="74" fill="url(#s5-portal-vortex)" stroke="#d4af37" stroke-width="6"/>
+  <circle cx="100" cy="95" r="58" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="14 8"/>
+  
+  <polygon points="100,28 112,83 167,95 112,107 100,162 88,107 33,95 88,83" fill="#ffffff" opacity="0.85"/>
+  
+  <path d="M12 138 L188 138 L176 176 L24 176 Z" fill="#071e16" stroke="#00ff87" stroke-width="3"/>
+  <text x="100" y="165" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="27" fill="url(#s5-scatter-text)" text-anchor="middle" letter-spacing="2">SCATTER</text>
+</svg></g><g transform="translate(0 600)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="s6-metal-a" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e0c3fc"/>
+      <stop offset="50%" stop-color="#8ec5fc"/>
+      <stop offset="100%" stop-color="#2a1b4d"/>
+    </linearGradient>
+  </defs>
+  <rect x="25" y="25" width="150" height="150" rx="24" fill="#141824" stroke="#2c354d" stroke-width="4"/>
+  <path d="M100 38 L155 158 L126 158 L115 132 L85 132 L74 158 L45 158 Z M100 72 L91 108 L109 108 Z" fill="url(#s6-metal-a)" stroke="#160d2b" stroke-width="4"/>
+  <circle cx="100" cy="54" r="5" fill="#00f0ff"/>
+</svg></g><g transform="translate(0 700)"><rect width="100" height="100" fill="#0d0a1f"/><rect x="2" y="2" width="96" height="96" rx="10" fill="#17112e" stroke="#2c2350"/><svg x="4" y="4" width="92" height="92" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="s7-metal-k" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6d365"/>
+      <stop offset="50%" stop-color="#fda085"/>
+      <stop offset="100%" stop-color="#6e3512"/>
+    </linearGradient>
+  </defs>
+  <rect x="25" y="25" width="150" height="150" rx="24" fill="#141824" stroke="#2c354d" stroke-width="4"/>
+  <path d="M55 42 L82 42 L82 88 L122 42 L152 42 L106 95 L155 158 L124 158 L82 105 L82 158 L55 158 Z" fill="url(#s7-metal-k)" stroke="#2e1505" stroke-width="4"/>
+  <polygon points="68,90 74,100 68,110 62,100" fill="#fff3b0"/>
+</svg></g></svg>

@@ -1,6 +1,6 @@
 /// <reference path="../sdk/voltage.d.ts" />
 // Reels: rarity-weighted slot reels for the Jackpot theme (docs/review-round-14.md in the Voltage repo).
-// The middle row of a reel shows strip symbol (roll + 1) % 8; symbol 0 is the seven. Jackpot's middle column is the cover,
+// The middle row of a reel shows strip symbol (roll + 1) % 8; symbol 0 is WILD (Jackpot's strip). Jackpot's middle column is the cover,
 // so a "line" means the four other reels showing the same symbol in the middle row.
 let surprise = true;
 const RANK = ['common', 'rare', 'epic', 'legendary'];
@@ -18,7 +18,7 @@ function rollsFor(rarity) {
   const rolls = Array.from({ length: 5 }, () => rnd(8));
   const match = { common: 0, rare: 2, epic: 3, legendary: 4 }[rarity];
   if (!match) return rolls;
-  const symbol = rarity === 'legendary' ? 0 : 1 + rnd(7); // legendary: sevens; otherwise any other symbol
+  const symbol = rarity === 'legendary' ? 0 : 1 + rnd(7); // legendary: WILDs; otherwise any other symbol
   const reels = [0, 1, 3, 4].sort(() => Math.random() - 0.5).slice(0, match); // index 2 is the cover
   for (const i of reels) rolls[i] = rollFor(symbol);
   return rolls;

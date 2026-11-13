@@ -1,0 +1,22 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="portal-vortex" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="35%" stop-color="#00ff87"/>
+      <stop offset="75%" stop-color="#60efff"/>
+      <stop offset="100%" stop-color="#001a11"/>
+    </radialGradient>
+    <linearGradient id="scatter-text" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#00ff87"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer Runic Ring -->
+  <circle cx="100" cy="95" r="74" fill="url(#portal-vortex)" stroke="#d4af37" stroke-width="6"/>
+  <circle cx="100" cy="95" r="58" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="14 8"/>
+  <!-- Vortex Starburst -->
+  <polygon points="100,28 112,83 167,95 112,107 100,162 88,107 33,95 88,83" fill="#ffffff" opacity="0.85"/>
+  <!-- Bottom Ribbon -->
+  <path d="M12 138 L188 138 L176 176 L24 176 Z" fill="#071e16" stroke="#00ff87" stroke-width="3"/>
+  <text x="100" y="165" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="27" fill="url(#scatter-text)" text-anchor="middle" letter-spacing="2">SCATTER</text>
+</svg>
