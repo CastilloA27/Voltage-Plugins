@@ -89,6 +89,9 @@
         "prog": "progress",
         "bar": "player"
       },
+      "resizable": [
+        "list"
+      ],
       "below": {
         "1000px": {
           "areas": [

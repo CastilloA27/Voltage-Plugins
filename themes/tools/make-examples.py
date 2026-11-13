@@ -119,6 +119,7 @@ write('terminal', {
         # tmux: the list in the left pane, now playing and the lyrics stacked on the right, a status bar along the bottom
         'home': {'areas': ['list info', 'list lyr', 'prog prog', 'bar bar'], 'columns': '1fr 1fr', 'rows': 'auto minmax(0, 1fr) 32px 52px',
                  'place': {'list': 'sidebar', 'info': 'info', 'lyr': 'lyrics', 'prog': 'progress', 'bar': 'player'},
+                 'resizable': ['list'],
                  'below': {'900px': {'areas': ['list', 'info', 'prog', 'bar'], 'columns': '1fr', 'rows': 'minmax(0, 1fr) auto 32px 52px',
                                      'place': {'list': 'sidebar', 'info': 'info', 'prog': 'progress', 'bar': 'player'}}}},
         'nowplaying': {'areas': ['back info video', 'lyr lyr lyr', 'prog prog prog', 'ctl ctl vol'], 'columns': '56px 1fr 56px',
@@ -173,6 +174,7 @@ write('crt-green', {
         'home': {'areas': ['info info', 'list art', 'list lyr', 'prog prog', 'bar bar'], 'columns': '1fr minmax(240px, 34%)',
                  'rows': 'auto minmax(0, 1fr) minmax(0, 1fr) 36px 60px',
                  'place': {'info': 'info', 'list': 'sidebar', 'art': 'art', 'lyr': 'lyrics', 'prog': 'progress', 'bar': 'player'},
+                 'resizable': ['list'],
                  'below': {'900px': {'areas': ['info', 'list', 'prog', 'bar'], 'columns': '1fr', 'rows': 'auto minmax(0, 1fr) 36px 60px',
                                      'place': {'info': 'info', 'list': 'sidebar', 'prog': 'progress', 'bar': 'player'}}}},
         'nowplaying': {'areas': ['back info info video', 'art art lyr lyr', 'prog prog prog prog', 'ctl ctl vol vol'],
@@ -301,6 +303,7 @@ write('frosted-light', {
         'areas': ['list art', 'list info', 'prog prog', 'bar bar'],
         'columns': 'minmax(300px, 380px) 1fr', 'rows': '1fr auto 36px 72px',
         'place': {'list': 'sidebar', 'art': 'art', 'info': 'info', 'prog': 'progress', 'bar': 'player'},
+        'resizable': ['list'],
         'below': {'900px': {'areas': ['list', 'prog', 'bar'], 'columns': '1fr', 'rows': '1fr 36px 72px',
                             'place': {'list': 'sidebar', 'prog': 'progress', 'bar': 'player'}}}}},
 }, css='''
@@ -556,6 +559,7 @@ write('paper', {
         'home': {'areas': ['head head list', 'art lyr list', 'prog prog list', 'bar bar list'],
                  'columns': 'minmax(220px, 1fr) minmax(220px, 1fr) minmax(280px, 340px)', 'rows': 'auto minmax(0, 1fr) 36px 72px',
                  'place': {'head': 'info', 'art': 'art', 'lyr': 'lyrics', 'list': 'sidebar', 'prog': 'progress', 'bar': 'player'},
+                 'resizable': ['list'],
                  'below': {'1000px': {'areas': ['head list', 'art list', 'prog list', 'bar list'], 'columns': '1fr minmax(260px, 320px)',
                                       'rows': 'auto minmax(0, 1fr) 36px 72px',
                                       'place': {'head': 'info', 'art': 'art', 'list': 'sidebar', 'prog': 'progress', 'bar': 'player'}}}},
@@ -646,6 +650,7 @@ write('tactical', {
         'home': {'areas': ['list art intel', 'list art comms', 'list prog prog', 'list bar vol'],
                  'columns': 'minmax(260px, 320px) 1fr minmax(240px, 300px)', 'rows': 'auto minmax(0, 1fr) 40px 72px',
                  'place': {'list': 'sidebar', 'art': 'art', 'intel': 'info', 'comms': 'lyrics', 'prog': 'progress', 'bar': 'player', 'vol': 'volume'},
+                 'resizable': ['list', 'comms'],
                  'below': {'1000px': {'areas': ['list art', 'list intel', 'prog prog', 'bar bar'], 'columns': 'minmax(240px, 300px) 1fr',
                                       'rows': 'minmax(0, 1fr) auto 40px 72px',
                                       'place': {'list': 'sidebar', 'art': 'art', 'intel': 'info', 'prog': 'progress', 'bar': 'player'}}}},
@@ -757,6 +762,7 @@ SUMI_HOME = {
     'areas': ['lyr art list', 'lyr info list', 'lyr prog list', 'lyr bar list'],
     'columns': 'minmax(180px, 280px) 1fr minmax(280px, 340px)', 'rows': 'minmax(0, 1fr) auto 36px 72px',
     'place': {'lyr': 'lyrics', 'art': 'art', 'info': 'info', 'prog': 'progress', 'bar': 'player', 'list': 'sidebar'},
+    'resizable': ['lyr', 'list'],
     'below': {'1000px': {'areas': ['art list', 'info list', 'prog list', 'bar list'], 'columns': '1fr minmax(260px, 320px)', 'rows': 'minmax(0, 1fr) auto 36px 72px',
                          'place': {'art': 'art', 'info': 'info', 'prog': 'progress', 'bar': 'player', 'list': 'sidebar'}}}}
 write('sumi-ink', {

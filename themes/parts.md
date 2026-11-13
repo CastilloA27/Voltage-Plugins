@@ -18,6 +18,7 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `frame` |  | src/App.jsx |
 | `info` |  | src/Players.jsx |
 | `info.title` |  | src/Players.jsx |
+| `layout.resize` |  | src/Layout.jsx |
 | `library` |  | src/Library.jsx |
 | `library.playlist` |  | src/Library.jsx |
 | `lyrics` |  | src/Players.jsx |
@@ -76,4 +77,4 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `window.maximize` |  | src/App.jsx |
 | `window.minimize` |  | src/App.jsx |
 
-68 parts.
+69 parts.

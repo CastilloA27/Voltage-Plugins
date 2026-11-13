@@ -153,7 +153,9 @@ The home view is a grid. Name areas, give their sizes, and put a part in each:
 Parts you can place: `sidebar` (search + tabs + list), `search`, `tracklist` (tabs + list), `nowplaying`, `art`, `info`,
 `player`, `progress`, `volume`, `lyrics`, `spacer`, `slot:<name>`. A part placed on its own leaves Now Playing (it never
 shows twice); a part you don't place isn't shown (its keyboard shortcuts still work). `below` gives another layout for
-windows up to that width. **A layout must show the song list and a way to play**, or Voltage keeps its own layout (so a
+windows up to that width. `"resizable": ["nav"]` gives an area a drag handle on its inner edge (double-click resets it); the
+width is remembered per theme. It works for an area that is one whole column beside another, with `columns` written out
+(no `repeat()`). **A layout must show the song list and a way to play**, or Voltage keeps its own layout (so a
 theme can't lock you out of your music). Without `nowplaying`, the `player` cell also carries the volume, Play on (the
 output picker), radio and the full-screen button, so nothing is lost.
 

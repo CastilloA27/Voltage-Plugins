@@ -1110,6 +1110,13 @@
        "type": "string",
        "description": "grid-template-rows"
       },
+      "resizable": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+      },
       "place": {
        "type": "object",
        "additionalProperties": {
@@ -1162,6 +1169,13 @@
          "rows": {
           "type": "string",
           "description": "grid-template-rows"
+         },
+         "resizable": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
          },
          "place": {
           "type": "object",
@@ -1219,6 +1233,13 @@
        "type": "string",
        "description": "grid-template-rows"
       },
+      "resizable": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+      },
       "place": {
        "type": "object",
        "additionalProperties": {
@@ -1271,6 +1292,13 @@
          "rows": {
           "type": "string",
           "description": "grid-template-rows"
+         },
+         "resizable": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
          },
          "place": {
           "type": "object",
@@ -1328,6 +1356,13 @@
        "type": "string",
        "description": "grid-template-rows"
       },
+      "resizable": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+      },
       "place": {
        "type": "object",
        "additionalProperties": {
@@ -1380,6 +1415,13 @@
          "rows": {
           "type": "string",
           "description": "grid-template-rows"
+         },
+         "resizable": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
          },
          "place": {
           "type": "object",

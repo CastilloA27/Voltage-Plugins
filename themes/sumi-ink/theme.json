@@ -95,6 +95,10 @@
         "bar": "player",
         "list": "sidebar"
       },
+      "resizable": [
+        "lyr",
+        "list"
+      ],
       "below": {
         "1000px": {
           "areas": [

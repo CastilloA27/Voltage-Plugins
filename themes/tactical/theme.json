@@ -99,6 +99,10 @@
         "bar": "player",
         "vol": "volume"
       },
+      "resizable": [
+        "list",
+        "comms"
+      ],
       "below": {
         "1000px": {
           "areas": [
