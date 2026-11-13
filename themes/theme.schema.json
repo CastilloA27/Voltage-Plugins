@@ -1921,6 +1921,111 @@
      "maxLength": 60,
      "description": "Voltage: Added to {playlist}"
     },
+    "dialog.deleteSmart": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Delete the smart playlist \"{playlist}\"?"
+    },
+    "dialog.deleteSmartText": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Only the rules go; no songs are touched."
+    },
+    "dialog.delete": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Delete"
+    },
+    "dialog.removeDownloads": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Remove all {count} downloaded songs from this PC?"
+    },
+    "dialog.removeDownloadsText": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: They stay in your library and play from YouTube again."
+    },
+    "dialog.remove": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Remove"
+    },
+    "stats.period": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Period"
+    },
+    "stats.minutesShort": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Minutes"
+    },
+    "stats.recap": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Recap"
+    },
+    "stats.minutes": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Minutes listened"
+    },
+    "stats.plays": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Plays"
+    },
+    "stats.artists": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Artists"
+    },
+    "stats.streak": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Day streak"
+    },
+    "stats.longest": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: longest {days}"
+    },
+    "stats.topArtists": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Top artists"
+    },
+    "stats.topSongs": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Top songs"
+    },
+    "stats.topArtist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Top artist"
+    },
+    "stats.topSong": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Top song"
+    },
+    "stats.songsPlayed": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Songs played"
+    },
+    "stats.daysListening": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Days listening"
+    },
+    "stats.close": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Close"
+    },
     "note.volume": {
      "type": "string",
      "maxLength": 60,

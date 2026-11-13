@@ -148,6 +148,27 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `note.playNext` | Playing next: {title} |
 | `note.addedQueue` | Added to queue: {title} |
 | `note.addedTo` | Added to {playlist} |
+| `dialog.deleteSmart` | Delete the smart playlist "{playlist}"? |
+| `dialog.deleteSmartText` | Only the rules go; no songs are touched. |
+| `dialog.delete` | Delete |
+| `dialog.removeDownloads` | Remove all {count} downloaded songs from this PC? |
+| `dialog.removeDownloadsText` | They stay in your library and play from YouTube again. |
+| `dialog.remove` | Remove |
+| `stats.period` | Period |
+| `stats.minutesShort` | Minutes |
+| `stats.recap` | Recap |
+| `stats.minutes` | Minutes listened |
+| `stats.plays` | Plays |
+| `stats.artists` | Artists |
+| `stats.streak` | Day streak |
+| `stats.longest` | longest {days} |
+| `stats.topArtists` | Top artists |
+| `stats.topSongs` | Top songs |
+| `stats.topArtist` | Top artist |
+| `stats.topSong` | Top song |
+| `stats.songsPlayed` | Songs played |
+| `stats.daysListening` | Days listening |
+| `stats.close` | Close |
 | `note.volume` | Volume {volume}% |
 | `note.noSuggestions` | No new suggestions right now |
 | `note.savingTo` | Saving {count} songs to "{playlist}" in the background |
