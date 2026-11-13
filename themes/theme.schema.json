@@ -1466,7 +1466,9 @@
       "variant": {
        "enum": [
         "icons",
-        "text"
+        "text",
+        "tabs",
+        "sidebar"
        ]
       }
      }
@@ -1518,6 +1520,11 @@
      "type": "string",
      "maxLength": 60,
      "description": "Voltage: Voltage"
+    },
+    "nav.home": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Home"
     },
     "nav.settings": {
      "type": "string",

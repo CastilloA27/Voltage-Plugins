@@ -1,5 +1,7 @@
 /* the masthead and the headlines */
 [data-part="titlebar"] { border-bottom: 3px double #161412; }
+.nav-tabs button { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 13.5px; color: #3d3832; }
+.nav-tabs button.on { color: #000; border-bottom-color: #161412; }
 [data-part="titlebar.brand"] { font-family: "UnifrakturMaguntia", "Old English Text MT", serif; font-size: 24px; letter-spacing: 0; color: #000; text-transform: none; }
 [data-part="info.title"], .for-you-title, [data-part="explore.shelf"] h2, [data-part="explore.shelf"] h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 900; letter-spacing: -.01em; color: #000; }
 [data-part="info.title"] { font-size: 34px; line-height: 1.05; }
@@ -31,6 +33,7 @@
 /* the article: the lyrics, set like a news column */
 .lay-area.lay-lyrics, .lay-view-nowplaying .lay-area[data-cell="lyrics"] { border-left: 1px solid #161412 !important; border-left-color: #161412 !important; padding: 10px 0 0 18px; min-height: 0; }
 .lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 0 4px 40% !important; text-align: justify; hyphens: auto; }
+.lay-lyrics .lyrics p.on, .lay-view-nowplaying [data-cell="lyrics"] .lyrics p.on { transform-origin: left center; } /* the sung line grows from its left edge */
 .lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font-size: 16px; line-height: 1.55; color: #161412; opacity: .62; }
 .lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { opacity: 1; font-weight: 700; }
 

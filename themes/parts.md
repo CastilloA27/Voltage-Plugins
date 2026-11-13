@@ -26,6 +26,7 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `mini.button.expand` |  | src/Layout.jsx |
 | `nav` |  | src/App.jsx |
 | `nav.item.explore` | `active` | src/App.jsx |
+| `nav.item.home` | `active` | src/App.jsx |
 | `nav.item.mini` |  | src/App.jsx |
 | `nav.item.settings` | `active` | src/App.jsx |
 | `nav.item.stats` | `active` | src/App.jsx |
@@ -70,8 +71,9 @@ filled in at runtime (for example `tracklist.tab.queue`). Some parts also carry 
 | `view.settings` |  | src/Settings.jsx |
 | `view.stats` |  | src/Stats.jsx |
 | `volume` | `muted` | src/Players.jsx |
+| `window` |  | src/App.jsx |
 | `window.close` |  | src/App.jsx |
 | `window.maximize` |  | src/App.jsx |
 | `window.minimize` |  | src/App.jsx |
 
-66 parts.
+68 parts.

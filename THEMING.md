@@ -181,8 +181,9 @@ Recipes the example themes use:
 | Cells without the glass panel (one open composition) | `.lay-art, .lay-info { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }` |
 | A cover that always fits its cell | `.lay-art .art-part { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; width: 100%; height: 100%; min-height: 0; }` and `.lay-art img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; aspect-ratio: 1; object-fit: cover; }` (without the `grid-template`, the wrapper's row grows to the picture and the cover overflows) |
 | A label on a cell | `.lay-lyrics { position: relative; padding-top: 26px; } .lay-lyrics::before { content: "// COMMS LOG"; position: absolute; top: 6px; left: 12px; }` (Tactical, Terminal) |
-| Lyrics as a column of text | `.lay-lyrics .lyrics { width: 100% !important; height: 100% !important; padding: 30% 8px !important; text-align: left; }` |
+| Lyrics as a column of text | `.lay-lyrics .lyrics { width: 100% !important; height: 100% !important; padding: 30% 8px !important; text-align: left; }` and `.lay-lyrics .lyrics p.on { transform-origin: left center; }` (the sung line grows a little; from its left edge it isn't clipped) |
 | Lyrics written top to bottom | `.lay-lyrics .lyrics { writing-mode: vertical-rl; }` plus the sizes above (Sumi Ink; the line being sung still scrolls into view) |
+| The nav as tabs or a rail | `"parts": {"nav": {"variant": "tabs"}}` (beside the brand) or `"sidebar"` (a rail down the left); both add Home (`nav.home`) and show a word under / beside each icon: rename them in `strings` (Paper: Front page, Sections...; Tactical: Base, Recon...) |
 | Corner brackets on every cell | eight `linear-gradient` layers with `background-size` / `background-position` per corner (Tactical's theme.css) |
 
 A placed `lyrics` cell loads the lyrics by itself, whatever the lyrics button says. Check a layout at **1280 x 800** and
@@ -197,7 +198,7 @@ Some parts can be drawn in different ways: `"parts": {"progress": {"variant": "a
 | `player` | `panel`, `compact`, `text` (words instead of icons, from `strings`) |
 | `progress` | `wave`, `line`, `blocks`, `ascii` (`[######------] 1:23 / 3:14`), `none` |
 | `tracklist` | `rows`, `dense`, `table`, `text` (one monospace line per song) |
-| `nav` | `icons`, `text` |
+| `nav` | `icons`, `text` (in the title bar), `tabs` (labelled tabs beside the brand), `sidebar` (a rail down the left); tabs and the rail add Home |
 | `art` | `cover`, `round`, `vinyl` (round, spins while playing), `none` |
 | `lyrics` | `karaoke`, `plain`, `ticker` (only the current line) |
 | `titlebar` | `full`, `minimal`, `hidden` (the window buttons always stay) |

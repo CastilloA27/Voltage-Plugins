@@ -50,6 +50,9 @@
     },
     "tracklist": {
       "variant": "dense"
+    },
+    "nav": {
+      "variant": "sidebar"
     }
   },
   "supports": {
@@ -66,7 +69,11 @@
     "nav.stats": "Debrief",
     "note.liked": "Target marked",
     "player.next": "Advance",
-    "player.prev": "Fall back"
+    "player.prev": "Fall back",
+    "nav.home": "Base",
+    "nav.explore": "Recon",
+    "nav.settings": "Loadout",
+    "nav.mini": "HUD"
   },
   "sounds": {
     "click": "assets/tick.wav",

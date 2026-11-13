@@ -144,6 +144,7 @@ write('terminal', {
 .lay-player, .lay-view-nowplaying [data-cell="player"] { background-color: #1e3a44 !important; border-color: #1e3a44 !important; }
 .lay-info, .lay-view-nowplaying [data-cell="info"] { text-align: left; padding-left: 12px; }
 .lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 20% 12px !important; text-align: left; }
+.lay-lyrics .lyrics p.on, .lay-view-nowplaying [data-cell="lyrics"] .lyrics p.on { transform-origin: left center; } /* the sung line grows from its left edge */
 .lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font: 14px/1.6 "Cascadia Mono", Consolas, monospace; }
 .lay-lyrics [data-part="lyrics.line"][data-state~="active"]::before, .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"]::before { content: "> "; color: var(--accent); }
 ''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/LICENSE.txt': CC0})
@@ -201,6 +202,7 @@ write('crt-green', {
 .lay-art .art-part, .lay-view-nowplaying [data-cell="art"] .art-part { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; width: 100%; height: 100%; min-height: 0; }
 .lay-art img, .lay-view-nowplaying [data-cell="art"] img { width: auto !important; height: auto !important; max-width: 100% !important; max-height: 100% !important; aspect-ratio: 1; object-fit: contain; }
 .lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 30% 10px !important; text-align: left; }
+.lay-lyrics .lyrics p.on, .lay-view-nowplaying [data-cell="lyrics"] .lyrics p.on { transform-origin: left center; } /* the sung line grows from its left edge */
 .lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { text-transform: uppercase; letter-spacing: .04em; font-size: 14px; }
 ''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/LICENSE.txt': CC0, 'assets/tick.wav': tone('tick'), 'assets/blip.wav': tone('blip'), 'assets/hum.wav': tone('hum')})
 
@@ -547,7 +549,7 @@ write('paper', {
                'effect.blur': '0px', 'effect.glow-size': '0px', 'effect.glow-alpha': '0%', 'accent.album-mix': '0',
                'shape.radius': '0px', 'shape.roundness': '0'},
     'accent': {'mode': 'fixed', 'color': INK},
-    'parts': {'tracklist': {'variant': 'table'}, 'progress': {'variant': 'line'}, 'art': {'variant': 'cover'}},
+    'parts': {'tracklist': {'variant': 'table'}, 'progress': {'variant': 'line'}, 'art': {'variant': 'cover'}, 'nav': {'variant': 'tabs'}},
     # the page is the background: the album's colours, a blurred cover or a video behind newsprint don't belong
     'layout': {
         # the front page: the headline across the top, the cover as the lead photo, the lyrics as the article, the list as a side column
@@ -564,10 +566,13 @@ write('paper', {
     'supports': {'background': ['black']},
     'strings': {'nowplaying.idle': 'Stop the presses: nothing is playing', 'empty.queue': 'No stories filed yet. Queue a song.',
                 'empty.search': 'Search the archives', 'library.liked': 'Clippings', 'explore.fromLiked': 'From your clippings',
-                'nav.stats': 'The almanac', 'note.liked': 'Clipped'},
+                'nav.stats': 'The almanac', 'note.liked': 'Clipped', 'nav.home': 'Front page', 'nav.explore': 'Sections',
+                'nav.settings': 'Masthead', 'nav.mini': 'Pocket edition'},
 }, css=r"""
 /* the masthead and the headlines */
 [data-part="titlebar"] { border-bottom: 3px double #161412; }
+.nav-tabs button { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 13.5px; color: #3d3832; }
+.nav-tabs button.on { color: #000; border-bottom-color: #161412; }
 [data-part="titlebar.brand"] { font-family: "UnifrakturMaguntia", "Old English Text MT", serif; font-size: 24px; letter-spacing: 0; color: #000; text-transform: none; }
 [data-part="info.title"], .for-you-title, [data-part="explore.shelf"] h2, [data-part="explore.shelf"] h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 900; letter-spacing: -.01em; color: #000; }
 [data-part="info.title"] { font-size: 34px; line-height: 1.05; }
@@ -599,6 +604,7 @@ write('paper', {
 /* the article: the lyrics, set like a news column */
 .lay-area.lay-lyrics, .lay-view-nowplaying .lay-area[data-cell="lyrics"] { border-left: 1px solid #161412 !important; border-left-color: #161412 !important; padding: 10px 0 0 18px; min-height: 0; }
 .lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 0 4px 40% !important; text-align: justify; hyphens: auto; }
+.lay-lyrics .lyrics p.on, .lay-view-nowplaying [data-cell="lyrics"] .lyrics p.on { transform-origin: left center; } /* the sung line grows from its left edge */
 .lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font-size: 16px; line-height: 1.55; color: #161412; opacity: .62; }
 .lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { opacity: 1; font-weight: 700; }
 
@@ -627,12 +633,13 @@ write('tactical', {
                'effect.blur': '4px', 'effect.glow-size': '8px', 'effect.glow-alpha': '35%', 'accent.album-mix': '0',
                'shape.radius': '2px', 'shape.roundness': '0.2'},
     'accent': {'mode': 'fixed', 'color': '#ffb000'},
-    'parts': {'progress': {'variant': 'line'}, 'tracklist': {'variant': 'dense'}},
+    'parts': {'progress': {'variant': 'line'}, 'tracklist': {'variant': 'dense'}, 'nav': {'variant': 'sidebar'}},
     # its own grid backdrop: album colours, a blurred cover or a video behind the HUD clash with it
     'supports': {'background': ['gradient']},
     'strings': {'nowplaying.idle': 'No signal. Awaiting uplink', 'empty.queue': 'Queue empty. Awaiting orders.',
                 'empty.search': 'Enter search coordinates', 'library.liked': 'Commendations', 'explore.fromLiked': 'From your commendations',
-                'nav.stats': 'Debrief', 'note.liked': 'Target marked', 'player.next': 'Advance', 'player.prev': 'Fall back'},
+                'nav.stats': 'Debrief', 'note.liked': 'Target marked', 'player.next': 'Advance', 'player.prev': 'Fall back',
+                'nav.home': 'Base', 'nav.explore': 'Recon', 'nav.settings': 'Loadout', 'nav.mini': 'HUD'},
     'sounds': {'click': 'assets/tick.wav', 'navigate': 'assets/blip.wav', 'skip': 'assets/hum.wav'},
     'layout': {
         # the HUD: the list down the left, the cover as the target in the middle, intel (the song) and the comms log (lyrics) on the right
@@ -681,9 +688,14 @@ write('tactical', {
 /* the comms log: the lyrics as a terminal feed */
 .lay-lyrics, .lay-view-nowplaying [data-cell="lyrics"] { padding: 26px 8px 8px; min-height: 0; }
 .lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 30% 6px !important; text-align: left; }
+.lay-lyrics .lyrics p.on, .lay-view-nowplaying [data-cell="lyrics"] .lyrics p.on { transform-origin: left center; } /* the sung line grows from its left edge */
 .lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font: 14px/1.5 "Share Tech Mono", Consolas, monospace; color: #a3ad8c; }
 .lay-lyrics [data-part="lyrics.line"]::before, .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"]::before { content: "> "; color: #ffb000; }
 .lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { color: #ffcf5a; }
+
+/* the nav rail: mono labels, amber when active */
+.nav-rail button { font: 10px "Share Tech Mono", Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.nav-rail button.on { color: #ffb000; box-shadow: inset 3px 0 0 #ffb000; }
 
 /* the playing row: an amber target marker */
 [data-part="tracklist.row"][data-state~="active"] { background-color: rgb(255 176 0 / .12) !important; box-shadow: inset 3px 0 0 #ffb000; }

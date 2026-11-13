@@ -60,7 +60,7 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `player` | `panel`, `compact`, `text` |
 | `progress` | `wave`, `line`, `blocks`, `ascii`, `none` |
 | `tracklist` | `rows`, `dense`, `table`, `text` |
-| `nav` | `icons`, `text` |
+| `nav` | `icons`, `text`, `tabs`, `sidebar` |
 | `art` | `cover`, `round`, `vinyl`, `none` |
 | `lyrics` | `karaoke`, `plain`, `ticker` |
 | `titlebar` | `full`, `minimal`, `hidden` |
@@ -78,6 +78,7 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | Key | Voltage |
 |---|---|
 | `brand` | Voltage |
+| `nav.home` | Home |
 | `nav.settings` | Settings |
 | `nav.explore` | Explore |
 | `nav.stats` | Listening stats |

@@ -66,6 +66,9 @@
     },
     "art": {
       "variant": "cover"
+    },
+    "nav": {
+      "variant": "tabs"
     }
   },
   "layout": {
@@ -139,7 +142,11 @@
     "library.liked": "Clippings",
     "explore.fromLiked": "From your clippings",
     "nav.stats": "The almanac",
-    "note.liked": "Clipped"
+    "note.liked": "Clipped",
+    "nav.home": "Front page",
+    "nav.explore": "Sections",
+    "nav.settings": "Masthead",
+    "nav.mini": "Pocket edition"
   },
   "css": "theme.css"
 }
