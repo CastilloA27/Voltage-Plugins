@@ -1,3 +1,7 @@
+/* the backdrop: the arcane palette, never the album's colours (supports.background is gradient only) */
+[data-part="background"] { background-color: #07061a !important; opacity: 1 !important;
+  background-image: radial-gradient(120% 90% at 15% 0%, rgb(90 40 200 / .45), transparent 62%), radial-gradient(100% 100% at 100% 100%, rgb(0 170 230 / .3), transparent 58%), radial-gradient(60% 50% at 50% 55%, rgb(200 40 220 / .12), transparent 70%) !important; }
+
 /* marquee lettering */
 [data-part="titlebar.brand"], [data-part="info.title"], .for-you-title { font-family: "Bungee", "Bahnschrift", sans-serif; letter-spacing: .04em; }
 [data-part="titlebar.brand"] { color: #00e5ff; text-shadow: 0 0 10px rgb(0 210 255 / .7); }

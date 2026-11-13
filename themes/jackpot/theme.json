@@ -47,9 +47,7 @@
   },
   "supports": {
     "background": [
-      "cover",
-      "gradient",
-      "black"
+      "gradient"
     ]
   },
   "strings": {

@@ -300,7 +300,7 @@ write('jackpot', {
                'accent.album-mix': '0.2', 'shape.radius': '18px'},
     'accent': {'mode': 'fixed', 'color': '#00d2ff'},
     'parts': {'progress': {'variant': 'blocks'}, 'art': {'variant': 'cover'}},
-    'supports': {'background': ['cover', 'gradient', 'black']},  # a music video behind the cabinet fights the reels
+    'supports': {'background': ['gradient']},  # its own arcane backdrop: the cover / video (warm album colours) clash with the cabinet (the user, 2026-11-12)
     'strings': {'player.next': 'Spin', 'player.prev': 'Back', 'player.shuffle': 'Roll', 'library.liked': 'Jackpots',
                 'empty.queue': 'Insert a song to play', 'nowplaying.idle': 'Insert a song', 'nav.stats': 'Win history',
                 'explore.fromLiked': 'Your jackpots', 'note.liked': 'BIG WIN!', 'menu.playNow': 'Spin it', 'menu.playNext': 'Spin next'},
@@ -320,6 +320,10 @@ write('jackpot', {
         'mini': {'areas': ['art meta ctl'], 'columns': '64px 1fr auto', 'place': {'art': 'art', 'meta': 'info', 'ctl': 'player'}},
     },
 }, css=r"""
+/* the backdrop: the arcane palette, never the album's colours (supports.background is gradient only) */
+[data-part="background"] { background-color: #07061a !important; opacity: 1 !important;
+  background-image: radial-gradient(120% 90% at 15% 0%, rgb(90 40 200 / .45), transparent 62%), radial-gradient(100% 100% at 100% 100%, rgb(0 170 230 / .3), transparent 58%), radial-gradient(60% 50% at 50% 55%, rgb(200 40 220 / .12), transparent 70%) !important; }
+
 /* marquee lettering */
 [data-part="titlebar.brand"], [data-part="info.title"], .for-you-title { font-family: "Bungee", "Bahnschrift", sans-serif; letter-spacing: .04em; }
 [data-part="titlebar.brand"] { color: #00e5ff; text-shadow: 0 0 10px rgb(0 210 255 / .7); }
