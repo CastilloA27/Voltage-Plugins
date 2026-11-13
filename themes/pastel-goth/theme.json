@@ -23,19 +23,18 @@
     "color.surface": "rgba(42, 16, 48, .55)",
     "color.border": "rgba(255, 154, 213, .22)",
     "color.brand": "#ff9ad5",
-    "color.brand-rgb": "255 154 213",
     "color.on-accent": "#2a0f2a",
     "color.knob": "#ffc7e8",
     "color.select-bg": "#3a1840",
-    "surface.menu": "30 12 34",
-    "surface.pop": "34 14 38",
-    "surface.tip": "30 12 34",
+    "surface.menu": "#1e0c22",
+    "surface.pop": "#220e26",
+    "surface.tip": "#1e0c22",
     "effect.blur": "18px",
     "effect.glow-size": "16px",
     "effect.glow-alpha": "45%",
     "accent.album-mix": "0.35",
     "shape.radius": "22px",
-    "shape.k": "1.6"
+    "shape.roundness": "1.6"
   },
   "accent": {
     "mode": "fixed",

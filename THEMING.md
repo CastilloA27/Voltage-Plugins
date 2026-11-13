@@ -43,7 +43,7 @@ decorations in the overlay), `sidebar` (a different layout: song table in the mi
 
 2. In Voltage: **Settings > Appearance > Theme**, paste the folder path in the field, press **Live**. The theme is installed
    and switched on, and from now on **every time you save a file in the folder, Voltage shows the change within a second**.
-3. Change `"color.bg"`, save, watch it change. Try `"shape.k": "0"` (square corners everywhere).
+3. Change `"color.bg"`, save, watch it change. Try `"shape.roundness": "0"` (square corners everywhere).
 4. Hold **Ctrl+Shift** and point at anything: Voltage shows its part name (for example `[data-part="player.button.play"]`)
    and its states. That's what you write in CSS.
 5. Add a `theme.css` next to `theme.json`, and `"css": "theme.css"` in the manifest:
@@ -103,16 +103,18 @@ read, so one token changes every place that uses it. The full list with Voltage'
 | Token | Does |
 |---|---|
 | `color.bg`, `color.text`, `color.text-dim`, `color.text-strong` | Background and text |
-| `color.ink` | The colour of every hover, divider and soft overlay, as `R G B` (`"255 255 255"` on dark themes, something dark on light ones) |
-| `color.shade` | Shadows and dark overlays, `R G B` |
+| `color.ink` | The colour of every hover, divider and soft overlay (white on dark themes, something dark on light ones) |
+| `color.shade` | Shadows and dark overlays |
 | `color.surface`, `color.border`, `effect.blur` | The glass panels |
-| `shape.radius`, `shape.k` | Corner roundness; `shape.k` scales every fixed corner (0 = square) |
+| `shape.radius`, `shape.roundness` | Corner roundness; `shape.roundness` scales every corner (1 = Voltage's, 0 = square, 2 = twice as round) |
 | `effect.glow-size`, `effect.glow-alpha` | The neon glow |
 | `accent.album-mix` | How much of the cover's colour goes into the background (0-1) |
 | `font.body`, `font.mono` | Fonts |
 
 **A light theme** sets `"appearance": "light"`, a light `color.bg`, dark `color.text` / `color.text-strong`, and a dark
-`color.ink` (for example `"20 16 28"`).
+`color.ink` (for example `"#14101c"`).
+
+Every colour token takes any CSS colour (`#ff9ad5`, `rgb(...)`, `hotpink`, `oklch(...)`); Voltage works out what it needs.
 
 In your CSS you can use every variable (`var(--bg)`, `rgb(var(--ink) / .1)`, `var(--accent)` = the current accent).
 

@@ -32,21 +32,21 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `color.mini-solid` | `--color-mini-solid` | color | `#0d0b12` |
 | `color.vinyl-groove` | `--color-vinyl-groove` | color | `#1c1c1c` |
 | `color.vinyl-label-ring` | `--color-vinyl-label-ring` | color | `#0a0a0a` |
-| `color.ink` | `--ink` | rgb | `255 255 255` |
-| `color.shade` | `--shade` | rgb | `0 0 0` |
-| `color.brand-rgb` | `--brand-rgb` | rgb | `160 32 240` |
-| `color.warn-rgb` | `--warn-rgb` | rgb | `255 179 71` |
-| `surface.menu` | `--surface-menu` | rgb | `12 10 16` |
-| `surface.pop` | `--surface-pop` | rgb | `14 12 18` |
-| `surface.drag` | `--surface-drag` | rgb | `16 12 22` |
-| `surface.game` | `--surface-game` | rgb | `12 12 14` |
-| `surface.tip` | `--surface-tip` | rgb | `10 10 14` |
+| `color.ink` | `--ink` | colour (any; kept as channels) | `255 255 255` |
+| `color.shade` | `--shade` | colour (any; kept as channels) | `0 0 0` |
+| `color.brand-rgb` | `--brand-rgb` | colour (any; kept as channels) | `160 32 240` |
+| `color.warn-rgb` | `--warn-rgb` | colour (any; kept as channels) | `255 179 71` |
+| `surface.menu` | `--surface-menu` | colour (any; kept as channels) | `12 10 16` |
+| `surface.pop` | `--surface-pop` | colour (any; kept as channels) | `14 12 18` |
+| `surface.drag` | `--surface-drag` | colour (any; kept as channels) | `16 12 22` |
+| `surface.game` | `--surface-game` | colour (any; kept as channels) | `12 12 14` |
+| `surface.tip` | `--surface-tip` | colour (any; kept as channels) | `10 10 14` |
 | `effect.blur` | `--glass-blur` | length |  |
 | `effect.glow-size` | `--glow-size` | length |  |
 | `effect.glow-alpha` | `--glow-alpha` | percent |  |
 | `accent.album-mix` | `--bg-strength` | number |  |
 | `shape.radius` | `--radius` | length |  |
-| `shape.k` | `--shape-k` | number | `1` |
+| `shape.roundness` | `--shape-k` | number | `1` |
 | `shape.radius-circle` | `--radius-circle` | length | `50%` |
 | `shape.radius-pill` | `--radius-pill` | length | `999px` |
 | `font.body` | `--font` | font |  |

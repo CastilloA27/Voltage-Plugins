@@ -225,63 +225,63 @@
       "string",
       "number"
      ],
-     "description": "--ink (rgb)"
+     "description": "--ink (any colour)"
     },
     "color.shade": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--shade (rgb)"
+     "description": "--shade (any colour)"
     },
     "color.brand-rgb": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--brand-rgb (rgb)"
+     "description": "--brand-rgb (any colour)"
     },
     "color.warn-rgb": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--warn-rgb (rgb)"
+     "description": "--warn-rgb (any colour)"
     },
     "surface.menu": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--surface-menu (rgb)"
+     "description": "--surface-menu (any colour)"
     },
     "surface.pop": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--surface-pop (rgb)"
+     "description": "--surface-pop (any colour)"
     },
     "surface.drag": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--surface-drag (rgb)"
+     "description": "--surface-drag (any colour)"
     },
     "surface.game": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--surface-game (rgb)"
+     "description": "--surface-game (any colour)"
     },
     "surface.tip": {
      "type": [
       "string",
       "number"
      ],
-     "description": "--surface-tip (rgb)"
+     "description": "--surface-tip (any colour)"
     },
     "effect.blur": {
      "type": [
@@ -318,7 +318,7 @@
      ],
      "description": "--radius (length)"
     },
-    "shape.k": {
+    "shape.roundness": {
      "type": [
       "string",
       "number"
@@ -359,6 +359,14 @@
       "number"
      ],
      "description": "--font-console (font)"
+    },
+    "shape.k": {
+     "type": [
+      "string",
+      "number"
+     ],
+     "deprecated": true,
+     "description": "old name of shape.roundness"
     }
    },
    "additionalProperties": false
@@ -549,63 +557,63 @@
         "string",
         "number"
        ],
-       "description": "--ink (rgb)"
+       "description": "--ink (any colour)"
       },
       "color.shade": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--shade (rgb)"
+       "description": "--shade (any colour)"
       },
       "color.brand-rgb": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--brand-rgb (rgb)"
+       "description": "--brand-rgb (any colour)"
       },
       "color.warn-rgb": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--warn-rgb (rgb)"
+       "description": "--warn-rgb (any colour)"
       },
       "surface.menu": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-menu (rgb)"
+       "description": "--surface-menu (any colour)"
       },
       "surface.pop": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-pop (rgb)"
+       "description": "--surface-pop (any colour)"
       },
       "surface.drag": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-drag (rgb)"
+       "description": "--surface-drag (any colour)"
       },
       "surface.game": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-game (rgb)"
+       "description": "--surface-game (any colour)"
       },
       "surface.tip": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-tip (rgb)"
+       "description": "--surface-tip (any colour)"
       },
       "effect.blur": {
        "type": [
@@ -642,7 +650,7 @@
        ],
        "description": "--radius (length)"
       },
-      "shape.k": {
+      "shape.roundness": {
        "type": [
         "string",
         "number"
@@ -683,6 +691,14 @@
         "number"
        ],
        "description": "--font-console (font)"
+      },
+      "shape.k": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "deprecated": true,
+       "description": "old name of shape.roundness"
       }
      },
      "additionalProperties": false
@@ -870,63 +886,63 @@
         "string",
         "number"
        ],
-       "description": "--ink (rgb)"
+       "description": "--ink (any colour)"
       },
       "color.shade": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--shade (rgb)"
+       "description": "--shade (any colour)"
       },
       "color.brand-rgb": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--brand-rgb (rgb)"
+       "description": "--brand-rgb (any colour)"
       },
       "color.warn-rgb": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--warn-rgb (rgb)"
+       "description": "--warn-rgb (any colour)"
       },
       "surface.menu": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-menu (rgb)"
+       "description": "--surface-menu (any colour)"
       },
       "surface.pop": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-pop (rgb)"
+       "description": "--surface-pop (any colour)"
       },
       "surface.drag": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-drag (rgb)"
+       "description": "--surface-drag (any colour)"
       },
       "surface.game": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-game (rgb)"
+       "description": "--surface-game (any colour)"
       },
       "surface.tip": {
        "type": [
         "string",
         "number"
        ],
-       "description": "--surface-tip (rgb)"
+       "description": "--surface-tip (any colour)"
       },
       "effect.blur": {
        "type": [
@@ -963,7 +979,7 @@
        ],
        "description": "--radius (length)"
       },
-      "shape.k": {
+      "shape.roundness": {
        "type": [
         "string",
         "number"
@@ -1004,6 +1020,14 @@
         "number"
        ],
        "description": "--font-console (font)"
+      },
+      "shape.k": {
+       "type": [
+        "string",
+        "number"
+       ],
+       "deprecated": true,
+       "description": "old name of shape.roundness"
       }
      },
      "additionalProperties": false
