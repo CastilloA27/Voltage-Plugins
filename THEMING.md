@@ -24,6 +24,17 @@ log, a HUD mini strip) and `sumi-ink` (ink on washi: the lyrics down a hanging s
 enso). They're all made by [`themes/tools/make-examples.py`](themes/tools/make-examples.py); the art and sounds made there
 are CC0, the fonts are SIL OFL (each with its OFL.txt; see each theme's CREDITS.md).
 
+| | |
+|---|---|
+| ![voltage-starter](themes/previews/voltage-starter-1.png)<br>`voltage-starter` | ![terminal](themes/previews/terminal-1.png)<br>`terminal` |
+| ![crt-green](themes/previews/crt-green-1.png)<br>`crt-green` | ![pastel-goth](themes/previews/pastel-goth-1.png)<br>`pastel-goth` |
+| ![sidebar](themes/previews/sidebar-1.png)<br>`sidebar` | ![frosted-light](themes/previews/frosted-light-1.png)<br>`frosted-light` |
+| ![jackpot](themes/previews/jackpot-1.png)<br>`jackpot` | ![paper](themes/previews/paper-1.png)<br>`paper` |
+| ![tactical](themes/previews/tactical-1.png)<br>`tactical` | ![sumi-ink](themes/previews/sumi-ink-1.png)<br>`sumi-ink` |
+
+Each theme's full player is `themes/previews/<id>-2.png`. The pictures use Voltage's **demo library** (`voltage --demo`: made-up
+songs and covers, its own data folders, nothing of yours), made with `node tools/theme-previews.mjs` in the Voltage repo.
+
 ## Your first theme in 10 minutes
 
 1. Make a folder, for example `C:\themes\neon-night\`, with one file, `theme.json`:
