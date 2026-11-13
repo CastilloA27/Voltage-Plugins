@@ -63,6 +63,18 @@
 [data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
 [data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
 [data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+/* the lever, in the empty column right of the reels: pulls down on a skip / new song */
+.lay-view-nowplaying [data-area="r"] { position: relative; }
+.lay-view-nowplaying [data-area="r"]::before { content: ""; position: absolute; left: 18px; top: 18%; width: 12px; height: 200px; border-radius: 6px;
+  background: linear-gradient(90deg, #9a9a9a, #f0f0f0 45%, #8a8a8a); transform-origin: 50% 100%; box-shadow: 0 0 0 2px #7a4a00; }
+.lay-view-nowplaying [data-area="r"]::after { content: ""; position: absolute; left: 4px; top: calc(18% - 30px); width: 40px; height: 40px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff9a8a, #d0221a 55%, #5a0806); box-shadow: 0 4px 10px rgb(0 0 0 / .6); transform-origin: 24px 230px; }
+.lay-view-nowplaying [data-area="r"] { min-height: 260px; }
+@keyframes lever { 0% { transform: none; } 30% { transform: rotateX(70deg) scaleY(.35); } 100% { transform: none; } }
+@keyframes lever-ball { 0% { transform: none; } 30% { transform: translateY(150px); } 100% { transform: none; } }
+:root[data-event="skip"] [data-area="r"]::before, :root[data-event="track-change"] [data-area="r"]::before { animation: lever .7s ease-in-out; }
+:root[data-event="skip"] [data-area="r"]::after, :root[data-event="track-change"] [data-area="r"]::after { animation: lever-ball .7s ease-in-out; }
+
 /* the home screen: the cover in a gold reel window, the playing row lit gold */
 [data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #e0a82e, 0 0 0 9px #5a1020, 0 0 30px rgb(255 190 40 / .45) !important; }
 [data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(255 204 51 / .22), transparent); box-shadow: inset 3px 0 0 #ffcc33; }
