@@ -74,6 +74,64 @@
     "skip": "assets/hum.wav"
   },
   "layout": {
+    "home": {
+      "areas": [
+        "list art intel",
+        "list art comms",
+        "list prog prog",
+        "list bar vol"
+      ],
+      "columns": "minmax(260px, 320px) 1fr minmax(240px, 300px)",
+      "rows": "auto minmax(0, 1fr) 40px 72px",
+      "place": {
+        "list": "sidebar",
+        "art": "art",
+        "intel": "info",
+        "comms": "lyrics",
+        "prog": "progress",
+        "bar": "player",
+        "vol": "volume"
+      },
+      "below": {
+        "1000px": {
+          "areas": [
+            "list art",
+            "list intel",
+            "prog prog",
+            "bar bar"
+          ],
+          "columns": "minmax(240px, 300px) 1fr",
+          "rows": "minmax(0, 1fr) auto 40px 72px",
+          "place": {
+            "list": "sidebar",
+            "art": "art",
+            "intel": "info",
+            "prog": "progress",
+            "bar": "player"
+          }
+        }
+      }
+    },
+    "nowplaying": {
+      "areas": [
+        "back . . video",
+        "intel art art comms",
+        "prog prog prog prog",
+        "ctl ctl vol vol"
+      ],
+      "columns": "minmax(200px, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(200px, 1fr)",
+      "rows": "auto minmax(0, 1fr) 40px 88px",
+      "place": {
+        "back": "back",
+        "video": "video",
+        "intel": "info",
+        "art": "art",
+        "comms": "lyrics",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    },
     "mini": {
       "areas": [
         "art meta ctl"

@@ -487,6 +487,18 @@ write('paper', {
     'accent': {'mode': 'fixed', 'color': INK},
     'parts': {'tracklist': {'variant': 'table'}, 'progress': {'variant': 'line'}, 'art': {'variant': 'cover'}},
     # the page is the background: the album's colours, a blurred cover or a video behind newsprint don't belong
+    'layout': {
+        # the front page: the headline across the top, the cover as the lead photo, the lyrics as the article, the list as a side column
+        'home': {'areas': ['head head list', 'art lyr list', 'prog prog list', 'bar bar list'],
+                 'columns': 'minmax(220px, 1fr) minmax(220px, 1fr) minmax(280px, 340px)', 'rows': 'auto minmax(0, 1fr) 36px 72px',
+                 'place': {'head': 'info', 'art': 'art', 'lyr': 'lyrics', 'list': 'sidebar', 'prog': 'progress', 'bar': 'player'},
+                 'below': {'1000px': {'areas': ['head list', 'art list', 'prog list', 'bar list'], 'columns': '1fr minmax(260px, 320px)',
+                                      'rows': 'auto minmax(0, 1fr) 36px 72px',
+                                      'place': {'head': 'info', 'art': 'art', 'list': 'sidebar', 'prog': 'progress', 'bar': 'player'}}}},
+        'nowplaying': {'areas': ['back head head video', 'art art lyr lyr', 'prog prog prog prog', 'ctl ctl vol vol'],
+                       'columns': '56px 1fr 1fr 56px', 'rows': 'auto minmax(0, 1fr) 40px 88px',
+                       'place': {'back': 'back', 'head': 'info', 'video': 'video', 'art': 'art', 'lyr': 'lyrics',
+                                 'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}}},
     'supports': {'background': ['black']},
     'strings': {'nowplaying.idle': 'Stop the presses: nothing is playing', 'empty.queue': 'No stories filed yet. Queue a song.',
                 'empty.search': 'Search the archives', 'library.liked': 'Clippings', 'explore.fromLiked': 'From your clippings',
@@ -515,6 +527,18 @@ write('paper', {
 [data-part="art"] img { border: 1.5px solid #161412;
   -webkit-mask-image: radial-gradient(circle, #000 0 1.3px, rgb(0 0 0 / .62) 1.9px); -webkit-mask-size: 4px 4px;
   mask-image: radial-gradient(circle, #000 0 1.3px, rgb(0 0 0 / .62) 1.9px); mask-size: 4px 4px; }
+
+/* the front page: open newsprint between ink rules, not boxes */
+.lay-area:not(.lay-sidebar) { background-color: transparent !important; border-color: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+.lay-area.lay-info, .lay-view-nowplaying .lay-area[data-cell="info"] { border-top: 4px solid #161412 !important; border-bottom: 3px double #161412 !important; border-top-color: #161412 !important; border-bottom-color: #161412 !important; padding: 6px 0 10px; }
+.lay-info [data-part="info.title"], .lay-view-nowplaying [data-cell="info"] [data-part="info.title"] { font-size: clamp(30px, 4.4vw, 60px); }
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: start center; padding-top: 14px; min-height: 0; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { max-height: 100%; object-fit: contain; }
+/* the article: the lyrics, set like a news column */
+.lay-area.lay-lyrics, .lay-view-nowplaying .lay-area[data-cell="lyrics"] { border-left: 1px solid #161412 !important; border-left-color: #161412 !important; padding: 10px 0 0 18px; min-height: 0; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 0 4px 40% !important; text-align: justify; hyphens: auto; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font-size: 16px; line-height: 1.55; color: #161412; opacity: .62; }
+.lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { opacity: 1; font-weight: 700; }
 
 /* the player: ink buttons */
 [data-part="player.button.play"] { background-color: #161412 !important; color: #f1ece1 !important; box-shadow: none !important; }
@@ -548,7 +572,19 @@ write('tactical', {
                 'empty.search': 'Enter search coordinates', 'library.liked': 'Commendations', 'explore.fromLiked': 'From your commendations',
                 'nav.stats': 'Debrief', 'note.liked': 'Target marked', 'player.next': 'Advance', 'player.prev': 'Fall back'},
     'sounds': {'click': 'assets/tick.wav', 'navigate': 'assets/blip.wav', 'skip': 'assets/hum.wav'},
-    'layout': {'mini': {'areas': ['art meta ctl'], 'columns': '48px 1fr auto', 'place': {'art': 'art', 'meta': 'info', 'ctl': 'player'}}},
+    'layout': {
+        # the HUD: the list down the left, the cover as the target in the middle, intel (the song) and the comms log (lyrics) on the right
+        'home': {'areas': ['list art intel', 'list art comms', 'list prog prog', 'list bar vol'],
+                 'columns': 'minmax(260px, 320px) 1fr minmax(240px, 300px)', 'rows': 'auto minmax(0, 1fr) 40px 72px',
+                 'place': {'list': 'sidebar', 'art': 'art', 'intel': 'info', 'comms': 'lyrics', 'prog': 'progress', 'bar': 'player', 'vol': 'volume'},
+                 'below': {'1000px': {'areas': ['list art', 'list intel', 'prog prog', 'bar bar'], 'columns': 'minmax(240px, 300px) 1fr',
+                                      'rows': 'minmax(0, 1fr) auto 40px 72px',
+                                      'place': {'list': 'sidebar', 'art': 'art', 'intel': 'info', 'prog': 'progress', 'bar': 'player'}}}},
+        'nowplaying': {'areas': ['back . . video', 'intel art art comms', 'prog prog prog prog', 'ctl ctl vol vol'],
+                       'columns': 'minmax(200px, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(200px, 1fr)', 'rows': 'auto minmax(0, 1fr) 40px 88px',
+                       'place': {'back': 'back', 'video': 'video', 'intel': 'info', 'art': 'art', 'comms': 'lyrics',
+                                 'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}},
+'mini': {'areas': ['art meta ctl'], 'columns': '48px 1fr auto', 'place': {'art': 'art', 'meta': 'info', 'ctl': 'player'}}},
 }, css=r"""
 /* the backdrop: a dark olive map grid with a vignette, never the album's colours */
 [data-part="background"] { background-color: #0b0e08 !important; opacity: 1 !important;
@@ -563,6 +599,29 @@ write('tactical', {
 
 /* corner brackets on every panel */
 [data-part="sidebar"], [data-part="nowplaying"], [data-part="dialog"], [data-part="menu"], [data-part="explore.card"] { __PANEL__ }
+
+/* HUD cells: brackets on each, a label above each */
+.lay-area:not(.lay-sidebar) { __PANEL__ position: relative; }
+.lay-art::before, .lay-info::before, .lay-lyrics::before, .lay-view-nowplaying [data-cell="art"]::before, .lay-view-nowplaying [data-cell="info"]::before, .lay-view-nowplaying [data-cell="lyrics"]::before {
+  position: absolute; top: 6px; left: 12px; font: 11px "Share Tech Mono", monospace; letter-spacing: .16em; color: #ffb000; opacity: .85; z-index: 1; }
+.lay-art::before, .lay-view-nowplaying [data-cell="art"]::before { content: "TARGET LOCK"; }
+.lay-info::before, .lay-view-nowplaying [data-cell="info"]::before { content: "// INTEL"; }
+.lay-lyrics::before, .lay-view-nowplaying [data-cell="lyrics"]::before { content: "// COMMS LOG"; }
+.lay-info, .lay-view-nowplaying [data-cell="info"] { padding-top: 26px; text-align: left; }
+/* the target: a reticle over the cover */
+.lay-art, .lay-view-nowplaying [data-cell="art"] { display: grid; place-items: center; min-height: 0; padding: 28px 12px 12px; }
+.lay-art img, .lay-view-nowplaying [data-cell="art"] img { max-height: 100%; object-fit: contain; }
+.lay-art::after, .lay-view-nowplaying [data-cell="art"]::after { content: ""; position: absolute; inset: 28px 12px 12px; pointer-events: none;
+  background-image: radial-gradient(circle, transparent 0 23%, rgb(255 176 0 / .7) 23.3% 23.8%, transparent 24.1%),
+    linear-gradient(90deg, transparent calc(50% - .5px), rgb(255 176 0 / .55) calc(50% - .5px) calc(50% + .5px), transparent calc(50% + .5px)),
+    linear-gradient(transparent calc(50% - .5px), rgb(255 176 0 / .55) calc(50% - .5px) calc(50% + .5px), transparent calc(50% + .5px));
+  background-size: min(100%, 100vh) min(100%, 100vh), 100% 30%, 30% 100%; background-position: center; background-repeat: no-repeat; }
+/* the comms log: the lyrics as a terminal feed */
+.lay-lyrics, .lay-view-nowplaying [data-cell="lyrics"] { padding: 26px 8px 8px; min-height: 0; }
+.lay-lyrics .lyrics, .lay-view-nowplaying [data-cell="lyrics"] .lyrics { width: 100% !important; height: 100% !important; padding: 30% 6px !important; text-align: left; }
+.lay-lyrics [data-part="lyrics.line"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"] { font: 14px/1.5 "Share Tech Mono", Consolas, monospace; color: #a3ad8c; }
+.lay-lyrics [data-part="lyrics.line"]::before, .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"]::before { content: "> "; color: #ffb000; }
+.lay-lyrics [data-part="lyrics.line"][data-state~="active"], .lay-view-nowplaying [data-cell="lyrics"] [data-part="lyrics.line"][data-state~="active"] { color: #ffcf5a; }
 
 /* the playing row: an amber target marker */
 [data-part="tracklist.row"][data-state~="active"] { background-color: rgb(255 176 0 / .12) !important; box-shadow: inset 3px 0 0 #ffb000; }

@@ -68,6 +68,65 @@
       "variant": "cover"
     }
   },
+  "layout": {
+    "home": {
+      "areas": [
+        "head head list",
+        "art lyr list",
+        "prog prog list",
+        "bar bar list"
+      ],
+      "columns": "minmax(220px, 1fr) minmax(220px, 1fr) minmax(280px, 340px)",
+      "rows": "auto minmax(0, 1fr) 36px 72px",
+      "place": {
+        "head": "info",
+        "art": "art",
+        "lyr": "lyrics",
+        "list": "sidebar",
+        "prog": "progress",
+        "bar": "player"
+      },
+      "below": {
+        "1000px": {
+          "areas": [
+            "head list",
+            "art list",
+            "prog list",
+            "bar list"
+          ],
+          "columns": "1fr minmax(260px, 320px)",
+          "rows": "auto minmax(0, 1fr) 36px 72px",
+          "place": {
+            "head": "info",
+            "art": "art",
+            "list": "sidebar",
+            "prog": "progress",
+            "bar": "player"
+          }
+        }
+      }
+    },
+    "nowplaying": {
+      "areas": [
+        "back head head video",
+        "art art lyr lyr",
+        "prog prog prog prog",
+        "ctl ctl vol vol"
+      ],
+      "columns": "56px 1fr 1fr 56px",
+      "rows": "auto minmax(0, 1fr) 40px 88px",
+      "place": {
+        "back": "back",
+        "head": "info",
+        "video": "video",
+        "art": "art",
+        "lyr": "lyrics",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    }
+  },
   "supports": {
     "background": [
       "black"
