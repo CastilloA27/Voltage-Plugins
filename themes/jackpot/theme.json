@@ -45,6 +45,13 @@
       "variant": "cover"
     }
   },
+  "supports": {
+    "background": [
+      "cover",
+      "gradient",
+      "black"
+    ]
+  },
   "strings": {
     "player.next": "Spin",
     "player.prev": "Back",

@@ -91,6 +91,7 @@ installs a theme and again when it loads one; a theme that breaks the rules isn'
 | `sounds` | UI sounds |
 | `overlay` | `true`: a layer above the whole window for scanlines, vignettes, stickers |
 | `plugin` | A companion plugin's id (offered when your theme is installed) |
+| `supports` | Settings values that work with your theme, e.g. `{"background": ["cover", "black"]}`: while your theme is on, a setting outside the list is shown as the first listed one. The user's own setting isn't changed, so it comes back with other themes. Settings: `background` (gradient, cover, video, black), `miniSkin` (classic, vinyl, cassette, ring, strip) |
 
 Anything Voltage can't use is listed under the theme picker ("Theme report") and by `theme-check`; the rest still works.
 

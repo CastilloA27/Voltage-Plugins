@@ -148,6 +148,11 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `note.addedQueue` | Added to queue: {title} |
 | `note.addedTo` | Added to {playlist} |
 
+## Supported settings (`"supports"`: values that work with the theme; others show as the first listed while it is on, the saved setting is untouched)
+
+- `background` (bgStyle): `gradient`, `cover`, `video`, `black`
+- `miniSkin` (miniSkin): `classic`, `vinyl`, `cassette`, `ring`, `strip`
+
 ## Moments (`<html data-event="...">` for about 1.2 s; not while gaming or with reduced motion)
 
 `track-change`, `skip`, `previous`, `seek`, `like`, `unlike`, `shuffle`, `queue-add`, `download-done`

@@ -2843,6 +2843,36 @@
    },
    "additionalProperties": false
   },
+  "supports": {
+   "type": "object",
+   "description": "Settings values that work with this theme; others are shown as the first listed while it is on",
+   "properties": {
+    "background": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "gradient",
+       "cover",
+       "video",
+       "black"
+      ]
+     }
+    },
+    "miniSkin": {
+     "type": "array",
+     "items": {
+      "enum": [
+       "classic",
+       "vinyl",
+       "cassette",
+       "ring",
+       "strip"
+      ]
+     }
+    }
+   },
+   "additionalProperties": false
+  },
   "overlay": {
    "type": "boolean"
   },

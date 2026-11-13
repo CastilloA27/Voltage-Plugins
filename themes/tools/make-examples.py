@@ -287,6 +287,7 @@ write('jackpot', {
                'accent.album-mix': '0.2', 'shape.radius': '18px'},
     'accent': {'mode': 'fixed', 'color': '#ffcc33'},
     'parts': {'progress': {'variant': 'blocks'}, 'art': {'variant': 'cover'}},
+    'supports': {'background': ['cover', 'gradient', 'black']},  # a music video behind the cabinet fights the reels
     'strings': {'player.next': 'Spin', 'player.prev': 'Back', 'player.shuffle': 'Roll', 'library.liked': 'Jackpots',
                 'empty.queue': 'Insert a song to play', 'nowplaying.idle': 'Insert a song', 'nav.stats': 'Win history',
                 'explore.fromLiked': 'Your jackpots', 'note.liked': 'BIG WIN!', 'menu.playNow': 'Spin it', 'menu.playNext': 'Spin next'},
