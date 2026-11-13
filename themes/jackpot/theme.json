@@ -73,6 +73,7 @@
     "navigate": "assets/tick.wav"
   },
   "overlay": true,
+  "plugin": "reels",
   "layout": {
     "nowplaying": {
       "areas": [

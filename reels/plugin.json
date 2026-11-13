@@ -1,0 +1,13 @@
+{
+  "id": "reels",
+  "name": "Reels",
+  "version": "0.1.0",
+  "author": "Voltage",
+  "description": "For the Jackpot theme: every song gets a rarity (common, rare, epic, legendary) from how often you play it, plus the odd lucky surprise, and the slot reels land to match: a legendary song lands a full line of sevens. Purely a look: no betting, credits or odds.",
+  "main": "main.js",
+  "minVoltage": "1.7.0",
+  "permissions": { "capabilities": ["ui.theme"] },
+  "settings": [
+    { "key": "surprise", "type": "switch", "label": "Lucky surprises (now and then a song lands one rarity higher)", "default": true }
+  ]
+}

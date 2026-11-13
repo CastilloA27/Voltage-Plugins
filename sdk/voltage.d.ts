@@ -119,7 +119,9 @@ declare namespace Voltage {
      *  = under the song in Discovery. Same rules as a panel; an empty string hides it. */
     slot: { render(name: 'discovery.details', html: string, css?: string): void };
     /** Capability ui.theme: adjust the active theme while you run; clear() undoes it. */
-    theme: { set(tokens: Partial<ThemeTokens>): void; clear(): void };
+    theme: { set(tokens: Partial<ThemeTokens>): void; clear(): void;
+      /** Voltage 1.7.1+: the theme rolls for this song (5 whole numbers 0-7, --roll-1..5) and a rarity (data-rarity on html). */
+      rolls(rolls: number[], rarity: "common" | "rare" | "epic" | "legendary" | null): void };
     /** Game packs (plugin.json "game"; capabilities game.log / game.local_http, tier 3). Only while the game runs. */
     game: {
       running(): Promise<boolean>;

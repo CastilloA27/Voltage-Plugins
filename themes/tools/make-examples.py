@@ -292,7 +292,7 @@ write('jackpot', {
                 'empty.queue': 'Insert a song to play', 'nowplaying.idle': 'Insert a song', 'nav.stats': 'Win history',
                 'explore.fromLiked': 'Your jackpots', 'note.liked': 'BIG WIN!', 'menu.playNow': 'Spin it', 'menu.playNext': 'Spin next'},
     'sounds': {'skip': 'assets/reel.wav', 'play': 'assets/bell.wav', 'like': 'assets/coin.wav', 'click': 'assets/tick.wav', 'navigate': 'assets/tick.wav'},
-    'overlay': True,
+    'overlay': True, 'plugin': 'reels',
     'layout': {
         'nowplaying': {
             'areas': ['back info info info info info video', 'l r1 r2 art r4 r5 r', 'prog prog prog prog prog prog prog', 'ctl ctl ctl ctl ctl vol vol'],
@@ -372,6 +372,13 @@ write('jackpot', {
 [data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
 [data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
 [data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+/* rarity from the Reels companion plugin (data-rarity on html): a badge after the title, a lit payline on epic and up */
+:root[data-rarity="rare"] [data-part="info.title"]::after { content: "  ★ RARE"; color: #7fd4ff; font-size: .55em; }
+:root[data-rarity="epic"] [data-part="info.title"]::after { content: "  ★★ EPIC"; color: #d68cff; font-size: .55em; }
+:root[data-rarity="legendary"] [data-part="info.title"]::after { content: "  ★★★ LEGENDARY"; color: #ffe066; font-size: .55em; text-shadow: 0 0 12px #ff9900; }
+:root[data-rarity="epic"] .lay-view-nowplaying [data-cell^="slot:reel"]::after, :root[data-rarity="legendary"] .lay-view-nowplaying [data-cell^="slot:reel"]::after,
+:root[data-rarity="legendary"] .lay-view-nowplaying [data-cell="art"]::after { opacity: .85; }
+
 /* the lever, in the empty column right of the reels: pulls down on a skip / new song */
 .lay-view-nowplaying [data-area="r"] { position: relative; }
 .lay-view-nowplaying [data-area="r"]::before { content: ""; position: absolute; left: 18px; top: 18%; width: 12px; height: 200px; border-radius: 6px;
