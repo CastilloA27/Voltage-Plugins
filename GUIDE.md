@@ -68,7 +68,7 @@ which isn't planned.
 | Tier | What | Who may use it |
 |---|---|---|
 | 1 | events, `storage`, `notify`, `log` | every plugin, no approval |
-| 2 | `playback.control`, `audio.sessions`, `audio.level` (1.6+), `storage.secret` (1.6+), `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.slot` (1.6.1+), `ui.theme` | listed when the user turns the plugin on |
+| 2 | `playback.control`, `audio.sessions`, `audio.level` (1.6+), `storage.secret` (1.6+), `audio.eq`, `lyrics.provider`, `ui.canvas`, `ui.panel`, `ui.slot` (1.6.1+), `ui.theme`, `ui.fx` (1.7.1+: a theme's helper drives its `--fx-*` variables) | listed when the user turns the plugin on |
 | 3 | `files` (exactly the listed existing text files under `%APPDATA%`, `%LOCALAPPDATA%`, `%USERPROFILE%`), `net.fetch` (only the listed `hosts`), `net.ws` (1.6+: a WebSocket to the `local` ports listed, e.g. `"ws://127.0.0.1:4455"` for OBS), `game.log`, `game.local_http` | shown in red; **only plugins from the signed official catalog**, or with Settings › Plugins › Developer mode on |
 
 The approval covers `id` + `permissions` (+ `game`). An update that changes them has to be approved again; one that only
@@ -99,6 +99,7 @@ gets a `BUSY` error); a plugin that stays over its budget for 10 s is turned off
 |---|---|
 | all messages (calls, renders, logs...) | 50 per second |
 | `panel.render`, `theme.set` | 10 per second each |
+| `theme.vars` / `theme.state` | 60 / 20 per second (vars are written once per frame) |
 | `notify` | 3 per 10 s |
 | `log` | 20 per second |
 | `storage.set` | 5 per second; 256 KB stored in all |

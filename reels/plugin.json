@@ -1,12 +1,12 @@
 {
   "id": "reels",
   "name": "Reels",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Voltage",
   "description": "For the Jackpot theme: every song gets a rarity (common, rare, epic, legendary) from how popular it is (YouTube plays) and how often you play it, rolled fresh every time, and the slot reels land to match: a legendary song lands a full line of WILDs. Purely a look: no betting, credits or odds.",
   "main": "main.js",
-  "minVoltage": "1.7.0",
-  "permissions": { "capabilities": ["ui.theme"] },
+  "minVoltage": "1.7.1",
+  "permissions": { "capabilities": ["ui.fx"] },
   "settings": [
     { "key": "surprise", "type": "switch", "label": "Lucky surprises (now and then a song lands one rarity higher)", "default": true }
   ]

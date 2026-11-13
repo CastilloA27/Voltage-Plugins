@@ -16,11 +16,11 @@
   background-image: url("assets/reel.svg"); background-size: var(--reel) calc(var(--reel) * 8); background-repeat: repeat-y; background-position-x: 0; background-position-y: var(--o); position: relative; overflow: hidden;
   border-top: 5px solid #d4af37; border-bottom: 5px solid #d4af37;
   box-shadow: inset 0 26px 30px -10px rgb(0 0 0 / .75), inset 0 -26px 30px -10px rgb(0 0 0 / .75), inset -1px 0 0 #2c2350, 0 0 26px rgb(0 210 255 / .25); }
-.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--roll-1, 0) * var(--reel) * -1); border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
-.lay-view-nowplaying [data-cell="slot:reel2"] { --o: calc(var(--roll-2, 3) * var(--reel) * -1); }
-.lay-view-nowplaying [data-cell="art"] { --o: calc(var(--roll-3, 5) * var(--reel) * -1); padding: var(--reel) 0; display: block; }
-.lay-view-nowplaying [data-cell="slot:reel4"] { --o: calc(var(--roll-4, 2) * var(--reel) * -1); }
-.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--roll-5, 7) * var(--reel) * -1); border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
+.lay-view-nowplaying [data-cell="slot:reel1"] { --o: calc(var(--fx-roll-1, 0) * var(--reel) * -1); border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
+.lay-view-nowplaying [data-cell="slot:reel2"] { --o: calc(var(--fx-roll-2, 3) * var(--reel) * -1); }
+.lay-view-nowplaying [data-cell="art"] { --o: calc(var(--fx-roll-3, 5) * var(--reel) * -1); padding: var(--reel) 0; display: block; }
+.lay-view-nowplaying [data-cell="slot:reel4"] { --o: calc(var(--fx-roll-4, 2) * var(--reel) * -1); }
+.lay-view-nowplaying [data-cell="slot:reel5"] { --o: calc(var(--fx-roll-5, 7) * var(--reel) * -1); border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
 .lay-view-nowplaying [data-cell="art"] .art-part { display: block; width: var(--reel); height: var(--reel); }
 .lay-view-nowplaying [data-cell="art"] img { width: var(--reel) !important; height: var(--reel) !important; max-width: none; border-radius: 0; object-fit: cover;
   box-shadow: inset 0 0 0 4px #00d2ff, 0 0 24px rgb(0 210 255 / .6); }
@@ -91,12 +91,12 @@
 [data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #c8fbff, #00d2ff 60%, #0a3f6e) !important; box-shadow: 0 0 0 4px #d4af37, 0 0 18px rgb(0 210 255 / .7) !important; color: #04101f !important; }
 [data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #e6c8ff, #7000ff 60%, #2a0a66) !important; color: #f4ecff !important; box-shadow: 0 0 0 3px #d4af37 !important; }
 [data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ffd0f4, #f093fb 55%, #6a1a6e) !important; color: #2a0626 !important; box-shadow: 0 0 0 3px #d4af37 !important; }
-/* rarity from the Reels companion plugin (data-rarity on html): a badge after the title, a lit payline on epic and up */
-:root[data-rarity="rare"] [data-part="info.title"]::after { content: "  ★ RARE"; color: #7fd4ff; font-size: .55em; }
-:root[data-rarity="epic"] [data-part="info.title"]::after { content: "  ★★ EPIC"; color: #d68cff; font-size: .55em; }
-:root[data-rarity="legendary"] [data-part="info.title"]::after { content: "  ★★★ LEGENDARY"; color: #ffe066; font-size: .55em; text-shadow: 0 0 12px #ff9900; }
-:root[data-rarity="epic"] .lay-view-nowplaying [data-cell^="slot:reel"]::after, :root[data-rarity="legendary"] .lay-view-nowplaying [data-cell^="slot:reel"]::after,
-:root[data-rarity="legendary"] .lay-view-nowplaying [data-cell="art"]::after { opacity: .85; }
+/* rarity from the Reels helper plugin (data-fx on the app, round 15 F1): a badge after the title, a lit payline on epic and up */
+[data-part="app"][data-fx~="rare"] [data-part="info.title"]::after { content: "  ★ RARE"; color: #7fd4ff; font-size: .55em; }
+[data-part="app"][data-fx~="epic"] [data-part="info.title"]::after { content: "  ★★ EPIC"; color: #d68cff; font-size: .55em; }
+[data-part="app"][data-fx~="legendary"] [data-part="info.title"]::after { content: "  ★★★ LEGENDARY"; color: #ffe066; font-size: .55em; text-shadow: 0 0 12px #ff9900; }
+[data-part="app"][data-fx~="epic"] .lay-view-nowplaying [data-cell^="slot:reel"]::after, [data-part="app"][data-fx~="legendary"] .lay-view-nowplaying [data-cell^="slot:reel"]::after,
+[data-part="app"][data-fx~="legendary"] .lay-view-nowplaying [data-cell="art"]::after { opacity: .85; }
 
 /* the lever, in the empty column right of the reels: pulls down on a skip / new song */
 .lay-view-nowplaying [data-area="r"] { position: relative; }

@@ -235,8 +235,14 @@ For about 1.2 seconds after something happens, `<html>` carries `data-event`: `t
 @keyframes pop { 50% { transform: scale(1.06); } }
 ```
 
-**Rolls:** on every new song `--roll-1` ... `--roll-5` on `<html>` get fresh random whole numbers 0-7, e.g. for slot
-reels: `background-position-y: calc(var(--roll-1) * -100px)` (see the Jackpot theme).
+**Rolls:** on every new song `--fx-roll-1` ... `--fx-roll-5` on `<html>` get fresh random whole numbers 0-7, e.g. for slot
+reels: `background-position-y: calc(var(--fx-roll-1) * -100px)` (see the Jackpot theme).
+
+**Your helper's effects** (`ui.fx`, while your theme names the plugin in `"plugin"`): `voltage.theme.vars({hp: 0.42})` sets
+`--fx-hp` on `<html>` (numbers, lengths, angles, %, colours, keywords; 32 names), and `voltage.theme.state('app', ['rare'])`
+sets `data-fx="rare"` on `[data-part="app"]`. The Reels plugin does both for Jackpot: `--fx-roll-1..5` (it overrides the
+random rolls) and `[data-part="app"][data-fx~="legendary"]`. Everything is cleared when the plugin stops or your theme is
+switched off.
 
 ## Holiday hello
 

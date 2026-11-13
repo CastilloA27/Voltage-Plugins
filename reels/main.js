@@ -34,10 +34,12 @@ function rollsFor(rarity) {
 
 voltage.on('settings', (s) => { if (typeof s.surprise === 'boolean') surprise = s.surprise; });
 voltage.on('track', async (t) => {
-  if (!t) return voltage.theme.rolls([], null);
+  if (!t) { voltage.theme.vars(Object.fromEntries([1, 2, 3, 4, 5].map((n) => [`roll-${n}`, null]))); return voltage.theme.state('app', []); }
   const key = `p:${t.id}`;
   const plays = ((await voltage.storage.get(key)) ?? 0) + 1;
   await voltage.storage.set(key, plays).catch(() => {}); // a few bytes per song; storage is 256 KB in all
   const rarity = rarityOf(plays, t.views);
-  voltage.theme.rolls(rollsFor(rarity), rarity);
+  // round 15 F1: the theme's own variables (--fx-roll-1..5) and the rarity as a word on the app (data-fx)
+  voltage.theme.vars(Object.fromEntries(rollsFor(rarity).map((v, i) => [`roll-${i + 1}`, v])));
+  voltage.theme.state('app', [rarity]);
 });

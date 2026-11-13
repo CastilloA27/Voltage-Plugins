@@ -122,8 +122,12 @@ declare namespace Voltage {
     slot: { render(name: 'discovery.details', html: string, css?: string): void };
     /** Capability ui.theme: adjust the active theme while you run; clear() undoes it. */
     theme: { set(tokens: Partial<ThemeTokens>): void; clear(): void;
-      /** Voltage 1.7.1+: the theme rolls for this song (5 whole numbers 0-7, --roll-1..5) and a rarity (data-rarity on html). */
-      rolls(rolls: number[], rarity: "common" | "rare" | "epic" | "legendary" | null): void };
+      /** Voltage 1.7.1+, capability ui.fx, only while you are the active theme's helper ("plugin" in its theme.json): the
+       *  theme's own CSS variables. vars({hp: 0.42, 'roll-1': 3}) -> --fx-hp, --fx-roll-1 on <html>. Names a-z 0-9 - (1-24),
+       *  32 at most; values: number, length, angle, %, colour or a keyword; null removes one; cleared when you stop. */
+      vars(vars: Record<string, number | string | null>): void;
+      /** Voltage 1.7.1+, ui.fx: words in data-fx on [data-part=app] (up to 8, a-z 0-9 -); [] clears. Other parts: 1.8. */
+      state(part: 'app', words: string[]): void };
     /** Game packs (plugin.json "game"; capabilities game.log / game.local_http, tier 3). Only while the game runs. */
     game: {
       running(): Promise<boolean>;
