@@ -1688,6 +1688,181 @@
      "type": "string",
      "maxLength": 60,
      "description": "Voltage: Recently played"
+    },
+    "menu.playNow": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Play now"
+    },
+    "menu.playNext": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Play next"
+    },
+    "menu.addQueue": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Add to queue"
+    },
+    "menu.addPlaylist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Add to playlist…"
+    },
+    "menu.goArtist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Go to {artist}"
+    },
+    "menu.goAlbum": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Go to album"
+    },
+    "menu.radio": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: More like this"
+    },
+    "menu.download": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Download (play offline)"
+    },
+    "menu.removeDownload": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Remove download"
+    },
+    "menu.copyLink": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Copy link"
+    },
+    "menu.copyLinkAt": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Copy link at {time}"
+    },
+    "menu.share": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Share…"
+    },
+    "menu.removeQueue": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Remove from queue"
+    },
+    "menu.removePlaylist": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Remove from playlist"
+    },
+    "menu.play": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Play"
+    },
+    "menu.shufflePlay": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Shuffle play"
+    },
+    "menu.open": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Open"
+    },
+    "explore.forYou": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: For you"
+    },
+    "explore.listenAgain": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Listen again"
+    },
+    "explore.mixes": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Your mixes"
+    },
+    "explore.onRepeat": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: On repeat"
+    },
+    "explore.fromLiked": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: From your liked songs"
+    },
+    "explore.forgotten": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Forgotten favourites"
+    },
+    "explore.albums": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Albums"
+    },
+    "explore.singles": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Singles & EPs"
+    },
+    "explore.related": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Fans also like"
+    },
+    "mini.expand": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Back to full window"
+    },
+    "dialog.cancel": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Cancel"
+    },
+    "dialog.notNow": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Not now"
+    },
+    "note.liked": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Liked"
+    },
+    "note.disliked": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Disliked"
+    },
+    "note.ratingRemoved": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Rating removed"
+    },
+    "note.playNext": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Playing next: {title}"
+    },
+    "note.addedQueue": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Added to queue: {title}"
+    },
+    "note.addedTo": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Added to {playlist}"
     }
    },
    "additionalProperties": false

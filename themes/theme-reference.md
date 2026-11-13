@@ -112,6 +112,41 @@ CI fails when this file is out of date. The parts themselves are in `docs/parts.
 | `view.stats` | Your listening |
 | `library.liked` | Liked songs |
 | `library.recent` | Recently played |
+| `menu.playNow` | Play now |
+| `menu.playNext` | Play next |
+| `menu.addQueue` | Add to queue |
+| `menu.addPlaylist` | Add to playlist… |
+| `menu.goArtist` | Go to {artist} |
+| `menu.goAlbum` | Go to album |
+| `menu.radio` | More like this |
+| `menu.download` | Download (play offline) |
+| `menu.removeDownload` | Remove download |
+| `menu.copyLink` | Copy link |
+| `menu.copyLinkAt` | Copy link at {time} |
+| `menu.share` | Share… |
+| `menu.removeQueue` | Remove from queue |
+| `menu.removePlaylist` | Remove from playlist |
+| `menu.play` | Play |
+| `menu.shufflePlay` | Shuffle play |
+| `menu.open` | Open |
+| `explore.forYou` | For you |
+| `explore.listenAgain` | Listen again |
+| `explore.mixes` | Your mixes |
+| `explore.onRepeat` | On repeat |
+| `explore.fromLiked` | From your liked songs |
+| `explore.forgotten` | Forgotten favourites |
+| `explore.albums` | Albums |
+| `explore.singles` | Singles & EPs |
+| `explore.related` | Fans also like |
+| `mini.expand` | Back to full window |
+| `dialog.cancel` | Cancel |
+| `dialog.notNow` | Not now |
+| `note.liked` | Liked |
+| `note.disliked` | Disliked |
+| `note.ratingRemoved` | Rating removed |
+| `note.playNext` | Playing next: {title} |
+| `note.addedQueue` | Added to queue: {title} |
+| `note.addedTo` | Added to {playlist} |
 
 ## Moments (`<html data-event="...">` for about 1.2 s; not while gaming or with reduced motion)
 
