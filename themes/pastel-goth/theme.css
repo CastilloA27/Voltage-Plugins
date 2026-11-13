@@ -1,4 +1,4 @@
-[data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Volt Round", "Segoe UI", sans-serif; letter-spacing: .05em; }
+[data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Fredoka", "Segoe UI", sans-serif; font-weight: 600; letter-spacing: .02em; }
 [data-part="titlebar.brand"] { font-size: 16px; color: #ff9ad5; text-shadow: 0 0 12px rgb(255 154 213 / .6); }
 [data-part="info.title"] { font-size: 24px; }
 [data-part="tracklist.row"][data-state~="active"] { background: rgb(255 154 213 / .14); }

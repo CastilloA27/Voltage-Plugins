@@ -1,0 +1,104 @@
+{
+  "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
+  "id": "jackpot",
+  "name": "Jackpot",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "extends": "voltage",
+  "appearance": "dark",
+  "description": "A slot cabinet: the cover in the reel window, reels that spin on every new song, marquee bulbs, JACKPOT when you like a song.",
+  "fonts": [
+    {
+      "family": "Bungee",
+      "src": "assets/bungee/Bungee-Regular.ttf"
+    }
+  ],
+  "tokens": {
+    "color.bg": "#12030a",
+    "color.text": "#fff4e0",
+    "color.text-dim": "#e8c9a0",
+    "color.text-strong": "#ffffff",
+    "color.surface": "rgba(52, 6, 16, .78)",
+    "color.border": "rgba(255, 204, 51, .38)",
+    "color.brand": "#ffcc33",
+    "color.on-accent": "#2a0a00",
+    "color.knob": "#ffe28a",
+    "color.select-bg": "#4a0c18",
+    "surface.menu": "#28050c",
+    "surface.pop": "#2e060e",
+    "surface.tip": "#28050c",
+    "effect.blur": "10px",
+    "effect.glow-size": "16px",
+    "effect.glow-alpha": "55%",
+    "accent.album-mix": "0.2",
+    "shape.radius": "18px"
+  },
+  "accent": {
+    "mode": "fixed",
+    "color": "#ffcc33"
+  },
+  "parts": {
+    "progress": {
+      "variant": "blocks"
+    },
+    "art": {
+      "variant": "cover"
+    }
+  },
+  "strings": {
+    "player.next": "Spin",
+    "player.prev": "Back",
+    "player.shuffle": "Roll",
+    "library.liked": "Jackpots",
+    "empty.queue": "Insert a song to play",
+    "nowplaying.idle": "Insert a song",
+    "nav.stats": "Payout history",
+    "explore.fromLiked": "Your jackpots",
+    "note.liked": "JACKPOT!",
+    "menu.playNow": "Spin it",
+    "menu.playNext": "Spin next"
+  },
+  "sounds": {
+    "skip": "assets/reel.wav",
+    "play": "assets/bell.wav",
+    "like": "assets/coin.wav",
+    "click": "assets/tick.wav",
+    "navigate": "assets/tick.wav"
+  },
+  "overlay": true,
+  "layout": {
+    "nowplaying": {
+      "areas": [
+        "back info video",
+        "rl art rr",
+        "prog prog prog",
+        "ctl ctl vol"
+      ],
+      "columns": "1fr minmax(0, 440px) 1fr",
+      "rows": "auto minmax(0, 1fr) 48px 96px",
+      "place": {
+        "back": "back",
+        "info": "info",
+        "video": "video",
+        "rl": "slot:reel-left",
+        "art": "art",
+        "rr": "slot:reel-right",
+        "prog": "progress",
+        "ctl": "player",
+        "vol": "volume"
+      }
+    },
+    "mini": {
+      "areas": [
+        "art meta ctl"
+      ],
+      "columns": "64px 1fr auto",
+      "place": {
+        "art": "art",
+        "meta": "info",
+        "ctl": "player"
+      }
+    }
+  },
+  "css": "theme.css"
+}

@@ -53,6 +53,19 @@ def tone(kind):
     elif kind == 'chime':   # a soft bell
         n = int(sr * 0.25)
         out = [(math.sin(2 * math.pi * 1046 * i / sr) + 0.4 * math.sin(2 * math.pi * 1568 * i / sr)) * 0.22 * math.exp(-i / (sr * 0.07)) for i in range(n)]
+    elif kind == 'bell':    # the slot bell: bright, ringing
+        n = int(sr * 0.6)
+        out = [(math.sin(2 * math.pi * 1760 * i / sr) + 0.5 * math.sin(2 * math.pi * 2637 * i / sr) + 0.3 * math.sin(2 * math.pi * 3520 * i / sr)) * 0.18 * math.exp(-i / (sr * 0.18)) for i in range(n)]
+    elif kind == 'coin':    # a coin chime: two quick high notes
+        n = int(sr * 0.35)
+        out = [math.sin(2 * math.pi * (1975 if i < sr * 0.08 else 2637) * i / sr) * 0.22 * math.exp(-(i % int(sr * 0.08) if i < sr * 0.08 else i - sr * 0.08) / (sr * 0.09)) for i in range(n)]
+    elif kind == 'reel':    # reels: a fast run of ticks slowing down
+        n = int(sr * 0.5); t, out = 0.0, [0.0] * n
+        gap = 0.018
+        while t < 0.48:
+            k0 = int(t * sr)
+            for i in range(k0, min(n, k0 + int(sr * 0.006))): out[i] += rnd.uniform(-1, 1) * 0.35 * math.exp(-(i - k0) / (sr * 0.0015))
+            t += gap; gap *= 1.12
     import io
     buf = io.BytesIO()
     with wave.open(buf, 'wb') as w:
@@ -60,6 +73,10 @@ def tone(kind):
         w.writeframes(b''.join(struct.pack('<h', int(max(-1, min(1, v)) * 32000)) for v in out))
     return buf.getvalue()
 
+
+FONTS = HERE / 'fonts'  # OFL fonts from github.com/google/fonts, each with its OFL.txt (R14-8)
+CC0 = 'Made for Voltage. CC0 1.0: public domain (https://creativecommons.org/publicdomain/zero/1.0/).\n'
+ofl = lambda name, f: {f'assets/{name}/{f}': (FONTS / name / f).read_bytes(), f'assets/{name}/OFL.txt': (FONTS / name / 'OFL.txt').read_bytes()}
 
 SVG = lambda body, vb='0 0 64 64': f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}">{body}</svg>\n'
 
@@ -108,7 +125,7 @@ write('terminal', {
 [data-part="tracklist.row"][data-state~="active"] { background: rgb(95 215 255 / .14); }
 [data-part="tracklist.row"][data-state~="active"] [data-part="tracklist.row.title"]::before { content: "> "; color: var(--accent); }
 [data-part="overlay"] { background: repeating-linear-gradient(0deg, rgb(0 0 0 / .18) 0 1px, transparent 1px 3px); }
-''', files={'assets/volt-pixel.ttf': font('Volt Pixel')})
+''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/LICENSE.txt': CC0})
 
 # ── 3. crt-green: an original green-phosphor terminal (a vault-computer feel, nothing copied) ──
 write('crt-green', {
@@ -142,7 +159,7 @@ write('crt-green', {
 }
 @keyframes crt-flicker { 0%, 100% { opacity: 1; } 47% { opacity: .96; } 48% { opacity: .9; } 49% { opacity: .97; } }
 @media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
-''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/tick.wav': tone('tick'), 'assets/blip.wav': tone('blip'), 'assets/hum.wav': tone('hum')})
+''', files={'assets/volt-pixel.ttf': font('Volt Pixel'), 'assets/LICENSE.txt': CC0, 'assets/tick.wav': tone('tick'), 'assets/blip.wav': tone('blip'), 'assets/hum.wav': tone('hum')})
 
 # ── 4. pastel-goth: pink / lilac on black, a rounded font, little bats, stars and bows (original art) ──
 bat = SVG('<path fill="#ff9ad5" d="M32 22c2-4 4-6 4-6l1 6c4-1 8 0 10 3 3-3 8-4 13-2-5 2-7 7-7 12-4-3-9-3-12 0-1-3-4-5-9-5s-8 2-9 5c-3-3-8-3-12 0 0-5-2-10-7-12 5-2 10-1 13 2 2-3 6-4 10-3l1-6s2 2 4 6z"/><circle cx="29" cy="29" r="1.6" fill="#1a0b1d"/><circle cx="35" cy="29" r="1.6" fill="#1a0b1d"/>')
@@ -152,7 +169,7 @@ skull = SVG('<path fill="#f3e6ff" d="M32 8c-12 0-20 8-20 19 0 6 3 10 7 13v7c0 2 
 write('pastel-goth', {
     'id': 'pastel-goth', 'name': 'Pastel goth', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
     'description': 'Pink and lilac on black, a rounded font, round covers, little bats, stars and bows around the window.',
-    'fonts': [{'family': 'Volt Round', 'src': 'assets/volt-round.ttf'}],
+    'fonts': [{'family': 'Fredoka', 'src': 'assets/fredoka/Fredoka.ttf', 'weight': '300 700'}],
     'tokens': {'color.bg': '#120914', 'color.text': '#ffe6f4', 'color.text-dim': '#d8a9cc', 'color.text-strong': '#fff4fb',
                'color.text-soft': '#ffd9ee', 'color.text-muted': '#e9bfe0', 'color.surface': 'rgba(42, 16, 48, .55)', 'color.border': 'rgba(255, 154, 213, .22)',
                'color.brand': '#ff9ad5', 'color.on-accent': '#2a0f2a', 'color.knob': '#ffc7e8',
@@ -164,7 +181,7 @@ write('pastel-goth', {
     'icons': {'heart': 'assets/bow.svg'},
     'overlay': True,
 }, css='''
-[data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Volt Round", "Segoe UI", sans-serif; letter-spacing: .05em; }
+[data-part="titlebar.brand"], [data-part="info.title"] { font-family: "Fredoka", "Segoe UI", sans-serif; font-weight: 600; letter-spacing: .02em; }
 [data-part="titlebar.brand"] { font-size: 16px; color: #ff9ad5; text-shadow: 0 0 12px rgb(255 154 213 / .6); }
 [data-part="info.title"] { font-size: 24px; }
 [data-part="tracklist.row"][data-state~="active"] { background: rgb(255 154 213 / .14); }
@@ -177,7 +194,7 @@ write('pastel-goth', {
   opacity: .85;
 }
 [data-part="nowplaying.idle"] { background: url("assets/skull.svg") no-repeat center top / 72px; padding-top: 84px; }
-''', files={'assets/volt-round.ttf': font('Volt Round', True), 'assets/bat.svg': bat, 'assets/star.svg': star, 'assets/bow.svg': bow, 'assets/skull.svg': skull})
+''', files={**ofl('fredoka', 'Fredoka.ttf'), 'CREDITS.md': '# Credits\n\n- Font: Fredoka by the Fredoka Project Authors, SIL Open Font License 1.1 (assets/fredoka/OFL.txt).\n- Art: made for Voltage, CC0.\n', 'assets/bat.svg': bat, 'assets/star.svg': star, 'assets/bow.svg': bow, 'assets/skull.svg': skull})
 
 # ── 5. sidebar: the streaming-app shape (library left, the song list centre, the player as a bar along the bottom) ──
 write('sidebar', {
@@ -228,3 +245,80 @@ write('frosted-light', {
 [data-part="info.title"] { font-weight: 700; }
 html[data-appearance="light"] [data-part="tracklist.row.artist"], html[data-appearance="light"] [data-part="tracklist.row.time"] { color: rgb(var(--ink) / .72); }
 ''')
+
+# ── 7. jackpot: a slot-machine cabinet look. Purely a look: no betting, credits or odds (docs/review-round-14.md > Jackpot) ──
+write('jackpot', {
+    'id': 'jackpot', 'name': 'Jackpot', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'description': 'A slot cabinet: the cover in the reel window, reels that spin on every new song, marquee bulbs, JACKPOT when you like a song.',
+    'fonts': [{'family': 'Bungee', 'src': 'assets/bungee/Bungee-Regular.ttf'}],
+    'tokens': {'color.bg': '#12030a', 'color.text': '#fff4e0', 'color.text-dim': '#e8c9a0', 'color.text-strong': '#ffffff',
+               'color.surface': 'rgba(52, 6, 16, .78)', 'color.border': 'rgba(255, 204, 51, .38)', 'color.brand': '#ffcc33',
+               'color.on-accent': '#2a0a00', 'color.knob': '#ffe28a', 'color.select-bg': '#4a0c18', 'surface.menu': '#28050c',
+               'surface.pop': '#2e060e', 'surface.tip': '#28050c', 'effect.blur': '10px', 'effect.glow-size': '16px', 'effect.glow-alpha': '55%',
+               'accent.album-mix': '0.2', 'shape.radius': '18px'},
+    'accent': {'mode': 'fixed', 'color': '#ffcc33'},
+    'parts': {'progress': {'variant': 'blocks'}, 'art': {'variant': 'cover'}},
+    'strings': {'player.next': 'Spin', 'player.prev': 'Back', 'player.shuffle': 'Roll', 'library.liked': 'Jackpots',
+                'empty.queue': 'Insert a song to play', 'nowplaying.idle': 'Insert a song', 'nav.stats': 'Payout history',
+                'explore.fromLiked': 'Your jackpots', 'note.liked': 'JACKPOT!', 'menu.playNow': 'Spin it', 'menu.playNext': 'Spin next'},
+    'sounds': {'skip': 'assets/reel.wav', 'play': 'assets/bell.wav', 'like': 'assets/coin.wav', 'click': 'assets/tick.wav', 'navigate': 'assets/tick.wav'},
+    'overlay': True,
+    'layout': {
+        'nowplaying': {
+            'areas': ['back info video', 'rl art rr', 'prog prog prog', 'ctl ctl vol'],
+            'columns': '1fr minmax(0, 440px) 1fr', 'rows': 'auto minmax(0, 1fr) 48px 96px',
+            'place': {'back': 'back', 'info': 'info', 'video': 'video', 'rl': 'slot:reel-left', 'art': 'art', 'rr': 'slot:reel-right',
+                      'prog': 'progress', 'ctl': 'player', 'vol': 'volume'}},
+        'mini': {'areas': ['art meta ctl'], 'columns': '64px 1fr auto', 'place': {'art': 'art', 'meta': 'info', 'ctl': 'player'}},
+    },
+}, css=r"""
+/* marquee lettering */
+[data-part="titlebar.brand"], [data-part="info.title"], .for-you-title { font-family: "Bungee", "Bahnschrift", sans-serif; letter-spacing: .04em; }
+[data-part="titlebar.brand"] { color: #ffcc33; text-shadow: 0 0 10px rgb(255 204 51 / .7); }
+[data-part="info.title"] { color: #ffd966; text-shadow: 0 0 12px rgb(255 190 40 / .75), 0 2px 0 #7a3b00; }
+
+/* the cabinet's reel window: a gold frame around the cover */
+.lay-view-nowplaying [data-cell="art"] { padding: 14px; border-radius: 22px; background: linear-gradient(#5a1020, #2a0610);
+  box-shadow: inset 0 0 0 4px #e0a82e, inset 0 0 0 7px #7a4a00, inset 0 0 40px rgb(0 0 0 / .8), 0 0 30px rgb(255 190 40 / .25); overflow: hidden; }
+.lay-view-nowplaying [data-cell="art"] img { border-radius: 10px; }
+/* the side reels: striped drums (a companion plugin may draw the real queue covers into them) */
+.lay-view-nowplaying [data-cell^="slot"] { border-radius: 18px; margin: 10% 0;
+  background: repeating-linear-gradient(180deg, #f6e7c8 0 46px, #c9b48c 46px 50px, #f6e7c8 50px 96px, #b3261e 96px 100px);
+  box-shadow: inset 0 18px 24px rgb(0 0 0 / .65), inset 0 -18px 24px rgb(0 0 0 / .65), 0 0 0 4px #e0a82e; opacity: .85; }
+
+/* a new song: the reels spin and stop left to right */
+@keyframes reel-spin { from { background-position-y: 0; filter: blur(3px); } to { background-position-y: 1600px; filter: blur(0); } }
+@keyframes cover-spin { 0% { transform: translateY(-60%); filter: blur(6px); } 70% { transform: translateY(6%); filter: blur(1px); } 100% { transform: none; filter: none; } }
+:root[data-event="track-change"] [data-cell="slot:reel-left"], :root[data-event="skip"] [data-cell="slot:reel-left"], :root[data-event="previous"] [data-cell="slot:reel-left"] { animation: reel-spin .7s cubic-bezier(.2, .7, .3, 1); }
+:root[data-event="track-change"] [data-cell="slot:reel-right"], :root[data-event="skip"] [data-cell="slot:reel-right"], :root[data-event="previous"] [data-cell="slot:reel-right"] { animation: reel-spin 1.05s cubic-bezier(.2, .7, .3, 1); }
+:root[data-event="track-change"] [data-part="art"] img, :root[data-event="skip"] [data-part="art"] img, :root[data-event="previous"] [data-part="art"] img { animation: cover-spin .85s cubic-bezier(.2, .7, .3, 1); }
+
+/* marquee bulbs around the window, chasing */
+[data-part="overlay"] {
+  background:
+    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
+    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
+  animation: bulbs 1.2s steps(2) infinite;
+}
+@keyframes bulbs { to { background-position: 26px 4px, 39px calc(100% - 4px); } }
+/* a like: JACKPOT across the window, bulbs racing */
+[data-part="overlay"]::after { content: "JACKPOT"; position: absolute; inset: 0; display: grid; place-items: center; font: 900 min(14vw, 150px) "Bungee", sans-serif;
+  color: #ffd966; text-shadow: 0 0 30px #ff9900, 0 6px 0 #7a3b00; opacity: 0; }
+:root[data-event="like"] [data-part="overlay"]::after { animation: jackpot 1.2s ease-out; }
+:root[data-event="like"] [data-part="overlay"] { animation-duration: .25s; }
+@keyframes jackpot { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.08); } 35%, 55% { opacity: 1; transform: scale(1); } 45% { opacity: .4; } 100% { opacity: 0; transform: scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
+
+/* progress: a row of bulbs */
+.prog-blocks { justify-content: space-between; }
+.prog-blocks i { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; background: #4a1a10; box-shadow: inset 0 0 3px rgb(0 0 0 / .8); }
+.prog-blocks i.on { background: radial-gradient(circle at 40% 35%, #fff6c8, #ffb800 60%, #b36b00); box-shadow: 0 0 8px #ffb800; }
+/* arcade buttons: play green, next amber, previous red */
+[data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
+[data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+[data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+/* the mini player: one reel window */
+.lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #e0a82e; padding: 4px; background: #2a0610; }
+""", files={**ofl('bungee', 'Bungee-Regular.ttf'), 'assets/reel.wav': tone('reel'), 'assets/bell.wav': tone('bell'),
+            'assets/coin.wav': tone('coin'), 'assets/tick.wav': tone('tick'),
+            'CREDITS.md': '# Credits\n\n- Font: Bungee by the Bungee Project Authors (David Jonathan Ross), SIL Open Font License 1.1 (assets/bungee/OFL.txt).\n- Sounds and art: made for Voltage, CC0.\n- Purely a look: no betting, credits or odds.\n'})

@@ -1,0 +1,47 @@
+/* marquee lettering */
+[data-part="titlebar.brand"], [data-part="info.title"], .for-you-title { font-family: "Bungee", "Bahnschrift", sans-serif; letter-spacing: .04em; }
+[data-part="titlebar.brand"] { color: #ffcc33; text-shadow: 0 0 10px rgb(255 204 51 / .7); }
+[data-part="info.title"] { color: #ffd966; text-shadow: 0 0 12px rgb(255 190 40 / .75), 0 2px 0 #7a3b00; }
+
+/* the cabinet's reel window: a gold frame around the cover */
+.lay-view-nowplaying [data-cell="art"] { padding: 14px; border-radius: 22px; background: linear-gradient(#5a1020, #2a0610);
+  box-shadow: inset 0 0 0 4px #e0a82e, inset 0 0 0 7px #7a4a00, inset 0 0 40px rgb(0 0 0 / .8), 0 0 30px rgb(255 190 40 / .25); overflow: hidden; }
+.lay-view-nowplaying [data-cell="art"] img { border-radius: 10px; }
+/* the side reels: striped drums (a companion plugin may draw the real queue covers into them) */
+.lay-view-nowplaying [data-cell^="slot"] { border-radius: 18px; margin: 10% 0;
+  background: repeating-linear-gradient(180deg, #f6e7c8 0 46px, #c9b48c 46px 50px, #f6e7c8 50px 96px, #b3261e 96px 100px);
+  box-shadow: inset 0 18px 24px rgb(0 0 0 / .65), inset 0 -18px 24px rgb(0 0 0 / .65), 0 0 0 4px #e0a82e; opacity: .85; }
+
+/* a new song: the reels spin and stop left to right */
+@keyframes reel-spin { from { background-position-y: 0; filter: blur(3px); } to { background-position-y: 1600px; filter: blur(0); } }
+@keyframes cover-spin { 0% { transform: translateY(-60%); filter: blur(6px); } 70% { transform: translateY(6%); filter: blur(1px); } 100% { transform: none; filter: none; } }
+:root[data-event="track-change"] [data-cell="slot:reel-left"], :root[data-event="skip"] [data-cell="slot:reel-left"], :root[data-event="previous"] [data-cell="slot:reel-left"] { animation: reel-spin .7s cubic-bezier(.2, .7, .3, 1); }
+:root[data-event="track-change"] [data-cell="slot:reel-right"], :root[data-event="skip"] [data-cell="slot:reel-right"], :root[data-event="previous"] [data-cell="slot:reel-right"] { animation: reel-spin 1.05s cubic-bezier(.2, .7, .3, 1); }
+:root[data-event="track-change"] [data-part="art"] img, :root[data-event="skip"] [data-part="art"] img, :root[data-event="previous"] [data-part="art"] img { animation: cover-spin .85s cubic-bezier(.2, .7, .3, 1); }
+
+/* marquee bulbs around the window, chasing */
+[data-part="overlay"] {
+  background:
+    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 0 4px / 26px 14px repeat-x,
+    radial-gradient(circle, #ffe9a0 0 3px, #ffb800 4px, transparent 6px) 13px calc(100% - 4px) / 26px 14px repeat-x;
+  animation: bulbs 1.2s steps(2) infinite;
+}
+@keyframes bulbs { to { background-position: 26px 4px, 39px calc(100% - 4px); } }
+/* a like: JACKPOT across the window, bulbs racing */
+[data-part="overlay"]::after { content: "JACKPOT"; position: absolute; inset: 0; display: grid; place-items: center; font: 900 min(14vw, 150px) "Bungee", sans-serif;
+  color: #ffd966; text-shadow: 0 0 30px #ff9900, 0 6px 0 #7a3b00; opacity: 0; }
+:root[data-event="like"] [data-part="overlay"]::after { animation: jackpot 1.2s ease-out; }
+:root[data-event="like"] [data-part="overlay"] { animation-duration: .25s; }
+@keyframes jackpot { 0% { opacity: 0; transform: scale(.6); } 20% { opacity: 1; transform: scale(1.08); } 35%, 55% { opacity: 1; transform: scale(1); } 45% { opacity: .4; } 100% { opacity: 0; transform: scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { [data-part="overlay"] { animation: none; } }
+
+/* progress: a row of bulbs */
+.prog-blocks { justify-content: space-between; }
+.prog-blocks i { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; background: #4a1a10; box-shadow: inset 0 0 3px rgb(0 0 0 / .8); }
+.prog-blocks i.on { background: radial-gradient(circle at 40% 35%, #fff6c8, #ffb800 60%, #b36b00); box-shadow: 0 0 8px #ffb800; }
+/* arcade buttons: play green, next amber, previous red */
+[data-part="player.button.play"] { background: radial-gradient(circle at 40% 30%, #8dff9a, #1fa83a 60%, #0b5a1c) !important; box-shadow: 0 0 0 4px #e0a82e, 0 0 18px rgb(80 255 120 / .6) !important; color: #032a0c !important; }
+[data-part="player.button.next"] { background: radial-gradient(circle at 40% 30%, #ffe38a, #f0a000 60%, #7a4a00) !important; color: #2a1500 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+[data-part="player.button.prev"] { background: radial-gradient(circle at 40% 30%, #ff9a8a, #d0221a 60%, #6a0a06) !important; color: #2a0300 !important; box-shadow: 0 0 0 3px #e0a82e !important; }
+/* the mini player: one reel window */
+.lay-view-mini [data-cell="art"] { border-radius: 10px; box-shadow: inset 0 0 0 3px #e0a82e; padding: 4px; background: #2a0610; }

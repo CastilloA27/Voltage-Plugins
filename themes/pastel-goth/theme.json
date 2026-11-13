@@ -9,8 +9,9 @@
   "description": "Pink and lilac on black, a rounded font, round covers, little bats, stars and bows around the window.",
   "fonts": [
     {
-      "family": "Volt Round",
-      "src": "assets/volt-round.ttf"
+      "family": "Fredoka",
+      "src": "assets/fredoka/Fredoka.ttf",
+      "weight": "300 700"
     }
   ],
   "tokens": {
