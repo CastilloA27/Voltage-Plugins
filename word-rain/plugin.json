@@ -1,0 +1,10 @@
+{
+  "id": "word-rain",
+  "name": "Word rain",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "For the Word Rain theme: the words of the line being sung fall behind Voltage one after another and pile up at the bottom; a new song sweeps them away. Needs synced lyrics (the words are spaced evenly through the line).",
+  "main": "main.js",
+  "minVoltage": "1.7.2",
+  "permissions": { "capabilities": ["ui.fx"] }
+}
