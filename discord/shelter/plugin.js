@@ -37,7 +37,8 @@ function connect() {
     else if (m.type === 'refused') { live = false; backoff = 60000; } // not allowed (or the prompt timed out): ask again in a minute
     else if (m.type) incoming(m.type, m.data);
   };
-  sock.onclose = () => { if (ws === sock) { ws = null; live = false; render(); later(); } };
+  // Voltage gone: its stylesheets go too (a theme's Discord CSS must not outlive Voltage; it re-sends them all on connect)
+  sock.onclose = () => { if (ws === sock) { ws = null; live = false; for (const el of sheets.values()) el.remove(); sheets.clear(); render(); later(); } };
   sock.onerror = () => {};
 }
 // Voltage not running: look again quietly, every 2 s growing to every 30 s (never an error in the console spam sense)
