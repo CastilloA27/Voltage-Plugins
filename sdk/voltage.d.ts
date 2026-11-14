@@ -77,7 +77,21 @@ declare namespace Voltage {
     'panel-action': { action: string; value?: string; form?: Record<string, string> };
     /** Capability lyrics.provider: answer with voltage.lyrics.provide(rid, ...). */
     'lyrics-request': LyricsRequest;
+    /** Voltage 1.7.1+, ui.fx, theme helper: one of the theme's hotspots with an "event" was clicked (its id). */
+    hotspot: { id: string };
+    /** Voltage 1.7.2+, ui.fx, theme helper (F7): your canvas layer from voltage.theme.layer(). getContext('2d') or 'webgl2'
+     *  yourself; set canvas.width/height on 'layer-resize'. */
+    layer: { target: LayerTarget; canvas: OffscreenCanvas; width: number; height: number; dpr: number; gl: boolean };
+    'layer-resize': { target: LayerTarget; width: number; height: number };
+    /** The layer went: 'dropped' (you), 'theme' (another theme), 'stopped', 'too slow' (the watchdog). */
+    'layer-gone': { target: LayerTarget; reason: string };
+    /** Voltage 1.7.2+: once per frame for all your layers. Draw in the handler: the next one comes when it returns. t / dt in
+     *  seconds; progress 0-1; level / beat 0-1 (0 unless the theme's "uses" lists them); seed 0-1, one per song. No frames
+     *  while gaming, hidden, minimized or with reduced motion. */
+    frame: { t: number; dt: number; progress: number; level: number; beat: number; seed: number; fps: number };
   }
+
+  type LayerTarget = 'background' | 'overlay' | 'part:art' | 'mini';
 
   interface Api {
     on<K extends keyof Events>(name: K, handler: (data: Events[K]) => void | Promise<void>): void;
@@ -126,8 +140,18 @@ declare namespace Voltage {
        *  theme's own CSS variables. vars({hp: 0.42, 'roll-1': 3}) -> --fx-hp, --fx-roll-1 on <html>. Names a-z 0-9 - (1-24),
        *  32 at most; values: number, length, angle, %, colour or a keyword; null removes one; cleared when you stop. */
       vars(vars: Record<string, number | string | null>): void;
-      /** Voltage 1.7.1+, ui.fx: words in data-fx on [data-part=app] (up to 8, a-z 0-9 -); [] clears. Other parts: 1.8. */
-      state(part: 'app', words: string[]): void };
+      /** Voltage 1.7.1+, ui.fx: words in data-fx on every element of a part (up to 8, a-z 0-9 -); [] clears. Not on dialogs,
+       *  menus, toasts, Settings, prompts or the stores. */
+      state(part: string, words: string[]): void;
+      /** Voltage 1.7.1+, ui.fx: a sprite from the theme's "sprites" templates (x / y 0-1 of the window, text, vars). */
+      spawn(name: string, opts?: { x?: number; y?: number; text?: string; vars?: Record<string, number | string> }): void;
+      /** Voltage 1.7.1+, ui.fx: one of the theme's own sounds by its event name (follows the Theme sounds switch). */
+      sound(name: string): void;
+      /** Voltage 1.7.2+, ui.fx (F7): a canvas layer: 'background' (under everything), 'overlay' (over the window, never
+       *  clickable), 'part:art' (over the cover), 'mini' (over the mini player). fps 1-60 (30), scale 0.1-1 (0.5 for the
+       *  background; never more than 1 device pixel). Call again with a new fps to change the rate; null drops it. Over
+       *  8 ms a frame for 3 s halves the rate, the next time the layers stop. */
+      layer(target: LayerTarget, opts?: { fps?: number; scale?: number; gl?: boolean } | null): void };
     /** Game packs (plugin.json "game"; capabilities game.log / game.local_http, tier 3). Only while the game runs. */
     game: {
       running(): Promise<boolean>;

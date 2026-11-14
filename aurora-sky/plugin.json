@@ -1,0 +1,10 @@
+{
+  "id": "aurora-sky",
+  "name": "Aurora sky",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "For the Aurora theme: northern lights in the album's colours behind Voltage, a different sky for every song, swaying with the music. Drawn on the graphics card at 30 frames a second while playing (4 while paused), nothing while a game is in front.",
+  "main": "main.js",
+  "minVoltage": "1.7.2",
+  "permissions": { "capabilities": ["ui.fx"] }
+}

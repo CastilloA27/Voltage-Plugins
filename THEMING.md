@@ -244,6 +244,14 @@ sets `data-fx="rare"` on `[data-part="app"]`. The Reels plugin does both for Jac
 random rolls) and `[data-part="app"][data-fx~="legendary"]`. Everything is cleared when the plugin stops or your theme is
 switched off.
 
+**Canvas layers** (Voltage 1.7.2+, `ui.fx`): `voltage.theme.layer('background', {gl: true, fps: 30})` gives your helper an
+OffscreenCanvas (2D or WebGL2) under everything, over the window (`'overlay'`), over the cover (`'part:art'`) or the mini
+player (`'mini'`). Voltage drives it: a `frame` event `{t, dt, progress, level, beat, seed}` once per frame (the next one comes
+when your handler returns; `level` / `beat` need them in your theme's `"uses"`). The limits: 1-60 frames a second (30), at most
+one device pixel (half for the background), no frames while gaming, hidden or with reduced motion, hidden while a security
+prompt is open, and a frame that averages over 8 ms for 3 s halves the rate, then stops the layers with a note. See the Aurora
+theme (Voltage-Themes) and its `aurora-sky` helper: a WebGL sky, 0.4 ms of work a frame.
+
 ## Holiday hello
 
 On a holiday Voltage plays a short hello the first time its window opens that day (Settings > Appearance > Holiday surprises).
