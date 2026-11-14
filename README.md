@@ -1,7 +1,8 @@
 # Voltage plugins
 
-Official plugins for [Voltage](https://github.com/CastilloA27/Voltage-Releases), the YouTube Music desktop client for Windows.
-Install them from inside Voltage: **Settings › Plugins › Official plugins › Browse**.
+Official plugins for Voltage, the YouTube Music desktop client for Windows. Install them from inside Voltage:
+**Settings › Plugin store** (filter by kind, status and tags; every file is checked against the signed catalog). Theme
+packages live in the separate [Voltage-Themes](https://github.com/CastilloA27/Voltage-Themes) repo, the theme store.
 
 | Plugin | What it does | Needs |
 |---|---|---|
@@ -13,6 +14,24 @@ Install them from inside Voltage: **Settings › Plugins › Official plugins �
 | [Song facts](song-facts) | A panel about the song you're playing: release, writers and producers, samples, a short artist bio. | Voltage 1.6+. MusicBrainz and Wikipedia only |
 | [Lyrics fixer](lyrics-fixer) | Make your own timed lyrics: tap along as each line starts, nudge, save as "My lyrics", optionally share on lrclib.net. | Voltage 1.6+. LRCLIB only |
 | [Streaks & achievements](streaks) | Listening streaks and badges (night owl, on repeat, explorer, marathon…) in its own window, with a notification when you earn one. Counts from when it's installed; nothing leaves your PC. | Voltage 1.4+. Its own window |
+| [Version filter](version-filter) | Radio and autoplay leave out the versions you don't want: sped up / nightcore, slowed + reverb, live, remixes, karaoke and instrumentals, covers, 8D. Only songs the radio adds by itself; a song you pick always plays. | Voltage 1.6.1+. Changes the queue (its own radio picks only) |
+| [Better covers](better-covers) | When a song only has a video frame as its art, finds its album cover on Apple's iTunes catalogue (strict match: same artist, title and album) and Voltage shows that instead. | Voltage 1.6.1+. itunes.apple.com search only |
+| [Similar artists](similar-artists) | A panel with artists like the one you're playing, from ListenBrainz (what people listen to together); click one to open their page in Voltage. | Voltage 1.6.1+. MusicBrainz and ListenBrainz only |
+| [Voltage for Discord](discord/shelter) | Not in the store: a helper for Discord (Legcord + Shelter, installed in Shelter by URL). A mini player in Discord, the song's colours and cover (or the music video) as Discord's look, a theme's own Discord CSS, voice-chat ducking. | Voltage 1.6.1+ with Settings › Integrations › Voltage for Discord on; Discord on your PC only (127.0.0.1), asks you once to allow it |
+
+### Theme helpers
+
+A theme can name a helper plugin for effects CSS can't do alone; when you switch to that theme, Voltage offers to install
+it and shows what it may do. They only act while their theme is the active one (capability `ui.fx`).
+
+| Plugin | For the theme | What it adds | Needs |
+|---|---|---|---|
+| [Reels](reels) | Jackpot | a rarity per song (from its plays and popularity), the reels land to match; coins on a winning line | Voltage 1.7.1+ (coins 1.7.2+) |
+| [VU meter](vu-meter) | Studio | the meters' needles follow how loud the music is (a level, never the sound) | Voltage 1.7.1+ |
+| [Aurora sky](aurora-sky) | Aurora | WebGL northern lights in the album's colours, a different sky per song; 30 fps playing, 4 paused, none while gaming | Voltage 1.7.2+ |
+| [Departures board](departures) | Departures | the clock time each upcoming song starts, from the queue | Voltage 1.7.2+ |
+| [JRPG battle](jrpg-battle) | JRPG | seeking forward deals damage, skipping runs away, a level from your listening time | Voltage 1.7.2+ |
+| [Word rain](word-rain) | Word Rain | the sung words fall and pile up behind the player | Voltage 1.7.2+, synced lyrics |
 
 ## Unfinished, for builders
 
