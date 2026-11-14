@@ -1,0 +1,10 @@
+{
+  "id": "departures",
+  "name": "Departures board",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "For the Departures theme: the clock time each upcoming song starts, worked out from the queue, shown on the board. Numbers only (no network, nothing about you leaves Voltage).",
+  "main": "main.js",
+  "minVoltage": "1.7.2",
+  "permissions": { "capabilities": ["ui.fx"] }
+}

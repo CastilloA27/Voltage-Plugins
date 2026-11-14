@@ -244,6 +244,9 @@ sets `data-fx="rare"` on `[data-part="app"]`. The Reels plugin does both for Jac
 random rolls) and `[data-part="app"][data-fx~="legendary"]`. Everything is cleared when the plugin stops or your theme is
 switched off.
 
+**Reduce flashing** (Voltage 1.7.2+): while it's on (or unset with Windows' reduced motion), `<html>` has `data-reduce-flash`.
+Any flicker or strobe of your own must stop there: `:root[data-reduce-flash] .my-flicker { animation: none; }`.
+
 **Canvas layers** (Voltage 1.7.2+, `ui.fx`): `voltage.theme.layer('background', {gl: true, fps: 30})` gives your helper an
 OffscreenCanvas (2D or WebGL2) under everything, over the window (`'overlay'`), over the cover (`'part:art'`) or the mini
 player (`'mini'`). Voltage drives it: a `frame` event `{t, dt, progress, level, beat, seed}` once per frame (the next one comes

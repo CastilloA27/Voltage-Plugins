@@ -44,7 +44,7 @@ declare namespace Voltage {
     /** On demand. Once a second, and at once after a seek. */
     position: { pos: number; dur: number };
     /** On demand. Up to 200 tracks around the current one. */
-    queue: { index: number; tracks: Pick<Track, 'id' | 'title' | 'artist'>[] };
+    queue: { index: number; tracks: (Pick<Track, 'id' | 'title' | 'artist'> & { radio?: boolean; /** seconds, Voltage 1.7.2+ */ dur?: number | null })[] };
     /** On demand. The line being sung. */
     lyric: { index: number; text: string } | null;
     /** On demand. Voltage's game watcher (built-in games and packs). */
