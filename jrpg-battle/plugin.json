@@ -1,0 +1,10 @@
+{
+  "id": "jrpg-battle",
+  "name": "JRPG battle",
+  "version": "1.0.0",
+  "author": "Voltage",
+  "description": "For the JRPG theme: seeking forward hits the song for damage, skipping runs away, and you level up as you listen (a point a minute, kept across days). Numbers only, stored in Voltage.",
+  "main": "main.js",
+  "minVoltage": "1.7.2",
+  "permissions": { "capabilities": ["ui.fx"] }
+}
