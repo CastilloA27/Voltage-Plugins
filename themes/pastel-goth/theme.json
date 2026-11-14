@@ -2,10 +2,16 @@
   "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
   "id": "pastel-goth",
   "name": "Pastel goth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Voltage",
   "extends": "voltage",
   "appearance": "dark",
+  "supports": {
+    "background": [
+      "gradient",
+      "black"
+    ]
+  },
   "description": "Pink and lilac on black, a rounded font, round covers, little bats, stars and bows around the window.",
   "fonts": [
     {

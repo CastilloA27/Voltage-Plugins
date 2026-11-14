@@ -2,10 +2,15 @@
   "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
   "id": "crt-green",
   "name": "CRT green",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Voltage",
   "extends": "voltage",
   "appearance": "dark",
+  "supports": {
+    "background": [
+      "black"
+    ]
+  },
   "fonts": [
     {
       "family": "Volt Pixel",

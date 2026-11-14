@@ -97,7 +97,8 @@ write('voltage-starter', {'id': 'voltage-starter', 'name': 'Voltage (starter)', 
 
 # ── 2. terminal ──
 write('terminal', {
-    'id': 'terminal', 'name': 'Terminal', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'id': 'terminal', 'name': 'Terminal', 'version': '1.0.1', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'supports': {'background': ['black']},  # a terminal: the album colours around it clash (theme audit, 2026-11-13)
     'description': 'A text-only UI: a pixel font, square corners, no glass or glow, ASCII progress, command-style labels.',
     'fonts': [{'family': 'Volt Pixel', 'src': 'assets/volt-pixel.ttf'}],
     'tokens': {'color.bg': '#0c0c0c', 'color.text': '#d0d0d0', 'color.text-dim': '#8a8a8a', 'color.text-strong': '#ffffff',
@@ -152,7 +153,8 @@ write('terminal', {
 
 # ── 3. crt-green: an original green-phosphor terminal (a vault-computer feel, nothing copied) ──
 write('crt-green', {
-    'id': 'crt-green', 'name': 'CRT green', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'id': 'crt-green', 'name': 'CRT green', 'version': '1.0.1', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'supports': {'background': ['black']},  # a green phosphor screen: the album colours (cover, video or the gradient) clash with it (theme audit, the user, 2026-11-13)
     'fonts': [{'family': 'Volt Pixel', 'src': 'assets/volt-pixel.ttf'}],
     'description': 'Green phosphor on a curved tube: vignette, scanlines, a faint flicker, terse tab names and relay clicks.',
     'tokens': {'color.bg': '#020f05', 'color.text': '#5dff7a', 'color.text-dim': '#2fa648', 'color.text-strong': '#a8ffb6',
@@ -214,7 +216,8 @@ star = SVG('<path fill="#d9b3ff" d="M32 6l6 18 18 2-14 11 5 19-15-10-15 10 5-19L
 bow = SVG('<path fill="#ff9ad5" d="M32 30c-6-8-18-14-22-10s2 18 10 18c5 0 9-4 12-8zm0 0c6-8 18-14 22-10s-2 18-10 18c-5 0-9-4-12-8z"/><circle cx="32" cy="31" r="5" fill="#ffc7e8"/>')
 skull = SVG('<path fill="#f3e6ff" d="M32 8c-12 0-20 8-20 19 0 6 3 10 7 13v7c0 2 2 3 4 3h18c2 0 4-1 4-3v-7c4-3 7-7 7-13 0-11-8-19-20-19z"/><circle cx="24" cy="28" r="5" fill="#2a1430"/><circle cx="40" cy="28" r="5" fill="#2a1430"/><path fill="#2a1430" d="M30 37h4l-2 4z"/><path fill="#ff9ad5" d="M20 10c-4-5-11-4-11 1s7 6 11 2zm0 0c3 2 6 1 6-1"/>')
 write('pastel-goth', {
-    'id': 'pastel-goth', 'name': 'Pastel goth', 'version': '1.0.0', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'id': 'pastel-goth', 'name': 'Pastel goth', 'version': '1.0.1', 'author': 'Voltage', 'extends': 'voltage', 'appearance': 'dark',
+    'supports': {'background': ['gradient', 'black']},  # pastel text is unreadable over the bright blurred cover or video (theme audit, 2026-11-13)
     'description': 'Pink and lilac on black, a rounded font, round covers, little bats, stars and bows around the window.',
     'fonts': [{'family': 'Fredoka', 'src': 'assets/fredoka/Fredoka.ttf', 'weight': '300 700'}],
     'tokens': {'color.bg': '#120914', 'color.text': '#ffe6f4', 'color.text-dim': '#d8a9cc', 'color.text-strong': '#fff4fb',
