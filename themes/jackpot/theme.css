@@ -113,6 +113,22 @@
 /* the home screen: the cover in a gold reel window, the playing row lit gold */
 [data-part="nowplaying"] .art { box-shadow: 0 0 0 5px #d4af37, 0 0 0 9px #24174d, 0 0 30px rgb(0 210 255 / .45) !important; }
 [data-part="tracklist.row"][data-state~="active"] { background: linear-gradient(90deg, rgb(0 210 255 / .2), transparent); box-shadow: inset 3px 0 0 #00d2ff; }
+/* F3: the bulbs flare with the beat (at most 3 a second, softer with Reduce flashing: Voltage's beat gate) */
+[data-part="overlay"] { filter: brightness(calc(1 + var(--fx-beat, 0) * .9)) saturate(calc(1 + var(--fx-beat, 0) * .5)); }
+/* F6: coins from a winning line (the Reels helper spawns them): fall, spin, fade */
+.fx-coin { width: 40px; height: 40px; margin-left: -20px; background: url("assets/coin.svg") center / contain no-repeat;
+  animation: coin-fall 1.6s cubic-bezier(.35, 0, .8, .6) forwards; }
+@keyframes coin-fall { 0% { transform: translate(0, -60px) rotateY(0); opacity: 0; } 10% { opacity: 1; }
+  100% { transform: translate(calc(var(--fx-dx, 0) * 1px), 105vh) rotateY(calc(var(--fx-spin, 3) * 360deg)); opacity: .9; } }
+.reduce-motion .fx-coin { display: none; }
+/* F5: the lever is a hotspot over the empty column (Voltage draws the focus ring; the lever itself is the CSS above) */
+[data-part="hotspot"][data-hotspot="lever"] { cursor: grab; }
+/* F8: three reels when the user picks them (Settings > Appearance, under the theme) */
+:root[data-opt-reels="3"] .lay-view-nowplaying { grid-template-areas: "back info info info video" "l r2 art r4 r" "prog prog prog prog prog" "ctl ctl ctl vol vol" !important;
+  grid-template-columns: 1fr repeat(3, var(--reel)) 1fr !important; }
+:root[data-opt-reels="3"] .lay-view-nowplaying [data-cell="slot:reel1"], :root[data-opt-reels="3"] .lay-view-nowplaying [data-cell="slot:reel5"] { display: none !important; }
+:root[data-opt-reels="3"] .lay-view-nowplaying [data-cell="slot:reel2"] { border-radius: 16px 0 0 16px; border-left: 5px solid #d4af37; }
+:root[data-opt-reels="3"] .lay-view-nowplaying [data-cell="slot:reel4"] { border-radius: 0 16px 16px 0; border-right: 5px solid #d4af37; }
 /* the mini player is too small for marquee bulbs */
 [data-part="app"][data-state~="mini"] [data-part="overlay"] { background: none; animation: none; }
 /* the mini player: one reel window */

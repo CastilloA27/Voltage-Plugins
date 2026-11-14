@@ -42,4 +42,13 @@ voltage.on('track', async (t) => {
   // round 15 F1: the theme's own variables (--fx-roll-1..5) and the rarity as a word on the app (data-fx)
   voltage.theme.vars(Object.fromEntries(rollsFor(rarity).map((v, i) => [`roll-${i + 1}`, v])));
   voltage.theme.state('app', [rarity]);
+  // Jackpot 2 (round 15 F6): a winning line pays out in coins once the reels have stopped (~1.1 s), more for rarer songs
+  const coins = { common: 0, rare: 6, epic: 14, legendary: 30 }[rarity];
+  if (coins && voltage.theme.spawn) {
+    setTimeout(() => {
+      for (let i = 0; i < coins; i++) {
+        setTimeout(() => voltage.theme.spawn('coin', { x: 0.1 + Math.random() * 0.8, y: 0, vars: { dx: Math.round((Math.random() - 0.5) * 160), spin: 2 + Math.floor(Math.random() * 4) } }), i * 45);
+      }
+    }, 1150);
+  }
 });

@@ -2,11 +2,47 @@
   "$schema": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/main/themes/theme.schema.json",
   "id": "jackpot",
   "name": "Jackpot",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": "Voltage",
   "extends": "voltage",
   "appearance": "dark",
-  "description": "A video slot: a 5 x 3 symbol screen with the cover in the middle, reels that spin on every new song, paylines, coins and JACKPOT when you like a song.",
+  "minVoltage": "1.7.2",
+  "description": "A video slot: a 5 x 3 symbol screen (or 3 x 3) with the cover in the middle, reels that spin on every new song, a lever that skips, bulbs that flash with the beat, coins on a winning line and BIG WIN when you like a song.",
+  "uses": [
+    "beat"
+  ],
+  "hotspots": [
+    {
+      "id": "lever",
+      "part": "area:r",
+      "rect": [
+        "0%",
+        "6%",
+        "70%",
+        "78%"
+      ],
+      "action": "next",
+      "label": "Pull the lever (next song)"
+    }
+  ],
+  "sprites": {
+    "coin": {
+      "class": "coin",
+      "life": 1600
+    }
+  },
+  "options": [
+    {
+      "id": "reels",
+      "type": "choice",
+      "label": "Reels",
+      "values": [
+        "5",
+        "3"
+      ],
+      "default": "5"
+    }
+  ],
   "fonts": [
     {
       "family": "Bungee",
