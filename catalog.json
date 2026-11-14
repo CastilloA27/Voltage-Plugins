@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "seq": 7,
-  "expires": 1826120405,
-  "commit": "69de8bf0b73d84c1be88a9c47691c42883b9c4cd",
+  "seq": 8,
+  "expires": 1826172596,
+  "commit": "a3f81e55a3e2180638f351915185ae991993e7b3",
   "data": {
     "fortnite": {
       "lobby": [
@@ -47,6 +47,30 @@
   },
   "plugins": [
     {
+      "id": "aurora-sky",
+      "name": "Aurora sky",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "For the Aurora theme: northern lights in the album's colours behind Voltage, a different sky for every song, swaying with the music. Drawn on the graphics card at 30 frames a second while playing (4 while paused), nothing while a game is in front.",
+      "minVoltage": "1.7.2",
+      "permissions": {
+        "capabilities": [
+          "ui.fx"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/aurora-sky",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "77cb62dc82607aa81c91fb65cf80d465bfec6a58c3fd1446c6610e2a0de0108e"
+        },
+        {
+          "name": "main.js",
+          "sha256": "1af1cdbe8d1b13fb53cd49c52801385612a5885f16c164803bb4f45d88bbf229"
+        }
+      ]
+    },
+    {
       "id": "autoeq",
       "name": "Headphone correction (AutoEQ)",
       "version": "1.1.0",
@@ -63,7 +87,7 @@
           "https://raw.githubusercontent.com/jaakkopasanen/AutoEq/master/results"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/autoeq",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/autoeq",
       "files": [
         {
           "name": "plugin.json",
@@ -91,7 +115,7 @@
           "https://itunes.apple.com/search"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/better-covers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/better-covers",
       "files": [
         {
           "name": "plugin.json",
@@ -100,6 +124,54 @@
         {
           "name": "main.js",
           "sha256": "de5aed64a7dd97de9f42eaad58d3424a87adaf4a98aadb34dbb036816e2d9faf"
+        }
+      ]
+    },
+    {
+      "id": "departures",
+      "name": "Departures board",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "For the Departures theme: the clock time each upcoming song starts, worked out from the queue, shown on the board. Numbers only (no network, nothing about you leaves Voltage).",
+      "minVoltage": "1.7.2",
+      "permissions": {
+        "capabilities": [
+          "ui.fx"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/departures",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "2cca672e4aa783857ec382e157a481b926a4b729c0d37b6bbc9c4474107fa075"
+        },
+        {
+          "name": "main.js",
+          "sha256": "0b54e5abe68f8abd498fcccafa4ce71e324c73b3a4228a75e633ce184e96a82a"
+        }
+      ]
+    },
+    {
+      "id": "jrpg-battle",
+      "name": "JRPG battle",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "For the JRPG theme: seeking forward hits the song for damage, skipping runs away, and you level up as you listen (a point a minute, kept across days). Numbers only, stored in Voltage.",
+      "minVoltage": "1.7.2",
+      "permissions": {
+        "capabilities": [
+          "ui.fx"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/jrpg-battle",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "ab9f494f34990763a0d6a6cf5fe2322d493da8ccc3dfe9b07d2d44c6e8f09ca9"
+        },
+        {
+          "name": "main.js",
+          "sha256": "2ccd8dbd0b370b5c94892718c7c27bb8fe618bbddb6036308a3486804fa189c4"
         }
       ]
     },
@@ -120,7 +192,7 @@
           "discord.css"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/legcord-theme",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/legcord-theme",
       "files": [
         {
           "name": "plugin.json",
@@ -151,7 +223,7 @@
           "https://lrclib.net/api/publish"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/lyrics-fixer",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/lyrics-fixer",
       "files": [
         {
           "name": "plugin.json",
@@ -183,7 +255,7 @@
           "https://c.y.qq.com/qqmusic/fcgi-bin/lyric_download.fcg"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/more-lyrics",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/more-lyrics",
       "files": [
         {
           "name": "plugin.json",
@@ -198,7 +270,7 @@
     {
       "id": "reels",
       "name": "Reels",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": "Voltage",
       "description": "For the Jackpot theme: every song gets a rarity (common, rare, epic, legendary) from how popular it is (YouTube plays) and how often you play it, rolled fresh every time, and the slot reels land to match: a legendary song lands a full line of WILDs. Purely a look: no betting, credits or odds.",
       "minVoltage": "1.7.1",
@@ -207,15 +279,15 @@
           "ui.fx"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/reels",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/reels",
       "files": [
         {
           "name": "plugin.json",
-          "sha256": "f106c73d392c230e638d9ad23cb77624344a0cb4fc7eef5c55973067a32a6c70"
+          "sha256": "11db0e53af29602881339515944066bf0403dd975ab32f44cabab5ddb64e91c3"
         },
         {
           "name": "main.js",
-          "sha256": "720b82cb56db8d5213b2e3a043bd0bf9e84cf490abc86e1292ff0ef3859d7fbf"
+          "sha256": "06a83ebc1405a910fab6fda31a7e96cd62a2f5e21f8d3ab23c6ff79bb4f3e60e"
         }
       ]
     },
@@ -237,7 +309,7 @@
           "https://labs.api.listenbrainz.org/similar-artists/json"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/similar-artists",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/similar-artists",
       "files": [
         {
           "name": "plugin.json",
@@ -268,7 +340,7 @@
           "https://en.wikipedia.org/api/rest_v1/page/summary/"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/song-facts",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/song-facts",
       "files": [
         {
           "name": "plugin.json",
@@ -291,7 +363,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/streaks",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/streaks",
       "files": [
         {
           "name": "plugin.json",
@@ -316,7 +388,7 @@
           "playback.control"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/version-filter",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/version-filter",
       "files": [
         {
           "name": "plugin.json",
@@ -341,7 +413,7 @@
           "audio.level"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/visualizers",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/visualizers",
       "files": [
         {
           "name": "plugin.json",
@@ -367,7 +439,7 @@
           "ui.panel"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/voice-duck",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/voice-duck",
       "files": [
         {
           "name": "plugin.json",
@@ -392,7 +464,7 @@
           "ui.fx"
         ]
       },
-      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/69de8bf0b73d84c1be88a9c47691c42883b9c4cd/vu-meter",
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/vu-meter",
       "files": [
         {
           "name": "plugin.json",
@@ -401,6 +473,30 @@
         {
           "name": "main.js",
           "sha256": "0919a9f646f26db911455849edfdebb08912f042b3ef5bf34ff511ab5e647a5c"
+        }
+      ]
+    },
+    {
+      "id": "word-rain",
+      "name": "Word rain",
+      "version": "1.0.0",
+      "author": "Voltage",
+      "description": "For the Word Rain theme: the words of the line being sung fall behind Voltage one after another and pile up at the bottom; a new song sweeps them away. Needs synced lyrics (the words are spaced evenly through the line).",
+      "minVoltage": "1.7.2",
+      "permissions": {
+        "capabilities": [
+          "ui.fx"
+        ]
+      },
+      "base": "https://raw.githubusercontent.com/CastilloA27/Voltage-Plugins/a3f81e55a3e2180638f351915185ae991993e7b3/word-rain",
+      "files": [
+        {
+          "name": "plugin.json",
+          "sha256": "b3ecd8f2747e4b12983061e390d49466657ca67db08e0b51464d3254d1959093"
+        },
+        {
+          "name": "main.js",
+          "sha256": "58b73a06a8e6ab09e90d3fc3270a82ace63725dcd4c82a846ed03964f6da1bf9"
         }
       ]
     }
