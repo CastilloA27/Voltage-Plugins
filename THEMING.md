@@ -168,6 +168,16 @@ small one floats in a corner. A theme's mini layout replaces the mini-player ski
 "mini": { "areas": ["art meta ctl"], "columns": "56px 1fr auto", "place": { "art": "art", "meta": "info", "ctl": "player" } }
 ```
 
+**Explore and Stats** (Voltage 1.7.3+): `"layout": {"explore": {...}, "stats": {...}}`. The page itself is one part
+(`explore` / `stats`, with its own back button and scrolling) and must be placed; beside it you can put `art`, `info`,
+`lyrics`, `progress`, `player`, `volume`, `spacer`, `slot:<name>`. Their grids have the classes `lay-view-explore` /
+`lay-view-stats`; the page inside is `[data-part="explore.page"]` / `[data-part="stats.page"]`.
+
+```json
+"explore": { "areas": ["page art", "page info", "bar bar"], "columns": "minmax(0, 1fr) 260px", "rows": "260px minmax(0, 1fr) 76px",
+  "place": { "page": "explore", "art": "art", "info": "info", "bar": "player" } }
+```
+
 ### Styling the cells
 
 Every cell is `<div class="lay-area lay-<part>" data-area="<your area name>" data-cell="<part>">` (a slot's class is
