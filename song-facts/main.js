@@ -7,16 +7,22 @@ const MB = 'https://musicbrainz.org/ws/2';
 const UA = { 'user-agent': 'Voltage-SongFacts/1.0 (+https://github.com/CastilloA27/Voltage-Plugins)', accept: 'application/json' };
 const KEEP_SONGS = 150, KEEP_ARTISTS = 80; // storage is capped at 256 KB
 
-let settings = { bio: true, meaning: true };
+let settings = { bio: true, meaning: true, wiki: true, lineNotes: true };
 let track = null, open = false, slotShown = false, busy = null;
 // 1.1: also a few lines under the song in Discovery (ui.slot 'discovery.details', Voltage 1.6.1+), looked up while that shows
 const shown = () => open || slotShown;
-let cache = { songs: {}, artists: {}, ids: {}, genius: {} }; // songs: id -> facts | {none: true}; artists: mbid -> {bio, wiki}; ids: name -> mbid | null
+let cache = { songs: {}, artists: {}, ids: {}, genius: {}, wiki: {} }; // songs: id -> facts | {none: true}; artists: mbid -> {bio, wiki}; ids: name -> mbid | null
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const norm = (s) => String(s ?? '').toLowerCase().normalize('NFKC').replace(/[(（[【].*?[)）\]】]/g, ' ').replace(/\s(feat|ft)\..*$/i, '')
   .replace(/[^\p{L}\p{N}]+/gu, '');
-const firstArtist = (a) => String(a ?? '').split(/,|、|&| feat\.| x /i)[0].trim();
+/** The artist to look up: the credited one, or the title's "Artist - " part when it is the channel's name with spaces
+ *  ("jbalvinVEVO" + "J Balvin - Amarillo"). */
+function artistOf(t) {
+  const fa = firstArtist(t.artist), head = String(t.title ?? '').split(/\s+[-–]\s+/);
+  return head.length > 1 && norm(head[0]) === norm(fa) ? head[0].trim() : fa;
+}
+const firstArtist = (a) => String(a ?? '').split(/,|、|&| feat\.| x /i)[0].replace(/\s*-\s*topic$/i, '').replace(/vevo$/i, '').replace(/\s+official$/i, '').trim();
 /** "Song (Official Video)", "Artist - Song", bilingual "曲 - Song": every reasonable title to try. */
 function titles(t, artist) {
   const base = String(t ?? '').replace(/[(（[【].*?[)）\]】]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -71,7 +77,7 @@ async function artistIds(name) {
 /** The recording: same artist, a matching title, length within 3 s (when known). Of all that match, the earliest
  *  released (MusicBrainz keeps one recording per compilation / reissue too); undated ones last. */
 async function findRecording(t) {
-  const fa = firstArtist(t.artist), dur = t.dur || 0;
+  const fa = artistOf(t), dur = t.dur || 0;
   const ids = await artistIds(fa);
   // by artist id first (finds the artist under any spelling), then by the credited name
   const tries = [...(ids.length ? [{ q: `arid:(${ids.join(' OR ')})`, ok: (a) => a.some((c) => ids.includes(c.artist?.id)) }] : []),
@@ -109,10 +115,12 @@ async function lookup(t) {
   const own = (x) => !(x['release-group']?.['secondary-types'] ?? []).some((t) => /compilation|soundtrack|dj-mix|mixtape|live/i.test(t));
   const first = releases.find(own) ?? null;
   const year = (rec['first-release-date'] || r?.['first-release-date'] || releases[0]?.date || '').slice(0, 4) || null;
-  let writers = [];
+  let writers = [], workWd = null, workLang = null;
   const work = rels.find((x) => x.type === 'performance' && x.work)?.work;
   if (work) {
-    const w = await get(`${MB}/work/${work.id}?inc=artist-rels&fmt=json`);
+    const w = await get(`${MB}/work/${work.id}?inc=artist-rels+url-rels&fmt=json`);
+    workWd = wikidataOf(w);
+    workLang = (w?.languages ?? [])[0] ?? w?.language ?? null;
     const seen = new Map();
     for (const x of w?.relations ?? []) {
       if (!x.artist || !ROLE[x.type]) continue;
@@ -125,7 +133,101 @@ async function lookup(t) {
   return {
     mbid: rec.id, title: r?.title ?? rec.title, artist: (r?.['artist-credit'] ?? []).map((c) => c.name + (c.joinphrase ?? '')).join('') || t.artist,
     year, album: first?.title ?? null, writers, producers, samples, sampledBy, artistId: artist?.id ?? null,
+    // 1.3: for the song's and the album's own Wikipedia articles
+    workWd, lang: workLang, rgid: first?.['release-group']?.id ?? null, recWd: wikidataOf(r),
   };
+}
+
+const wikidataOf = (x) => (x?.relations ?? []).find((y) => y.type === 'wikidata')?.url?.resource?.match(/Q\d+$/)?.[0] ?? null;
+
+// ───────────── 1.3: the song's and the album's own Wikipedia articles, in the song's language first ─────────────
+// Only through links (MusicBrainz -> Wikidata -> that language's article), never a search: a wrong article is worse than none.
+// The song's language (MusicBrainz work, ISO 639-3) picks the Wikipedia; English is the fallback. The lead and the sections
+// about how it was made, what it's about and the cover.
+const WIKI_LANGS = { jpn: 'ja', spa: 'es', kor: 'ko', zho: 'zh', fra: 'fr', por: 'pt', deu: 'de', ita: 'it', eng: 'en' };
+const LANG_NAME = { ja: 'Japanese', es: 'Spanish', ko: 'Korean', zh: 'Chinese', fr: 'French', pt: 'Portuguese', de: 'German', it: 'Italian', en: 'English' };
+const WANT = /background|\bhistory\b|\borigins?\b|\bdevelopment\b|composition|writing|recording|production|lyric|theme|meaning|artwork|cover|title|concept|inspiration|背景|制作|楽曲|歌詞|テーマ|ジャケット|アートワーク|解説|タイトル|コンセプト|antecedentes|composici|letra|tem[aá]tica|significado|portada|grabaci|producci|inspiraci|concepto|배경|가사|작사|커버|fond|paroles|pochette|hintergrund|text|cover|composizione|testo|copertina|letra|capa|antecedentes/i;
+const KEEP_WIKI = 12;
+const WD_API = 'https://www.wikidata.org/w/api.php';
+const SONG_TYPES = ['Q7366', 'Q134556', 'Q105543609', 'Q2188189'], ALBUM_TYPES = ['Q482994', 'Q208569', 'Q169930', 'Q209939'];
+const claimIds = (ent, p) => (ent?.claims?.[p] ?? []).map((c) => c.mainsnak?.datavalue?.value?.id).filter(Boolean);
+/** The artist's Wikidata id (MusicBrainz keeps the link). */
+async function artistQid(artistId) {
+  if (!artistId) return null;
+  const a = cache.artists[artistId] ?? (cache.artists[artistId] = {});
+  if (a.qid !== undefined) return a.qid;
+  const x = await get(`${MB}/artist/${artistId}?inc=url-rels&fmt=json`);
+  a.qid = wikidataOf(x);
+  return a.qid;
+}
+/** Wikidata items named `name` that are a song (or an album) whose performer is exactly this artist. */
+async function searchQid(name, qid, types, lang) {
+  if (!name || !qid) return null;
+  for (const l of [...new Set([lang, 'en'].filter(Boolean))]) {
+    const s = await get(`${WD_API}?action=wbsearchentities&search=${encodeURIComponent(name)}&language=${l}&uselang=${l}&type=item&limit=50&format=json`);
+    const ids = (s?.search ?? []).map((x) => x.id).slice(0, 50); // a common word ("Amarillo") has the song far down
+    if (!ids.length) continue;
+    const e = await get(`${WD_API}?action=wbgetentities&ids=${ids.join('|')}&props=claims&format=json`);
+    const hit = ids.find((id) => {
+      const ent = e?.entities?.[id];
+      return claimIds(ent, 'P31').some((t) => types.includes(t)) && claimIds(ent, 'P175').includes(qid);
+    });
+    if (hit) return hit;
+  }
+  return null;
+}
+async function wikiFor(qid, lang, hint) {
+  if (!qid) return null;
+  const e = await get(`https://www.wikidata.org/wiki/Special:EntityData/${qid}.json`);
+  const links = e?.entities?.[qid]?.sitelinks ?? {};
+  const order = [...new Set([lang && WIKI_LANGS[lang], hint, 'en'].filter(Boolean))];
+  for (const l of order) {
+    const title = links[`${l}wiki`]?.title;
+    if (!title) continue;
+    const q = `https://${l}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&exsectionformat=wiki&redirects=1&format=json&formatversion=2&titles=${encodeURIComponent(title)}`;
+    const text = (await get(q))?.query?.pages?.[0]?.extract;
+    if (!text) continue;
+    const parts = text.split(/\n(?===+ )/);
+    const lead = clip(parts[0], 600);
+    const sections = parts.slice(1).map((x) => { const m = x.match(/^=+ *(.+?) *=+\n([\s\S]*)$/); return m && { head: m[1], body: clip(m[2].replace(/\n{2,}/g, '\n'), 900) }; })
+      .filter((x) => x && x.body && WANT.test(x.head)).slice(0, 3);
+    return { lang: l, title, lead, sections };
+  }
+  return null;
+}
+async function addWiki(t) {
+  const k = t.id, f = known[k]?.facts;
+  if (!settings.wiki || !f || f.none || f.pending || f.error || known[k].wiki) return;
+  if (cache.wiki?.[k]) { known[k].wiki = cache.wiki[k]; return render(); }
+  known[k].wiki = { pending: true };
+  render();
+  try {
+    const hint = /[\u3040-\u30ff\u4e00-\u9fff]/.test(t.title) ? 'ja' : (known[k]?.meaning?.lang ?? null);
+    const aq = await artistQid(f.artistId);
+    const wl = (f.lang && WIKI_LANGS[f.lang]) || hint || null;
+    // the title as MusicBrainz has it, its parts ("曲 - Song") and a bilingual title split where the script changes
+    // ("悲しみがとまらない I CAN'T STOP THE LONELINESS"): the first that names a song by exactly this artist wins
+    const variants = [...new Set([f.title, ...titles(f.title, f.artist ?? ''),
+      ...String(f.title ?? '').split(/(?<=[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}ー])\s+(?=[A-Za-z])/u)].map((x) => x.trim()).filter(Boolean))];
+    let songQ = f.workWd ?? f.recWd ?? null;
+    for (const v of variants) { if (songQ) break; songQ = await searchQid(v, aq, SONG_TYPES, wl); }
+    let song = await wikiFor(songQ, f.lang, hint);
+    let album = null, albumQ = null, single = false;
+    if (f.rgid) {
+      const rg = await get(`${MB}/release-group/${f.rgid}?inc=url-rels&fmt=json`);
+      albumQ = wikidataOf(rg);
+      single = rg?.['primary-type'] === 'Single';
+    }
+    albumQ = albumQ ?? (f.album ? await searchQid(f.album, aq, ALBUM_TYPES, wl) : null);
+    if (albumQ) album = await wikiFor(albumQ, f.lang, hint);
+    if (album && song && album.title === song.title) album = null; // a single's article is the song's
+    if (album && !song && single) { song = album; album = null; } // the song came out as a single: its article is the song's
+    known[k].wiki = { song, album };
+    cache.wiki = { ...(cache.wiki ?? {}), [k]: known[k].wiki };
+    trim('wiki', KEEP_WIKI);
+    save();
+  } catch (e) { known[k].wiki = { error: String(e.message ?? e) }; }
+  render();
 }
 
 /** The artist's English Wikipedia summary, through MusicBrainz's Wikidata link. */
@@ -151,7 +253,15 @@ function trim(kind, keep) {
   const k = Object.keys(cache[kind]);
   for (const x of k.slice(0, Math.max(0, k.length - keep))) delete cache[kind][x];
 }
-const save = () => voltage.storage.set('cache', cache).catch(() => {});
+const LIMIT = 200000;
+function save() {
+  for (const kind of ['genius', 'wiki', 'genius', 'wiki', 'songs', 'artists']) {
+    if (JSON.stringify(cache).length <= LIMIT) break;
+    const keys = Object.keys(cache[kind] ?? {});
+    for (const x of keys.slice(0, Math.ceil(keys.length / 2))) delete cache[kind][x];
+  }
+  return voltage.storage.set('cache', cache).catch(() => {});
+}
 
 // ───────────── 1.2: meanings from Genius (the user, 2026-11-17: "alternative meanings, double entendres, the cover") ─────────────
 // Genius' song description and its line-by-line annotations (written by fans; shown as that), and the album's description
@@ -159,7 +269,7 @@ const save = () => voltage.storage.set('cache', cache).catch(() => {});
 // secret setting. Matching is strict like MusicBrainz': the same artist, the same title (either script), never a translation
 // or a remix the user isn't playing: Genius' top hit for "Plastic Love" is somebody's cover.
 const GENIUS = 'https://api.genius.com';
-const KEEP_GENIUS = 60;
+const KEEP_GENIUS = 10; // the long texts: 10 songs fit the storage cap with room to spare
 const SKIP = /translation|tłumaczenie|перевод|übersetzung|traducción|traduction|tradução|romanized|english translation|terjemahan/i;
 const VERSION = /\b(remix|mix|live|acoustic|instrumental|demo|edit|version|cover)\b/i;
 const clip = (s, n) => { const t = String(s ?? '').trim(); return t.length > n ? `${t.slice(0, n).replace(/\s+\S*$/, '')}…` : t; };
@@ -175,7 +285,7 @@ async function genius(path, token) {
 
 /** The playing song on Genius: the right artist, a matching title, not a translation, not another version. */
 async function findGenius(t, token) {
-  const fa = firstArtist(t.artist), want = titles(t.title, fa).map(norm).filter(Boolean);
+  const fa = artistOf(t), want = titles(t.title, fa).map(norm).filter(Boolean);
   const playingVersion = VERSION.test(t.title);
   const seen = new Map();
   for (const q of [`${titles(t.title, fa)[0]} ${fa}`, titles(t.title, fa)[0]]) {
@@ -205,12 +315,15 @@ async function lookupMeaning(t) {
   const refs = (await genius(`/referents?song_id=${hit.id}&text_format=plain&per_page=50`, token))?.referents ?? [];
   const lines = refs.map((r) => ({ line: clip(r.fragment, 160), note: clip(r.annotations?.[0]?.body?.plain, 700), votes: r.annotations?.[0]?.votes_total ?? 0 }))
     .filter((x) => x.line && x.note).sort((a, b) => b.votes - a.votes).slice(0, 15);
+  // 1.3: every explained line for Voltage's lyrics (lyrics.notes): the quoted fragment and its note; Voltage finds the line
+  const notes = refs.map((r) => ({ text: String(r.fragment ?? '').slice(0, 400), note: clip(r.annotations?.[0]?.body?.plain, 500) }))
+    .filter((x) => x.text && x.note).slice(0, 40);
   let album = null;
   if (song?.album?.id) {
     const al = (await genius(`/albums/${song.album.id}?text_format=plain`, token))?.album;
     album = { name: song.album.name, about: clip(real(al?.description_annotation?.annotations?.[0]?.body?.plain), 1500) || null };
   }
-  return { url: song?.url ?? hit.url, title: hit.full_title, about: clip(real(song?.description?.plain), 2500) || null, lines, album };
+  return { lang: /^[a-z]{2}$/.test(song?.language ?? '') ? song.language : null, url: song?.url ?? hit.url, title: hit.full_title, about: clip(real(song?.description?.plain), 2500) || null, lines, notes, album };
 }
 
 async function addMeaning(t) {
@@ -227,6 +340,17 @@ async function addMeaning(t) {
     known[k] = { ...(known[k] ?? {}), meaning: { error: String(e.message ?? e) } };
   }
   render();
+  sendNotes();
+}
+
+// ───────────── 1.3: marks on Voltage's own lyric lines (lyrics.notes, Voltage 1.10.0+) ─────────────
+// Voltage shows the lyrics; this only sends Genius's explained fragments with their notes, and Voltage matches them to its
+// lines (the plugin never sees the lyrics). Cleared on every new song and when switched off.
+function sendNotes() {
+  if (!voltage.lyrics?.notes) return; // an older Voltage
+  const m = track && known[track.id]?.meaning;
+  const list = settings.lineNotes !== false && settings.meaning !== false && m?.notes?.length ? m.notes.map((n) => ({ ...n, source: 'Genius' })) : [];
+  voltage.lyrics.notes(track?.id ?? '', list);
 }
 
 // ───────────── what's known per song (the playing one, and one picked from a right-click) ─────────────
@@ -256,7 +380,8 @@ async function load(t) {
   if (f && !f.none && !f.pending && !f.error && settings.bio && f.artistId && !f.bio) {
     try { const b = await bio(f.artistId); f.bio = b.bio; f.wiki = b.wiki; render(); save(); } catch { /* no bio is fine */ }
   }
-  if ((open || nowShown) && !known[k]?.meaning) addMeaning(t);
+  if ((open || nowShown) && !known[k]?.meaning) await addMeaning(t); // first: Genius tells the song's language
+  if (open || nowShown) addWiki(t);
 }
 const wanted = () => { if (open) load(subject()); if ((slotShown || nowShown) && track) load(track); };
 
@@ -292,14 +417,20 @@ function meaningHtml(m) {
 const CSS = `.now { margin: 0 0 10px; } .dim { opacity: .65; }
   dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0 0 6px; }
   dt { opacity: .6; } dd { margin: 0; } small { opacity: .6; }
-  h4 { margin: 16px 0 6px; font-size: 14px; letter-spacing: .02em; }
+  h4 { margin: 16px 0 6px; font-size: 14px; letter-spacing: .02em; } h5 { margin: 10px 0 4px; font-size: 13px; opacity: .8; }
   .txt { line-height: 1.5; margin: 0 0 8px; } .note { opacity: .9; }
   blockquote { margin: 10px 0 4px; padding: 2px 10px; border-left: 3px solid currentColor; opacity: .75; font-style: italic; white-space: pre-line; }
   .src { opacity: .45; font-size: 11px; margin: 6px 0 0; }`;
+function wikiHtml(w) {
+  if (!settings.wiki || !w || w.pending || w.error) return w?.pending ? '<h4>From Wikipedia</h4><p class="dim">Looking…</p>' : '';
+  const one = (x, label) => !x ? '' : `<h4>${label}</h4>${x.lead ? `<p class="txt">${esc(x.lead)}</p>` : ''}${x.sections.map((s) => `<h5>${esc(s.head)}</h5><p class="txt">${esc(s.body).replace(/\n/g, '</p><p class="txt">')}</p>`).join('')}
+    <p class="src">From ${LANG_NAME[x.lang] ?? x.lang} Wikipedia: “${esc(x.title)}” (CC BY-SA)</p>`;
+  return one(w.song, 'The song on Wikipedia') + one(w.album, 'The album on Wikipedia');
+}
 function fullHtml(t) {
   if (!t) return '<p class="dim">Nothing is playing.</p>';
   const k = known[t.id] ?? {};
-  return `<p class="now"><b>${esc(t.title)}</b> · ${esc(t.artist)}</p>${factsHtml(k.facts, t)}${meaningHtml(k.meaning)}`;
+  return `<p class="now"><b>${esc(t.title)}</b> · ${esc(t.artist)}</p>${factsHtml(k.facts, t)}${meaningHtml(k.meaning)}${wikiHtml(k.wiki)}`;
 }
 
 // the Discovery slot: released / written / produced / samples on a line each, nothing while unknown or looking
@@ -322,8 +453,13 @@ function render() {
   if (open) voltage.panel.render(`${pinned ? '<p class="dim small">The song you picked · close this to follow the playing song again</p>' : ''}${fullHtml(subject())}`, CSS);
 }
 
-voltage.on('settings', (s) => { settings = { ...settings, ...s }; known = Object.fromEntries(Object.entries(known).map(([k, v]) => [k, { facts: v.facts }])); render(); wanted(); });
-voltage.on('track', (t) => { track = t; render(); wanted(); });
+voltage.on('settings', (s) => { settings = { ...settings, ...s }; known = Object.fromEntries(Object.entries(known).map(([k, v]) => [k, { facts: v.facts }])); render(); wanted(); sendNotes(); });
+voltage.on('track', (t) => {
+  track = t; render(); wanted();
+  sendNotes(); // clears the last song's marks at once
+  // the marks need the song's Genius notes even with the panel closed (without a token the lookup stops before any request)
+  if (t && settings.lineNotes !== false && settings.meaning !== false && !known[t.id]?.meaning) addMeaning(t);
+});
 voltage.on('panel', ({ open: o }) => { open = o; if (!o) pinned = null; render(); wanted(); });
 voltage.on('slot', ({ name, open: o }) => {
   if (name === 'discovery.details') slotShown = o;
@@ -335,6 +471,6 @@ voltage.on('slot', ({ name, open: o }) => {
 voltage.on('command', ({ id, track: t }) => { if (id !== 'open' || !t) return; pinned = t; render(); wanted(); });
 
 (async () => {
-  try { const c = await voltage.storage.get('cache'); if (c?.songs && c?.artists) cache = { ids: {}, genius: {}, ...c }; } catch { /* first run */ }
+  try { const c = await voltage.storage.get('cache'); if (c?.songs && c?.artists) cache = { ids: {}, genius: {}, wiki: {}, ...c }; } catch { /* first run */ }
 })();
-self.titles = titles; self.norm = norm; self.sameArtist = sameArtist; self.findGenius = findGenius; self.lookupMeaning = lookupMeaning; // for tests
+self.titles = titles; self.norm = norm; self.sameArtist = sameArtist; self.findGenius = findGenius; self.lookupMeaning = lookupMeaning; self.lookup = lookup; self.wikiFor = wikiFor; self.wikidataOf = wikidataOf; self.get = get; self.addWiki = addWiki; self.known = () => known; self.artistQid = artistQid; self.searchQid = searchQid; // for tests

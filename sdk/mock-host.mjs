@@ -7,6 +7,7 @@
 //   await p.emit('playing', true);
 //   await p.advance(31_000);              // timers fire; 'position' events are yours to send
 //   p.calls      // [{cap, args}] every voltage.call (storage.*, playback.*, net.fetch, ...)
+//   p.lineNotes  // lyrics.notes: the last {trackId, list} a plugin sent (Voltage 1.10.0)
 //   p.notices    // voltage.notify texts;  p.logs: voltage.log lines;  p.panel: last {html, css};  p.reported: game states
 //   p.scope      // the plugin's globals: functions it put on `self` for tests (self.parse = parse)
 //   p.sockets    // net.ws: [{sock, url, sent: [texts], open}]; send the plugin traffic with p.emit('ws', {sock, type, data})
@@ -68,7 +69,8 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     slot: { render: (name, html, css = '') => { host.slots[String(name)] = { html: String(html), css: String(css) }; } },
     theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; } },
     game: { running: () => call('game.running', {}), report: (state, label) => call('game.report', { state, label }), log: () => call('game.log.read', {}), http: (p) => call('game.http', { path: p }) },
-    lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }), refresh: () => { host.refreshes = (host.refreshes ?? 0) + 1; } },
+    lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }), refresh: () => { host.refreshes = (host.refreshes ?? 0) + 1; },
+      notes: (trackId, list) => { host.lineNotes = { trackId: String(trackId ?? ''), list: Array.isArray(list) ? list : [] }; } }, // 1.10.0: the last notes sent
     net: {
       fetch: (url, o = {}) => call('net.fetch', { url, method: o.method, headers: o.headers, body: o.body }),
       ws: async (url) => {

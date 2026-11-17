@@ -1,23 +1,34 @@
 {
   "id": "song-facts",
   "name": "Song facts",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": "Voltage",
-  "description": "Everything about a song: when it came out, who wrote and produced it, what it samples, the artist's story, and with a free Genius token what it means, line-by-line explanations (double meanings and references) and the album's story. In its own window (right-click a song > Song facts, or Ctrl+K), in the full player's Details tab and under the song in Discovery.",
+  "description": "Everything about a song: when it came out, who wrote and produced it, what it samples, the artist's story, the song's and the album's own Wikipedia articles (in the song's language first), and with a free Genius token what it means, line-by-line explanations (also as marks on Voltage's lyrics: tap one) and the album's story. In its own window (right-click a song > Song facts, or Ctrl+K), in the full player's Details tab and under the song in Discovery.",
   "main": "main.js",
-  "minVoltage": "1.9.0",
+  "minVoltage": "1.10.0",
   "permissions": {
     "capabilities": [
       "ui.panel",
       "ui.slot",
       "net.fetch",
-      "storage.secret"
+      "storage.secret",
+      "lyrics.notes"
     ],
     "hosts": [
       "https://musicbrainz.org/ws/2/",
       "https://www.wikidata.org/wiki/Special:EntityData/",
       "https://en.wikipedia.org/api/rest_v1/page/summary/",
-      "https://api.genius.com/"
+      "https://api.genius.com/",
+      "https://www.wikidata.org/w/api.php",
+      "https://en.wikipedia.org/w/api.php",
+      "https://ja.wikipedia.org/w/api.php",
+      "https://es.wikipedia.org/w/api.php",
+      "https://ko.wikipedia.org/w/api.php",
+      "https://zh.wikipedia.org/w/api.php",
+      "https://fr.wikipedia.org/w/api.php",
+      "https://pt.wikipedia.org/w/api.php",
+      "https://de.wikipedia.org/w/api.php",
+      "https://it.wikipedia.org/w/api.php"
     ]
   },
   "provides": {
@@ -45,9 +56,21 @@
       "default": true
     },
     {
+      "key": "wiki",
+      "type": "switch",
+      "label": "Show the song's and the album's Wikipedia articles",
+      "default": true
+    },
+    {
       "key": "meaning",
       "type": "switch",
       "label": "Show meanings and line-by-line explanations (Genius)",
+      "default": true
+    },
+    {
+      "key": "lineNotes",
+      "type": "switch",
+      "label": "Mark lyric lines Genius explains (tap the mark to read it)",
       "default": true
     },
     {

@@ -165,7 +165,11 @@ declare namespace Voltage {
      *  up to 4 (one per source you asked; each becomes a choice in the lyrics view's source menu), and refresh(): ask Voltage to
      *  send you a 'lyrics-request' for the playing song again (e.g. after a command changed how you search). Check that
      *  refresh exists before relying on either: older Voltage has neither and ignores a list. */
-    lyrics: { provide(rid: string, result: Lyrics | Lyrics[] | null): void; refresh?(): void };
+    lyrics: { provide(rid: string, result: Lyrics | Lyrics[] | null): void; refresh?(): void;
+      /** Voltage 1.10.0+, capability lyrics.notes: notes on lines of the playing song's lyrics. `text` quotes the line(s) as your
+       *  source has them; Voltage matches them to the lyrics it shows and marks those lines (tap the mark: the note). You never
+       *  get the lyrics. At most 60, plain text; `[]` clears; a new song clears them too. */
+      notes?(trackId: string, list: { text: string; note: string; source?: string }[]): void };
     /** Capability discord.css (Voltage 1.6.1+): your stylesheet for Discord, applied live by Voltage for Discord while it's
      *  connected (the 'discord' event); '' removes it. */
     discord?: { css(text: string): void };
