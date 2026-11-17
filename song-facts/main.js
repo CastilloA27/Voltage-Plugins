@@ -7,11 +7,11 @@ const MB = 'https://musicbrainz.org/ws/2';
 const UA = { 'user-agent': 'Voltage-SongFacts/1.0 (+https://github.com/CastilloA27/Voltage-Plugins)', accept: 'application/json' };
 const KEEP_SONGS = 150, KEEP_ARTISTS = 80; // storage is capped at 256 KB
 
-let settings = { bio: true };
-let track = null, open = false, slotShown = false, facts = null, status = '', busy = null;
+let settings = { bio: true, meaning: true };
+let track = null, open = false, slotShown = false, busy = null;
 // 1.1: also a few lines under the song in Discovery (ui.slot 'discovery.details', Voltage 1.6.1+), looked up while that shows
 const shown = () => open || slotShown;
-let cache = { songs: {}, artists: {}, ids: {} }; // songs: id -> facts | {none: true}; artists: mbid -> {bio, wiki}; ids: name -> mbid | null
+let cache = { songs: {}, artists: {}, ids: {}, genius: {} }; // songs: id -> facts | {none: true}; artists: mbid -> {bio, wiki}; ids: name -> mbid | null
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const norm = (s) => String(s ?? '').toLowerCase().normalize('NFKC').replace(/[(（[【].*?[)）\]】]/g, ' ').replace(/\s(feat|ft)\..*$/i, '')
@@ -153,40 +153,160 @@ function trim(kind, keep) {
 }
 const save = () => voltage.storage.set('cache', cache).catch(() => {});
 
-async function load() {
-  const t = track;
-  if (!t || !shown() || busy === t.id) return;
-  if (facts?.id === t.id && !facts.pending) return;
-  const cached = cache.songs[t.id];
-  if (cached) { facts = { id: t.id, ...cached }; render(); if (!cached.none && settings.bio && cached.artistId) await addBio(t); return; }
-  busy = t.id; facts = { id: t.id, pending: true }; status = 'Looking it up…'; render();
-  try {
-    const f = await lookup(t);
-    if (track?.id !== t.id) return;
-    cache.songs[t.id] = f;
-    trim('songs', KEEP_SONGS);
-    facts = { id: t.id, ...f };
-    status = '';
-    render();
-    if (!f.none && settings.bio && f.artistId) await addBio(t);
-    save();
-  } catch (e) {
-    if (track?.id === t.id) { facts = null; status = `Couldn't look it up (${e.message ?? e}).`; render(); }
-  } finally { if (busy === t.id) busy = null; }
+// ───────────── 1.2: meanings from Genius (the user, 2026-11-17: "alternative meanings, double entendres, the cover") ─────────────
+// Genius' song description and its line-by-line annotations (written by fans; shown as that), and the album's description
+// (often about the cover and the title). Needs the user's own free Genius access token (genius.com/api-clients), kept as a
+// secret setting. Matching is strict like MusicBrainz': the same artist, the same title (either script), never a translation
+// or a remix the user isn't playing: Genius' top hit for "Plastic Love" is somebody's cover.
+const GENIUS = 'https://api.genius.com';
+const KEEP_GENIUS = 60;
+const SKIP = /translation|tłumaczenie|перевод|übersetzung|traducción|traduction|tradução|romanized|english translation|terjemahan/i;
+const VERSION = /\b(remix|mix|live|acoustic|instrumental|demo|edit|version|cover)\b/i;
+const clip = (s, n) => { const t = String(s ?? '').trim(); return t.length > n ? `${t.slice(0, n).replace(/\s+\S*$/, '')}…` : t; };
+const real = (s) => { const t = String(s ?? '').trim(); return t && t !== '?' ? t : null; };
+
+async function genius(path, token) {
+  const r = await voltage.net.fetch(`${GENIUS}${path}`, { headers: { authorization: `Bearer ${token}`, accept: 'application/json' } });
+  if (r.status === 401) throw new Error('the Genius token was refused (Settings > Plugins > Song facts)');
+  if (r.status === 429) throw new Error('Genius asks to slow down; try again in a minute');
+  if (r.status !== 200) throw new Error(`Genius HTTP ${r.status}`);
+  return (r.json ?? JSON.parse(r.text)).response;
 }
 
-async function addBio(t) {
+/** The playing song on Genius: the right artist, a matching title, not a translation, not another version. */
+async function findGenius(t, token) {
+  const fa = firstArtist(t.artist), want = titles(t.title, fa).map(norm).filter(Boolean);
+  const playingVersion = VERSION.test(t.title);
+  const seen = new Map();
+  for (const q of [`${titles(t.title, fa)[0]} ${fa}`, titles(t.title, fa)[0]]) {
+    const res = await genius(`/search?q=${encodeURIComponent(q)}&per_page=20`, token);
+    for (const h of res?.hits ?? []) if (h.type === 'song' && !seen.has(h.result.id)) seen.set(h.result.id, h.result);
+    const ok = [...seen.values()].filter((s) => {
+      const artist = String(s.primary_artist?.name ?? '');
+      if (!sameArtist(fa, [{ name: artist }, { name: artist.replace(/^.*\((.+)\)\s*$/, '$1') }])) return false;
+      if (SKIP.test(s.title) || SKIP.test(s.full_title ?? '')) return false;
+      if (!playingVersion && VERSION.test(s.title)) return false;
+      const names = [s.title, ...(String(s.title).match(/[(（]([^)）]+)[)）]/g) ?? []).map((x) => x.slice(1, -1))].map(norm).filter(Boolean);
+      return names.some((n) => want.some((w) => n === w || n.includes(w) || w.includes(n)));
+    });
+    // the most-viewed match is the original (re-uploads and duplicates have few views)
+    ok.sort((a, b) => (b.stats?.pageviews ?? 0) - (a.stats?.pageviews ?? 0));
+    if (ok.length) return ok[0];
+  }
+  return null;
+}
+
+async function lookupMeaning(t) {
+  const token = await voltage.secret?.get('geniusToken').catch(() => null);
+  if (!token) return { noToken: true };
+  const hit = await findGenius(t, token);
+  if (!hit) return { none: true };
+  const song = (await genius(`/songs/${hit.id}?text_format=plain`, token))?.song;
+  const refs = (await genius(`/referents?song_id=${hit.id}&text_format=plain&per_page=50`, token))?.referents ?? [];
+  const lines = refs.map((r) => ({ line: clip(r.fragment, 160), note: clip(r.annotations?.[0]?.body?.plain, 700), votes: r.annotations?.[0]?.votes_total ?? 0 }))
+    .filter((x) => x.line && x.note).sort((a, b) => b.votes - a.votes).slice(0, 15);
+  let album = null;
+  if (song?.album?.id) {
+    const al = (await genius(`/albums/${song.album.id}?text_format=plain`, token))?.album;
+    album = { name: song.album.name, about: clip(real(al?.description_annotation?.annotations?.[0]?.body?.plain), 1500) || null };
+  }
+  return { url: song?.url ?? hit.url, title: hit.full_title, about: clip(real(song?.description?.plain), 2500) || null, lines, album };
+}
+
+async function addMeaning(t) {
+  if (!settings.meaning) return;
+  const k = t.id;
+  if (cache.genius?.[k]) { known[k] = { ...(known[k] ?? {}), meaning: cache.genius[k] }; return render(); }
+  known[k] = { ...(known[k] ?? {}), meaning: { pending: true } };
+  render();
   try {
-    const b = await bio(cache.songs[t.id].artistId);
-    if (track?.id === t.id && facts) { facts.bio = b.bio; facts.wiki = b.wiki; render(); save(); }
-  } catch { /* a missing bio isn't worth an error */ }
+    const m = await lookupMeaning(t);
+    known[k] = { ...(known[k] ?? {}), meaning: m };
+    if (!m.noToken) { cache.genius = { ...(cache.genius ?? {}), [k]: m }; trim('genius', KEEP_GENIUS); save(); }
+  } catch (e) {
+    known[k] = { ...(known[k] ?? {}), meaning: { error: String(e.message ?? e) } };
+  }
+  render();
+}
+
+// ───────────── what's known per song (the playing one, and one picked from a right-click) ─────────────
+let known = {}; // id -> { facts, meaning }
+let pinned = null; // a song picked with the "Song facts" command; the panel shows it until closed
+const subject = () => pinned ?? track;
+let nowShown = false; // the full player's Details tab (ui.slot 'nowplaying.details', Voltage 1.9.0+)
+
+async function load(t) {
+  if (!t) return;
+  const k = t.id;
+  if (!known[k]?.facts) {
+    const cached = cache.songs[k];
+    if (cached) known[k] = { ...(known[k] ?? {}), facts: { ...cached } };
+    else if (busy !== k) {
+      busy = k; known[k] = { ...(known[k] ?? {}), facts: { pending: true } }; render();
+      try {
+        const f = await lookup(t);
+        cache.songs[k] = f; trim('songs', KEEP_SONGS);
+        known[k].facts = { ...f };
+        save();
+      } catch (e) { known[k].facts = { error: String(e.message ?? e) }; } finally { if (busy === k) busy = null; }
+    }
+    render();
+  }
+  const f = known[k]?.facts;
+  if (f && !f.none && !f.pending && !f.error && settings.bio && f.artistId && !f.bio) {
+    try { const b = await bio(f.artistId); f.bio = b.bio; f.wiki = b.wiki; render(); save(); } catch { /* no bio is fine */ }
+  }
+  if ((open || nowShown) && !known[k]?.meaning) addMeaning(t);
+}
+const wanted = () => { if (open) load(subject()); if ((slotShown || nowShown) && track) load(track); };
+
+// ───────────── drawing ─────────────
+function factsHtml(f, t) {
+  if (!f || f.pending) return '<p class="dim">Looking it up…</p>';
+  if (f.error) return `<p class="dim">Couldn't look it up (${esc(f.error)}).</p>`;
+  if (f.none) return '<p class="dim">MusicBrainz doesn\'t know this song (or not under this title and artist). Uploads and re-uploads often aren\'t there.</p>';
+  const rows = [
+    ['Released', f.year ? `${esc(f.year)}${f.album ? ` · <i>${esc(f.album)}</i>` : ''}` : null],
+    ['Written by', f.writers.length ? f.writers.map((w) => `${esc(w.name)}${w.roles.length === 1 && w.roles[0] !== 'writer' ? ` <small>(${esc(w.roles[0])})</small>` : ''}`).join(', ') : null],
+    ['Produced by', f.producers.length ? f.producers.map(esc).join(', ') : null],
+    ['Samples', f.samples.length ? f.samples.map((s) => `<i>${esc(s.title)}</i>${s.artist ? ` by ${esc(s.artist)}` : ''}`).join('; ') : null],
+    ['Sampled in', f.sampledBy ? `${f.sampledBy} other recording${f.sampledBy === 1 ? '' : 's'}` : null],
+  ].filter(([, v]) => v);
+  return `${rows.length ? `<dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : '<p class="dim">MusicBrainz has this song, but no credits for it yet.</p>'}
+    <p class="src">Song data from MusicBrainz (CC0).</p>
+    ${settings.bio && f.bio ? `<h4>About ${esc(firstArtist(t.artist))}</h4><p class="txt">${esc(f.bio)}</p><p class="src">From Wikipedia (“${esc(f.wiki)}”, CC BY-SA)</p>` : ''}`;
+}
+function meaningHtml(m) {
+  if (!settings.meaning) return '';
+  if (!m || m.pending) return '<h4>What it means</h4><p class="dim">Looking on Genius…</p>';
+  if (m.noToken) return '<h4>What it means</h4><p class="dim">For meanings, line-by-line explanations and the album\'s story, add a free Genius access token: genius.com/api-clients, then Settings › Plugins › Song facts.</p>';
+  if (m.error) return `<h4>What it means</h4><p class="dim">${esc(m.error)}</p>`;
+  if (m.none) return '<h4>What it means</h4><p class="dim">Genius doesn\'t have this song (or not under this title and artist).</p>';
+  const parts = [];
+  parts.push(`<h4>What it means</h4>${m.about ? `<p class="txt">${esc(m.about).replace(/\n+/g, '</p><p class="txt">')}</p>` : '<p class="dim">No description on Genius yet.</p>'}`);
+  if (m.lines.length) parts.push(`<h4>Line by line</h4>${m.lines.map((x) => `<blockquote>${esc(x.line)}</blockquote><p class="txt note">${esc(x.note)}</p>`).join('')}`);
+  if (m.album?.about) parts.push(`<h4>The album: <i>${esc(m.album.name)}</i></h4><p class="txt">${esc(m.album.about).replace(/\n+/g, '</p><p class="txt">')}</p>`);
+  parts.push(`<p class="src">Meanings and explanations: Genius, written by its community (fans' readings, not always the artist's) · ${esc(m.url)}</p>`);
+  return parts.join('');
+}
+const CSS = `.now { margin: 0 0 10px; } .dim { opacity: .65; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0 0 6px; }
+  dt { opacity: .6; } dd { margin: 0; } small { opacity: .6; }
+  h4 { margin: 16px 0 6px; font-size: 14px; letter-spacing: .02em; }
+  .txt { line-height: 1.5; margin: 0 0 8px; } .note { opacity: .9; }
+  blockquote { margin: 10px 0 4px; padding: 2px 10px; border-left: 3px solid currentColor; opacity: .75; font-style: italic; white-space: pre-line; }
+  .src { opacity: .45; font-size: 11px; margin: 6px 0 0; }`;
+function fullHtml(t) {
+  if (!t) return '<p class="dim">Nothing is playing.</p>';
+  const k = known[t.id] ?? {};
+  return `<p class="now"><b>${esc(t.title)}</b> · ${esc(t.artist)}</p>${factsHtml(k.facts, t)}${meaningHtml(k.meaning)}`;
 }
 
 // the Discovery slot: released / written / produced / samples on a line each, nothing while unknown or looking
-function renderSlot() {
+function renderDiscovery() {
   if (!slotShown || !voltage.slot) return;
-  const f = facts;
-  if (!f || f.pending || f.none || f.id !== track?.id) return voltage.slot.render('discovery.details', '');
+  const f = known[track?.id]?.facts;
+  if (!f || f.pending || f.none || f.error) return voltage.slot.render('discovery.details', '');
   const rows = [
     f.year ? `Released ${esc(f.year)}${f.album ? ` · <i>${esc(f.album)}</i>` : ''}` : null,
     f.writers.length ? `Written by ${f.writers.slice(0, 4).map((w) => esc(w.name)).join(', ')}` : null,
@@ -196,42 +316,25 @@ function renderSlot() {
   voltage.slot.render('discovery.details', rows.map((r) => `<p>${r}</p>`).join(''),
     ':host { font-size: 13px; color: inherit; } p { margin: 1px 0; opacity: .7; } i { opacity: .9; }');
 }
-
 function render() {
-  renderSlot();
-  if (!open) return;
-  const f = facts, t = track;
-  let body;
-  if (!t) body = '<p class="dim">Nothing is playing.</p>';
-  else if (!f || f.pending) body = `<p class="dim">${esc(status || 'Looking it up…')}</p>`;
-  else if (f.none) body = '<p class="dim">MusicBrainz doesn\'t know this song (or not under this title and artist). Uploads and re-uploads often aren\'t there.</p>';
-  else {
-    const rows = [
-      ['Released', f.year ? `${esc(f.year)}${f.album ? ` · <i>${esc(f.album)}</i>` : ''}` : null],
-      ['Written by', f.writers.length ? f.writers.map((w) => `${esc(w.name)}${w.roles.length === 1 && w.roles[0] !== 'writer' ? ` <small>(${esc(w.roles[0])})</small>` : ''}`).join(', ') : null],
-      ['Produced by', f.producers.length ? f.producers.map(esc).join(', ') : null],
-      ['Samples', f.samples.length ? f.samples.map((s) => `<i>${esc(s.title)}</i>${s.artist ? ` by ${esc(s.artist)}` : ''}`).join('; ') : null],
-      ['Sampled in', f.sampledBy ? `${f.sampledBy} other recording${f.sampledBy === 1 ? '' : 's'}` : null],
-    ].filter(([, v]) => v);
-    body = `${rows.length ? `<dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : '<p class="dim">MusicBrainz has this song, but no credits for it yet.</p>'}
-      ${settings.bio && f.bio ? `<h4>About ${esc(firstArtist(t.artist))}</h4><p class="bio">${esc(f.bio)}</p><p class="src">From Wikipedia (“${esc(f.wiki)}”, CC BY-SA)</p>` : ''}
-      <p class="src">Song data from MusicBrainz (CC0).</p>`;
-  }
-  voltage.panel.render(`
-    ${t ? `<p class="now"><b>${esc(t.title)}</b> · ${esc(t.artist)}</p>` : ''}
-    ${body}`, `
-    .now { margin: 0 0 10px; } .dim { opacity: .65; }
-    dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0 0 12px; }
-    dt { opacity: .6; } dd { margin: 0; } small { opacity: .6; }
-    h4 { margin: 14px 0 4px; } .bio { line-height: 1.45; margin: 0; } .src { opacity: .45; font-size: 11px; margin: 6px 0 0; }`);
+  renderDiscovery();
+  if (nowShown && voltage.slot) voltage.slot.render('nowplaying.details', fullHtml(track), `:host { display: block; font-size: 14px; color: inherit; } ${CSS}`);
+  if (open) voltage.panel.render(`${pinned ? '<p class="dim small">The song you picked · close this to follow the playing song again</p>' : ''}${fullHtml(subject())}`, CSS);
 }
 
-voltage.on('settings', (s) => { settings = { ...settings, ...s }; render(); if (settings.bio && facts && !facts.none && !facts.bio && track) addBio(track); });
-voltage.on('track', (t) => { track = t; facts = null; status = ''; render(); load(); });
-voltage.on('panel', ({ open: o }) => { open = o; render(); load(); });
-voltage.on('slot', ({ name, open: o }) => { if (name !== 'discovery.details') return; slotShown = o; render(); load(); });
+voltage.on('settings', (s) => { settings = { ...settings, ...s }; known = Object.fromEntries(Object.entries(known).map(([k, v]) => [k, { facts: v.facts }])); render(); wanted(); });
+voltage.on('track', (t) => { track = t; render(); wanted(); });
+voltage.on('panel', ({ open: o }) => { open = o; if (!o) pinned = null; render(); wanted(); });
+voltage.on('slot', ({ name, open: o }) => {
+  if (name === 'discovery.details') slotShown = o;
+  else if (name === 'nowplaying.details') nowShown = o;
+  else return;
+  render(); wanted();
+});
+// right-click a song (or Ctrl+K) > "Song facts": Voltage opens the panel ("panel": true in plugin.json); it shows that song
+voltage.on('command', ({ id, track: t }) => { if (id !== 'open' || !t) return; pinned = t; render(); wanted(); });
 
 (async () => {
-  try { const c = await voltage.storage.get('cache'); if (c?.songs && c?.artists) cache = { ids: {}, ...c }; } catch { /* first run */ }
+  try { const c = await voltage.storage.get('cache'); if (c?.songs && c?.artists) cache = { ids: {}, genius: {}, ...c }; } catch { /* first run */ }
 })();
-self.titles = titles; self.norm = norm; self.sameArtist = sameArtist; // for tests
+self.titles = titles; self.norm = norm; self.sameArtist = sameArtist; self.findGenius = findGenius; self.lookupMeaning = lookupMeaning; // for tests

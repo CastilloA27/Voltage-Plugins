@@ -72,7 +72,7 @@ declare namespace Voltage {
     /** Capability ui.panel: your window was opened or closed. */
     panel: { open: boolean };
     /** Capability ui.slot (1.6.1): one of your slots (plugin.json provides.slots) came on screen or went away. */
-    slot: { name: 'discovery.details'; open: boolean };
+    slot: { name: 'discovery.details' | 'nowplaying.details'; open: boolean };
     /** Capability ui.panel: a click on an element with data-action. */
     'panel-action': { action: string; value?: string; form?: Record<string, string> };
     /** Capability lyrics.provider: answer with voltage.lyrics.provide(rid, ...). */
@@ -133,7 +133,7 @@ declare namespace Voltage {
     panel: { render(html: string, css?: string): void };
     /** Capability ui.slot (1.6.1) + plugin.json provides.slots: a little content in Voltage's own views. 'discovery.details'
      *  = under the song in Discovery. Same rules as a panel; an empty string hides it. */
-    slot: { render(name: 'discovery.details', html: string, css?: string): void };
+    slot: { render(name: 'discovery.details' | 'nowplaying.details', html: string, css?: string): void }; // nowplaying.details: the full player's Details tab, Voltage 1.9.0+
     /** Capability ui.theme: adjust the active theme while you run; clear() undoes it. */
     theme: { set(tokens: Partial<ThemeTokens>): void; clear(): void;
       /** Voltage 1.7.1+, capability ui.fx, only while you are the active theme's helper ("plugin" in its theme.json): the

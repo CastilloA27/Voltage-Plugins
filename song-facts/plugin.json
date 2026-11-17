@@ -1,20 +1,59 @@
 {
   "id": "song-facts",
   "name": "Song facts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Voltage",
-  "description": "A panel about the song you're playing: when it came out, who wrote and produced it, what it samples, and a short bio of the artist. From MusicBrainz and Wikipedia (no account or key). Open it from Settings > Plugins or Ctrl+K; also shown under the song in Discovery.",
+  "description": "Everything about a song: when it came out, who wrote and produced it, what it samples, the artist's story, and with a free Genius token what it means, line-by-line explanations (double meanings and references) and the album's story. In its own window (right-click a song > Song facts, or Ctrl+K), in the full player's Details tab and under the song in Discovery.",
   "main": "main.js",
-  "minVoltage": "1.6.1",
+  "minVoltage": "1.9.0",
   "permissions": {
-    "capabilities": ["ui.panel", "ui.slot", "net.fetch"],
-    "hosts": ["https://musicbrainz.org/ws/2/", "https://www.wikidata.org/wiki/Special:EntityData/", "https://en.wikipedia.org/api/rest_v1/page/summary/"]
+    "capabilities": [
+      "ui.panel",
+      "ui.slot",
+      "net.fetch",
+      "storage.secret"
+    ],
+    "hosts": [
+      "https://musicbrainz.org/ws/2/",
+      "https://www.wikidata.org/wiki/Special:EntityData/",
+      "https://en.wikipedia.org/api/rest_v1/page/summary/",
+      "https://api.genius.com/"
+    ]
   },
   "provides": {
-    "panel": { "title": "Song facts" },
-    "slots": ["discovery.details"]
+    "panel": {
+      "title": "Song facts"
+    },
+    "slots": [
+      "discovery.details",
+      "nowplaying.details"
+    ],
+    "commands": [
+      {
+        "id": "open",
+        "label": "Song facts",
+        "song": true,
+        "panel": true
+      }
+    ]
   },
   "settings": [
-    { "key": "bio", "type": "switch", "label": "Show a short artist bio (Wikipedia)", "default": true }
+    {
+      "key": "bio",
+      "type": "switch",
+      "label": "Show a short artist bio (Wikipedia)",
+      "default": true
+    },
+    {
+      "key": "meaning",
+      "type": "switch",
+      "label": "Show meanings and line-by-line explanations (Genius)",
+      "default": true
+    },
+    {
+      "key": "geniusToken",
+      "type": "secret",
+      "label": "Genius access token (free: genius.com/api-clients > New API Client > Generate Access Token)"
+    }
   ]
 }

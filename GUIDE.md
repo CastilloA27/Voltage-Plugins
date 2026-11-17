@@ -54,8 +54,9 @@ which isn't planned.
 - `version` and `minVoltage`: plain `major.minor.patch` numbers.
 - `provides`: `panel` (your window, needs `ui.panel`), `waveStyles` (progress-bar animations, needs `ui.canvas`), `themes`
   (needs `ui.theme`), `commands` (1.6+: `[{"id", "label", "song": true}]`, at most 10: entries in Ctrl+K, and in a song's
-  right-click menu with `"song"`; you get the `command` event), `slots` (1.6.1+, needs `ui.slot`: `["discovery.details"]`, a few plain lines under the song
-  in Discovery: `voltage.slot.render(name, html, css)`, same rules as a panel, `''` hides it; the `slot` event `{name, open}`
+  right-click menu with `"song"`; you get the `command` event; 1.9.0+: `"panel": true` makes Voltage open your panel when the user
+  picks it), `slots` (1.6.1+, needs `ui.slot`: `["discovery.details"]`, a few plain lines under the song in Discovery;
+  1.9.0+: `"nowplaying.details"`, the full player's Details tab, scrollable: `voltage.slot.render(name, html, css)`, same rules as a panel, `''` hides it; the `slot` event `{name, open}`
   says when it's on screen).
 - Settings types: `switch`, `choice`, `slider`, and since 1.6 `text`, `number`, `color`, `secret` (needs `storage.secret`:
   typed by the user, stored encrypted, read with `voltage.secret.get(key)`). Voltage draws them in Settings › Plugins and
