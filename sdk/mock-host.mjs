@@ -12,6 +12,11 @@
 //   p.scope      // the plugin's globals: functions it put on `self` for tests (self.parse = parse)
 //   p.sockets    // net.ws: [{sock, url, sent: [texts], open}]; send the plugin traffic with p.emit('ws', {sock, type, data})
 //   p.storage    // the plugin's key/value store;  p.now: the fake clock (starts at the real time, or the `start` option)
+//   p.fx         // ui.fx: {vars, states: {part: words}, sprites: [{name, opts}], sounds: [names], layers: {target: opts}}
+//
+// Start-up: like Voltage, the plugin gets settings, track, playing, gaming, theme, palette and background in that order
+// (pass `track`, `playing`, `gaming`, `theme`, `palette`, `background` to change what it gets; `startEvents: false` sends
+// only settings). loadPlugin takes a plugin id (a folder next to this sdk folder) or any folder path.
 //
 // Answers to calls: pass `answer(cap, args)` (return a value, or throw for an error); the default answers storage.* from
 // p.storage, game.running from `running`, game.report into p.reported, and null for everything else.
@@ -23,8 +28,15 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets = {}, running = false, answer = null, start = Date.now() } = {}) {
-  const dir = fs.existsSync(idOrDir) ? idOrDir : path.join(ROOT, idOrDir);
+const DEFAULT_THEME = { id: 'voltage', name: 'Voltage', tokens: { bg: '#000000', text: '#f2f2f2', textDim: '#ffffff8c', glassBg: '#0000006b',
+  glassBorder: '#ffffff12', glassBlur: 26, radius: 14, glowSize: 12, glowAlpha: 40, bgStrength: 0.6, font: '"Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif',
+  brand: '#a020f0', accentMode: 'album', accent: '#a020f0' } };
+const IDLE_PALETTE = { accent: '#a020f0', c1: '#000000', c2: '#000000', onAccent: '#ffffff', idle: true };
+
+export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets = {}, running = false, answer = null, start = Date.now(),
+  startEvents = true, track = null, playing = false, gaming = false, theme = DEFAULT_THEME, palette = IDLE_PALETTE,
+  background = { style: 'gradient', image: null } } = {}) {
+  const dir = fs.existsSync(path.resolve(idOrDir)) ? path.resolve(idOrDir) : path.join(ROOT, idOrDir);
   const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'plugin.json'), 'utf8'));
   const src = fs.readFileSync(path.join(dir, manifest.main), 'utf8');
   let now = start, timerSeq = 0; // the fake clock starts at the real time (or `start`), so dates look normal
@@ -33,6 +45,7 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
   const host = {
     manifest, calls: [], notices: [], logs: [], reported: [], panel: null, slots: {}, themeTokens: null, lyrics: [], options: {},
     storage: structuredClone(storage), secrets: { ...secrets }, running, sockets: [],
+    fx: { vars: {}, states: {}, sprites: [], sounds: [], layers: {} },
     get now() { return now; },
   };
   const defaultAnswer = (cap, args) => {
@@ -67,7 +80,13 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     queue: { remove: (ids) => call('queue.remove', { ids }) },
     panel: { render: (html, css = '') => { host.panel = { html: String(html), css: String(css) }; } },
     slot: { render: (name, html, css = '') => { host.slots[String(name)] = { html: String(html), css: String(css) }; } },
-    theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; } },
+    theme: { set: (tokens) => { host.themeTokens = tokens; }, clear: () => { host.themeTokens = null; },
+      // ui.fx (only for the active theme's helper in Voltage): recorded in p.fx; names and values as Voltage checks them
+      vars: (vars) => { for (const [k, v] of Object.entries(vars ?? {})) { if (!/^[a-z0-9-]{1,24}$/.test(k)) continue; if (v === null) delete host.fx.vars[k]; else host.fx.vars[k] = v; } },
+      state: (part, words) => { const w = (Array.isArray(words) ? words : []).map(String).filter((x) => /^[a-z0-9-]{1,24}$/.test(x)).slice(0, 8); if (w.length) host.fx.states[String(part)] = w; else delete host.fx.states[String(part)]; },
+      spawn: (name, opts = {}) => { host.fx.sprites.push({ name: String(name), opts }); },
+      sound: (name) => { host.fx.sounds.push(String(name)); },
+      layer: (target, opts) => { if (opts === null) delete host.fx.layers[String(target)]; else host.fx.layers[String(target)] = opts ?? {}; } },
     game: { running: () => call('game.running', {}), report: (state, label) => call('game.report', { state, label }), log: () => call('game.log.read', {}), http: (p) => call('game.http', { path: p }) },
     lyrics: { provide: (rid, result) => host.lyrics.push({ rid, result }), refresh: () => { host.refreshes = (host.refreshes ?? 0) + 1; },
       notes: (trackId, list) => { host.lineNotes = { trackId: String(trackId ?? ''), list: Array.isArray(list) ? list : [] }; } }, // 1.10.0: the last notes sent
@@ -120,6 +139,16 @@ export async function loadPlugin(idOrDir, { settings = {}, storage = {}, secrets
     now = end;
   };
   host.listens = (name) => !!handlers[name]?.length;
-  await host.emit('settings', settings);
+  // what Voltage sends a plugin at start (in this order); `settings` is every key with its saved value or default
+  const all = Object.fromEntries((manifest.settings ?? []).filter((d) => d.type !== 'secret').map((d) => [d.key, d.default]));
+  await host.emit('settings', { ...all, ...settings });
+  if (startEvents) {
+    await host.emit('track', track);
+    await host.emit('playing', playing);
+    await host.emit('gaming', gaming);
+    await host.emit('theme', theme);
+    await host.emit('palette', palette);
+    await host.emit('background', background);
+  }
   return host;
 }

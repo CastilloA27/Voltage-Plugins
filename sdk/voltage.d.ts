@@ -1,4 +1,5 @@
-// Types for Voltage's plugin API (the `voltage` object every plugin script gets). Voltage 1.6.
+// Types for Voltage's plugin API (the `voltage` object every plugin script gets), up to Voltage 1.10. Each addition says
+// the version that brought it; anything without one is in every Voltage since plugins (1.4). Capabilities and tiers: GUIDE.md.
 // Use: add `/// <reference path="../sdk/voltage.d.ts" />` at the top of your main.js (or copy this file next to it) and
 // your editor completes and checks the API. The API promise: nothing here is removed or changed incompatibly in Voltage 1.x;
 // new things are only added (they need a newer Voltage: declare it with "minVoltage" in plugin.json).
@@ -14,6 +15,11 @@ declare namespace Voltage {
     views?: number | null;
   }
   interface Palette { accent: string; c1: string; c2: string; onAccent: string; idle: boolean }
+  /** The 'theme' event's tokens are the theme editor's names (bg, glassBlur...), not theme.json's token names (color.bg,
+   *  effect.blur...): bg = color.bg, text = color.text, textDim = color.text-dim, glassBg = color.surface, glassBorder =
+   *  color.border, glassBlur = effect.blur (px), radius = shape.radius (px), glowSize = effect.glow-size (px), glowAlpha =
+   *  effect.glow-alpha (%), bgStrength = accent.album-mix, font = font.body (as a CSS font-family), brand = the logo colour.
+   *  For any other token, read the CSS variable in your panel (var(--name); see themes/theme-reference.md). */
   interface ThemeTokens {
     bg: string; text: string; textDim: string; glassBg: string; glassBorder: string; glassBlur: number; radius: number;
     glowSize: number; glowAlpha: number; bgStrength: number; font: string; brand: string; accentMode: 'album' | 'fixed'; accent: string;
@@ -36,7 +42,9 @@ declare namespace Voltage {
     /** Voltage's window is shown (false: hidden in the tray or minimized). */
     visible: boolean;
     theme: Theme;
-    background: { style: 'gradient' | 'cover' | 'black'; image: string | null };
+    /** The background the user sees (or the first one the theme supports). 'video' (the music video behind the UI): `image`
+     *  is the blurred cover, as for 'cover', since the video isn't sent to plugins. */
+    background: { style: 'gradient' | 'cover' | 'video' | 'black'; image: string | null };
     /** Your settings (plugin.json "settings"), on start and on every change. */
     settings: Record<string, unknown>;
     /** Turned off ('disable') or Voltage is quitting ('quit'): clean up within ~1.5 s. */
@@ -72,9 +80,14 @@ declare namespace Voltage {
     /** Capability ui.panel: your window was opened or closed. */
     panel: { open: boolean };
     /** Capability ui.slot (1.6.1): one of your slots (plugin.json provides.slots) came on screen or went away. */
-    slot: { name: 'discovery.details' | 'nowplaying.details'; open: boolean };
+    slot: { name: SlotName; open: boolean };
     /** Capability ui.panel: a click on an element with data-action. */
-    'panel-action': { action: string; value?: string; form?: Record<string, string> };
+    /** `value`: the element's data-value (or an input's value); `form`: every named input / select / textarea in the panel
+     *  (checkboxes as true / false); `slot`: set when the click was in one of your slots. */
+    'panel-action': { action: string; value?: string | null; form?: Record<string, string | boolean>; slot?: SlotName };
+    /** Voltage 1.7.1+, ui.fx, theme helper whose theme lists "pointer" in "uses": where the pointer is (0-1 of the window)
+     *  and the part under it, while Voltage has focus and no dialog is open. Never keys. */
+    pointer: { x: number; y: number; part: string | null };
     /** Capability lyrics.provider: answer with voltage.lyrics.provide(rid, ...). */
     'lyrics-request': LyricsRequest;
     /** Voltage 1.7.1+, ui.fx, theme helper: one of the theme's hotspots with an "event" was clicked (its id). */
@@ -92,6 +105,9 @@ declare namespace Voltage {
   }
 
   type LayerTarget = 'background' | 'overlay' | 'part:art' | 'mini';
+  /** Where a slot is: 'discovery.details' (1.6.1), 'nowplaying.details' (1.9.0), or `theme.<name>`: a cell your theme's
+   *  layout placed as "slot:<name>". List the names you use in plugin.json provides.slots. */
+  type SlotName = 'discovery.details' | 'nowplaying.details' | `theme.${string}`;
 
   interface Api {
     on<K extends keyof Events>(name: K, handler: (data: Events[K]) => void | Promise<void>): void;
@@ -129,19 +145,20 @@ declare namespace Voltage {
     /** Capability ui.navigate (Voltage 1.6.1+): open an artist page or a search in Voltage; only within 3 s of a click in
      *  your panel (a 'panel-action'). */
     navigate?: { artist(name: string, channelId?: string): void; search(query: string): void };
-    /** Capability ui.panel + plugin.json provides.panel {title}. Plain HTML/CSS only (no scripts, no url(), data: images). */
+    /** Capability ui.panel + plugin.json provides.panel {title}. Plain HTML/CSS only: the allowed tags and attributes are in
+     *  GUIDE.md > Panels (no scripts, no url(), images only as data: png / jpeg / gif / webp). 200 KB HTML, 100 KB CSS. */
     panel: { render(html: string, css?: string): void };
-    /** Capability ui.slot (1.6.1) + plugin.json provides.slots: a little content in Voltage's own views. 'discovery.details'
-     *  = under the song in Discovery. Same rules as a panel; an empty string hides it. */
-    slot: { render(name: 'discovery.details' | 'nowplaying.details', html: string, css?: string): void }; // nowplaying.details: the full player's Details tab, Voltage 1.9.0+
+    /** Capability ui.slot (1.6.1) + plugin.json provides.slots: a little content in Voltage's own views (see SlotName).
+     *  Same rules as a panel (50 KB HTML, 20 KB CSS); an empty string hides it. */
+    slot: { render(name: SlotName, html: string, css?: string): void };
     /** Capability ui.theme: adjust the active theme while you run; clear() undoes it. */
     theme: { set(tokens: Partial<ThemeTokens>): void; clear(): void;
       /** Voltage 1.7.1+, capability ui.fx, only while you are the active theme's helper ("plugin" in its theme.json): the
        *  theme's own CSS variables. vars({hp: 0.42, 'roll-1': 3}) -> --fx-hp, --fx-roll-1 on <html>. Names a-z 0-9 - (1-24),
        *  32 at most; values: number, length, angle, %, colour or a keyword; null removes one; cleared when you stop. */
       vars(vars: Record<string, number | string | null>): void;
-      /** Voltage 1.7.1+, ui.fx: words in data-fx on every element of a part (up to 8, a-z 0-9 -); [] clears. Not on dialogs,
-       *  menus, toasts, Settings, prompts or the stores. */
+      /** Voltage 1.7.1+, ui.fx: words in data-fx on every element of a part, any part in themes/parts.md (up to 8 words,
+       *  a-z 0-9 -); [] clears. Not on dialogs, menus, toasts, Settings, prompts or the stores. */
       state(part: string, words: string[]): void;
       /** Voltage 1.7.1+, ui.fx: a sprite from the theme's "sprites" templates (x / y 0-1 of the window, text, vars). */
       spawn(name: string, opts?: { x?: number; y?: number; text?: string; vars?: Record<string, number | string> }): void;

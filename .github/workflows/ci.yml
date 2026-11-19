@@ -1,0 +1,18 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Plugin tests (mock host) and the theme docs vs schema check
+        run: |
+          set -e
+          for t in tests/*.test.mjs; do echo "== $t"; node "$t"; done
+      - name: Every example theme passes the checker
+        run: |
+          set -e
+          for d in themes/*/; do [ -f "$d/theme.json" ] && node sdk/theme-check.mjs "$d" --strict > /dev/null && echo "ok $d"; done

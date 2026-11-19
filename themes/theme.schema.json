@@ -1119,6 +1119,7 @@
       },
       "place": {
        "type": "object",
+       "description": "Area name -> a part of this view (sidebar, search, tracklist, nowplaying, art, info, player, progress, volume, lyrics, titlebar, spacer) or slot:<name>",
        "additionalProperties": {
         "anyOf": [
          {
@@ -1134,10 +1135,7 @@
            "volume",
            "lyrics",
            "titlebar",
-           "spacer",
-           "back",
-           "video",
-           "expand"
+           "spacer"
           ]
          },
          {
@@ -1149,6 +1147,7 @@
       },
       "below": {
        "type": "object",
+       "description": "Window width (\"900px\") -> another layout for windows up to that width",
        "additionalProperties": {
         "type": "object",
         "required": [
@@ -1180,6 +1179,7 @@
          },
          "place": {
           "type": "object",
+          "description": "Area name -> a part of this view (sidebar, search, tracklist, nowplaying, art, info, player, progress, volume, lyrics, titlebar, spacer) or slot:<name>",
           "additionalProperties": {
            "anyOf": [
             {
@@ -1195,10 +1195,7 @@
               "volume",
               "lyrics",
               "titlebar",
-              "spacer",
-              "back",
-              "video",
-              "expand"
+              "spacer"
              ]
             },
             {
@@ -1244,25 +1241,20 @@
       },
       "place": {
        "type": "object",
+       "description": "Area name -> a part of this view (art, info, lyrics, progress, player, volume, back, video, spacer) or slot:<name>",
        "additionalProperties": {
         "anyOf": [
          {
           "enum": [
-           "sidebar",
-           "search",
-           "tracklist",
-           "nowplaying",
            "art",
            "info",
-           "player",
-           "progress",
-           "volume",
            "lyrics",
-           "titlebar",
-           "spacer",
+           "progress",
+           "player",
+           "volume",
            "back",
            "video",
-           "expand"
+           "spacer"
           ]
          },
          {
@@ -1274,6 +1266,7 @@
       },
       "below": {
        "type": "object",
+       "description": "Window width (\"900px\") -> another layout for windows up to that width",
        "additionalProperties": {
         "type": "object",
         "required": [
@@ -1305,25 +1298,20 @@
          },
          "place": {
           "type": "object",
+          "description": "Area name -> a part of this view (art, info, lyrics, progress, player, volume, back, video, spacer) or slot:<name>",
           "additionalProperties": {
            "anyOf": [
             {
              "enum": [
-              "sidebar",
-              "search",
-              "tracklist",
-              "nowplaying",
               "art",
               "info",
-              "player",
-              "progress",
-              "volume",
               "lyrics",
-              "titlebar",
-              "spacer",
+              "progress",
+              "player",
+              "volume",
               "back",
               "video",
-              "expand"
+              "spacer"
              ]
             },
             {
@@ -1369,25 +1357,18 @@
       },
       "place": {
        "type": "object",
+       "description": "Area name -> a part of this view (art, info, player, progress, volume, expand, spacer) or slot:<name>",
        "additionalProperties": {
         "anyOf": [
          {
           "enum": [
-           "sidebar",
-           "search",
-           "tracklist",
-           "nowplaying",
            "art",
            "info",
            "player",
            "progress",
            "volume",
-           "lyrics",
-           "titlebar",
-           "spacer",
-           "back",
-           "video",
-           "expand"
+           "expand",
+           "spacer"
           ]
          },
          {
@@ -1399,6 +1380,7 @@
       },
       "below": {
        "type": "object",
+       "description": "Window width (\"900px\") -> another layout for windows up to that width",
        "additionalProperties": {
         "type": "object",
         "required": [
@@ -1430,25 +1412,246 @@
          },
          "place": {
           "type": "object",
+          "description": "Area name -> a part of this view (art, info, player, progress, volume, expand, spacer) or slot:<name>",
           "additionalProperties": {
            "anyOf": [
             {
              "enum": [
-              "sidebar",
-              "search",
-              "tracklist",
-              "nowplaying",
               "art",
               "info",
               "player",
               "progress",
               "volume",
+              "expand",
+              "spacer"
+             ]
+            },
+            {
+             "type": "string",
+             "pattern": "^slot:[a-z0-9-]{1,30}$"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "explore": {
+     "type": "object",
+     "required": [
+      "areas",
+      "place"
+     ],
+     "properties": {
+      "areas": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+      },
+      "columns": {
+       "type": "string",
+       "description": "grid-template-columns, e.g. \"300px 1fr\""
+      },
+      "rows": {
+       "type": "string",
+       "description": "grid-template-rows"
+      },
+      "resizable": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+      },
+      "place": {
+       "type": "object",
+       "description": "Area name -> a part of this view (explore, art, info, lyrics, progress, player, volume, spacer) or slot:<name>",
+       "additionalProperties": {
+        "anyOf": [
+         {
+          "enum": [
+           "explore",
+           "art",
+           "info",
+           "lyrics",
+           "progress",
+           "player",
+           "volume",
+           "spacer"
+          ]
+         },
+         {
+          "type": "string",
+          "pattern": "^slot:[a-z0-9-]{1,30}$"
+         }
+        ]
+       }
+      },
+      "below": {
+       "type": "object",
+       "description": "Window width (\"900px\") -> another layout for windows up to that width",
+       "additionalProperties": {
+        "type": "object",
+        "required": [
+         "areas",
+         "place"
+        ],
+        "properties": {
+         "areas": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+         },
+         "columns": {
+          "type": "string",
+          "description": "grid-template-columns, e.g. \"300px 1fr\""
+         },
+         "rows": {
+          "type": "string",
+          "description": "grid-template-rows"
+         },
+         "resizable": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+         },
+         "place": {
+          "type": "object",
+          "description": "Area name -> a part of this view (explore, art, info, lyrics, progress, player, volume, spacer) or slot:<name>",
+          "additionalProperties": {
+           "anyOf": [
+            {
+             "enum": [
+              "explore",
+              "art",
+              "info",
               "lyrics",
-              "titlebar",
-              "spacer",
-              "back",
-              "video",
-              "expand"
+              "progress",
+              "player",
+              "volume",
+              "spacer"
+             ]
+            },
+            {
+             "type": "string",
+             "pattern": "^slot:[a-z0-9-]{1,30}$"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "stats": {
+     "type": "object",
+     "required": [
+      "areas",
+      "place"
+     ],
+     "properties": {
+      "areas": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+      },
+      "columns": {
+       "type": "string",
+       "description": "grid-template-columns, e.g. \"300px 1fr\""
+      },
+      "rows": {
+       "type": "string",
+       "description": "grid-template-rows"
+      },
+      "resizable": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       },
+       "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+      },
+      "place": {
+       "type": "object",
+       "description": "Area name -> a part of this view (stats, art, info, lyrics, progress, player, volume, spacer) or slot:<name>",
+       "additionalProperties": {
+        "anyOf": [
+         {
+          "enum": [
+           "stats",
+           "art",
+           "info",
+           "lyrics",
+           "progress",
+           "player",
+           "volume",
+           "spacer"
+          ]
+         },
+         {
+          "type": "string",
+          "pattern": "^slot:[a-z0-9-]{1,30}$"
+         }
+        ]
+       }
+      },
+      "below": {
+       "type": "object",
+       "description": "Window width (\"900px\") -> another layout for windows up to that width",
+       "additionalProperties": {
+        "type": "object",
+        "required": [
+         "areas",
+         "place"
+        ],
+        "properties": {
+         "areas": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Rows of area names (a-z 0-9 -, or . for empty), all the same length"
+         },
+         "columns": {
+          "type": "string",
+          "description": "grid-template-columns, e.g. \"300px 1fr\""
+         },
+         "rows": {
+          "type": "string",
+          "description": "grid-template-rows"
+         },
+         "resizable": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          },
+          "description": "Areas the user can resize with a drag handle (each a whole column beside another; remembered per theme; columns without repeat())"
+         },
+         "place": {
+          "type": "object",
+          "description": "Area name -> a part of this view (stats, art, info, lyrics, progress, player, volume, spacer) or slot:<name>",
+          "additionalProperties": {
+           "anyOf": [
+            {
+             "enum": [
+              "stats",
+              "art",
+              "info",
+              "lyrics",
+              "progress",
+              "player",
+              "volume",
+              "spacer"
              ]
             },
             {
@@ -1470,9 +1673,21 @@
    "type": "object",
    "properties": {
     "player": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "panel",
+          "compact",
+          "text",
+          "bar"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "panel",
         "compact",
@@ -1480,12 +1695,25 @@
         "bar"
        ]
       }
-     }
+     ]
     },
     "progress": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "wave",
+          "line",
+          "blocks",
+          "ascii",
+          "none"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "wave",
         "line",
@@ -1494,12 +1722,25 @@
         "none"
        ]
       }
-     }
+     ]
     },
     "tracklist": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "rows",
+          "dense",
+          "table",
+          "text",
+          "cards"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "rows",
         "dense",
@@ -1508,12 +1749,24 @@
         "cards"
        ]
       }
-     }
+     ]
     },
     "nav": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "icons",
+          "text",
+          "tabs",
+          "sidebar"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "icons",
         "text",
@@ -1521,12 +1774,24 @@
         "sidebar"
        ]
       }
-     }
+     ]
     },
     "art": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "cover",
+          "round",
+          "vinyl",
+          "none"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "cover",
         "round",
@@ -1534,31 +1799,53 @@
         "none"
        ]
       }
-     }
+     ]
     },
     "lyrics": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "karaoke",
+          "plain",
+          "ticker"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "karaoke",
         "plain",
         "ticker"
        ]
       }
-     }
+     ]
     },
     "titlebar": {
-     "type": "object",
-     "properties": {
-      "variant": {
+     "anyOf": [
+      {
+       "type": "object",
+       "properties": {
+        "variant": {
+         "enum": [
+          "full",
+          "minimal",
+          "hidden"
+         ]
+        }
+       }
+      },
+      {
        "enum": [
         "full",
         "minimal",
         "hidden"
        ]
       }
-     }
+     ]
     }
    },
    "additionalProperties": false
@@ -1681,6 +1968,11 @@
      "maxLength": 60,
      "description": "Voltage: Nothing playing"
     },
+    "info.kicker": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: "
+    },
     "nowplaying.lyrics": {
      "type": "string",
      "maxLength": 60,
@@ -1695,6 +1987,11 @@
      "type": "string",
      "maxLength": 60,
      "description": "Voltage: Full-screen player (F)"
+    },
+    "nowplaying.exitFullscreen": {
+     "type": "string",
+     "maxLength": 60,
+     "description": "Voltage: Exit the full-screen player (F) · F11: window full screen"
     },
     "nowplaying.radio": {
      "type": "string",
@@ -2293,6 +2590,185 @@
     }
    },
    "additionalProperties": false
+  },
+  "holidays": {
+   "type": "boolean",
+   "description": "false: no holiday hello while this theme is on"
+  },
+  "uses": {
+   "type": "array",
+   "items": {
+    "enum": [
+     "level",
+     "beat",
+     "pointer"
+    ]
+   },
+   "description": "--fx-level / beats / the pointer for your helper"
+  },
+  "kind": {
+   "enum": [
+    "theme",
+    "effect"
+   ],
+   "description": "\"effect\": an effect pack that stacks on any theme"
+  },
+  "transitions": {
+   "enum": [
+    "view"
+   ],
+   "description": "Style view changes yourself with ::view-transition-old / -new(root)"
+  },
+  "discord": {
+   "type": "string",
+   "pattern": "^[A-Za-z0-9._/-]{1,80}\\.css$",
+   "description": "A stylesheet in the package for Discord (applied by Voltage for Discord)"
+  },
+  "split": {
+   "type": "array",
+   "items": {
+    "enum": [
+     "info.title",
+     "titlebar.brand",
+     "nowplaying.idle"
+    ]
+   },
+   "description": "Parts whose text gets one span per letter"
+  },
+  "sprites": {
+   "type": "object",
+   "maxProperties": 32,
+   "propertyNames": {
+    "pattern": "^[a-z][a-z0-9-]{0,23}$"
+   },
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "class": {
+      "type": "string",
+      "description": "Up to 3 words; the sprite gets .fx-sprite .fx-<word>"
+     },
+     "life": {
+      "type": "number",
+      "minimum": 100,
+      "maximum": 10000,
+      "description": "ms"
+     }
+    }
+   }
+  },
+  "hotspots": {
+   "type": "array",
+   "maxItems": 16,
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "part",
+     "rect"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,23}$"
+     },
+     "part": {
+      "type": "string",
+      "pattern": "^([a-z][a-z0-9.-]{0,40}|area:[a-z][a-z0-9-]{0,30})$",
+      "description": "A part, or area:<name> of your layout"
+     },
+     "rect": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+       "type": "string",
+       "pattern": "^\\d{1,3}(\\.\\d+)?%$"
+      },
+      "description": "[\"x%\", \"y%\", \"w%\", \"h%\"] of the part"
+     },
+     "action": {
+      "enum": [
+       "play-pause",
+       "next",
+       "previous",
+       "like",
+       "shuffle",
+       "repeat",
+       "mini",
+       "lyrics",
+       "view:main",
+       "view:explore",
+       "view:stats",
+       "view:nowplaying"
+      ]
+     },
+     "event": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,23}$",
+      "description": "Sent to your helper as a hotspot event instead"
+     },
+     "label": {
+      "type": "string",
+      "maxLength": 40
+     }
+    }
+   }
+  },
+  "options": {
+   "type": "array",
+   "maxItems": 12,
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "type"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,23}$"
+     },
+     "type": {
+      "enum": [
+       "switch",
+       "choice",
+       "slider"
+      ]
+     },
+     "label": {
+      "type": "string",
+      "maxLength": 40
+     },
+     "values": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "items": {
+       "type": [
+        "string",
+        "number"
+       ]
+      }
+     },
+     "min": {
+      "type": "number"
+     },
+     "max": {
+      "type": "number"
+     },
+     "step": {
+      "type": "number"
+     },
+     "default": {
+      "type": [
+       "string",
+       "number",
+       "boolean"
+      ]
+     }
+    }
+   }
   },
   "icons": {
    "type": "object",
